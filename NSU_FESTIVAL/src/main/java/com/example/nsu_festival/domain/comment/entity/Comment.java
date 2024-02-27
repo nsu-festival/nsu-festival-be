@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
+@Table
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

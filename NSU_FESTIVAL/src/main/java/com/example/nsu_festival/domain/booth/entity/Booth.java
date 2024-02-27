@@ -43,6 +43,6 @@ public class Booth {
     private List<BoothLiked> boothLikeds = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id")
+    @JoinColumn(name = "booth_image_id")
     private BoothImage boothImage;
 }
