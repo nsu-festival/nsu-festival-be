@@ -28,7 +28,6 @@ public class Booth {
     @NonNull
     private String content;
 
-    private String category;
 
     private Long countLike;
 
@@ -41,6 +40,10 @@ public class Booth {
     @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<BoothLiked> boothLikeds = new ArrayList<>();
+
+    @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<BoothCategory> boothCategories = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booth_image_id")
