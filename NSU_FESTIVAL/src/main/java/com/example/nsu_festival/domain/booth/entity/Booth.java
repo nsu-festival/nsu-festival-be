@@ -47,5 +47,6 @@ public class Booth {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booth_image_id")
+    @JsonManagedReference
     private BoothImage boothImage;
 }
