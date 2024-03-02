@@ -1,25 +1,30 @@
 package com.example.nsu_festival.domain.trafficinformation.service;
 
+import com.example.nsu_festival.domain.trafficinformation.ApiProperties;
 import com.example.nsu_festival.domain.trafficinformation.dto.TrafficInformationDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class TrafficInformationService {
-    public TrafficInformationDto findTrafficInformation() {
+    private final ApiProperties apiProperties;
+    public List<TrafficInformationDto> findTrafficInformation() {
         RestTemplate restTemplate = new RestTemplate();
-        String apiKey = ApiConfig.getApiKey();
-        String api = "http://swopenapi.seoul.go.kr/api/subway/" + apiKey + "/json/realtimeStationArrival/0/5/성환";
-
+        String apiKey = apiProperties.getKey();
+        String api = "http://swopenapi.seoul.go.kr/api/subway/"+apiKey+"/json/realtimeStationArrival/0/5/성환";
         try {
             String response = restTemplate.getForObject(api, String.class);
             log.info(response);
@@ -33,7 +38,6 @@ public class TrafficInformationService {
                 // 에러 메시지 처리
                 String message = errorMessageNode.get("message").asText();
                 log.error("API Error: {}", message);
-                return null;
             }
 
             // 정상 응답 처리
@@ -43,45 +47,37 @@ public class TrafficInformationService {
                 return null;
             }
 
-            TrafficInformationDto trafficInformationDto = convertToDto(realtimeArrivalList);
-            return trafficInformationDto;
+            List<TrafficInformationDto> trafficInformationDtoList = convertToDto(realtimeArrivalList);
+            return trafficInformationDtoList;
         } catch (JsonProcessingException e) {
             log.error("JSON Processing Error: {}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
 
-    private TrafficInformationDto convertToDto(JsonNode realtimeArrivalList) {
-        TrafficInformationDto.TrafficInformationDtoBuilder builder = TrafficInformationDto.builder();
+    private List<TrafficInformationDto> convertToDto(JsonNode realtimeArrivalList) {
+        List<TrafficInformationDto> trafficInformationDtoList = new ArrayList<>();
         for (JsonNode arrivalNode : realtimeArrivalList) {
-            String updnLine = arrivalNode.get("updnLine").asText();
-            String ordkey = arrivalNode.get("ordkey").asText().substring(0, 2); // 앞의 두 글자만 추출
-            String arvlMsg2 = arrivalNode.get("arvlMsg2").asText();
-            String arvlMsg3 = arrivalNode.get("arvlMsg3").asText();
+            String updnLine = arrivalNode.get("updnLine").asText();     //상하행 여부
+            String ordKey = arrivalNode.get("ordkey").asText();         //열차운행 정보 코드, 급행인지 아닌지 판단하기 위함
+            String arvlMsg2 = arrivalNode.get("arvlMsg2").asText()      //성환역까지 남은 역
+                    .replace("[", "")
+                    .replace("]", "")
+                    .split("\\(")[0]
+                    .trim();
+            String arvlMsg3 = arrivalNode.get("arvlMsg3").asText();     //현재 열차 위치
 
-            if ("상행".equals(updnLine)) {
-                if ("01".equals(ordkey)) { // 앞의 두 글자가 "01"인지 비교
-                    builder.upFirstLocation(arvlMsg3).upFirstTime(arvlMsg2);
-                } else if ("02".equals(ordkey)) { // 앞의 두 글자가 "02"인지 비교
-                    builder.upSecondLocation(arvlMsg3).upSecondTime(arvlMsg2);
-                }
-            } else if ("하행".equals(updnLine)) {
-                if ("11".equals(ordkey)) { // 앞의 두 글자가 "11"인지 비교
-                    builder.dnFirstLocation(arvlMsg3).dnFirstTime(arvlMsg2);
-                } else if ("12".equals(ordkey)) { // 앞의 두 글자가 "12"인지 비교
-                    builder.dnSecondLocation(arvlMsg3).dnSecondTime(arvlMsg2);
-                }
+            if('1' == ordKey.charAt(ordKey.length()-1)){
+                arvlMsg2 = arvlMsg2 + "(급)";
             }
-        }
-        return builder.build();
-    }
 
-    @ConfigurationProperties(prefix = "api")
-    private static class ApiConfig {
-        private static String key;
-
-        public static String getApiKey() {
-            return key;
+            TrafficInformationDto trafficInformationDto = TrafficInformationDto.builder()
+                    .updnLine(updnLine)
+                    .arrivalLocation(arvlMsg3)
+                    .arrivalTime(arvlMsg2)
+                    .build();
+            trafficInformationDtoList.add(trafficInformationDto);
         }
+        return trafficInformationDtoList;
     }
 }
