@@ -29,7 +29,7 @@ spring:
 #
 #        provider:
 #          kakao:
-#            # OpenID Connect 일 경우 jwkSet URI 를 가져와야 하기 때문에 필수항목
+#            # OpenID Connect 일 경우 jwkSet ㅎURI 를 가져와야 하기 때문에 필수항목
 #            issuer-uri: https://kauth.kakao.com
 #            authorization-uri: https://kauth.kakao.com/oauth/authorize
 #            token-uri: https://kauth.kakao.com/oauth/token
