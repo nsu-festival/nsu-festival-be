@@ -6,21 +6,24 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @AllArgsConstructor
 public class TrafficInformationService {
     private final ApiProperties apiProperties;
+
+    /**
+     *  실시간 지하철 정보 리스트 반환 메서드
+     */
     public List<TrafficInformationDto> findTrafficInformation() {
         RestTemplate restTemplate = new RestTemplate();
         String apiKey = apiProperties.getKey();
@@ -32,19 +35,26 @@ public class TrafficInformationService {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response);
             JsonNode errorMessageNode = rootNode.get("errorMessage");
+            String errCode = errorMessageNode.get("code").asText();
 
-            // 에러 메시지가 있는지 확인
-            if (errorMessageNode != null) {
-                // 에러 메시지 처리
-                String message = errorMessageNode.get("message").asText();
-                log.error("API Error: {}", message);
+            errCode = errCode.chars()
+                    .dropWhile(c -> c!='-')
+                    .skip(1)
+                    .filter(Character::isDigit)
+                    .mapToObj(Character::toString)
+                    .collect(Collectors.joining());
+
+            log.error("ERROR_CODE: {}", errCode);
+
+            if(!"000".equals(errCode)){
+                throw new RuntimeException(errCode);
             }
 
             // 정상 응답 처리
             JsonNode realtimeArrivalList = rootNode.get("realtimeArrivalList");
             if (realtimeArrivalList == null || !realtimeArrivalList.isArray()) {
                 log.warn("No arrival information found.");
-                return null;
+                throw new NoSuchElementException();
             }
 
             List<TrafficInformationDto> trafficInformationDtoList = convertToDto(realtimeArrivalList);
@@ -55,6 +65,10 @@ public class TrafficInformationService {
         }
     }
 
+    /**
+     *
+     * 프론트에게 전달할 Dto 변환 메서드
+     */
     private List<TrafficInformationDto> convertToDto(JsonNode realtimeArrivalList) {
         List<TrafficInformationDto> trafficInformationDtoList = new ArrayList<>();
         for (JsonNode arrivalNode : realtimeArrivalList) {
@@ -67,7 +81,7 @@ public class TrafficInformationService {
                     .trim();
             String arvlMsg3 = arrivalNode.get("arvlMsg3").asText();     //현재 열차 위치
 
-            if('1' == ordKey.charAt(ordKey.length()-1)){
+            if('1' == ordKey.charAt(ordKey.length()-1)){                // 급행 여부
                 arvlMsg2 = arvlMsg2 + "(급)";
             }
 
