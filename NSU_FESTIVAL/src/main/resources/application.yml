@@ -11,6 +11,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create-drop
+  api:
+    key: "554c56466177686431333345437a5175"
 
   security:
     oauth2:
@@ -24,3 +26,5 @@ spring:
             client-name: NsuFestival
             redirect-uri: http://localhost:8080/login/oauth2/code/kakao
             scope: profile_nickname
+
+
