@@ -1,11 +1,11 @@
 package com.example.nsu_festival.domain.booth.service;
 
 
+import com.example.nsu_festival.domain.booth.dto.BoothDetailDto;
 import com.example.nsu_festival.domain.booth.dto.BoothDto;
 import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.booth.repository.BoothRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -33,5 +33,14 @@ public class BoothServiceImpl implements BoothService{
 
     private BoothDto convertToDto(Booth booth){
         return modelMapper.map(booth,BoothDto.class);
+    }
+
+
+    public BoothDetailDto getDetailBooth(Long boothId) {
+        Booth booth = boothRepository.findById(boothId).get();
+        return convertBoothDetailToDto(booth);
+    }
+    private BoothDetailDto convertBoothDetailToDto(Booth booth){
+        return modelMapper.map(booth,BoothDetailDto.class);
     }
 }
