@@ -3,6 +3,7 @@ package com.example.nsu_festival.domain.booth.dto;
 import com.example.nsu_festival.domain.booth.entity.BoothCategory;
 import com.example.nsu_festival.domain.booth.entity.BoothImage;
 import com.example.nsu_festival.domain.comment.entity.Comment;
+import com.example.nsu_festival.domain.likes.entity.BoothLiked;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +24,7 @@ public class BoothDetailDto {
     private List<BoothCategory> boothCategories;
     private BoothImage boothImage;
 
-    private List<Comment> comments;
+    private List<BoothCommentDto> comments;
+    private BoothLiked boothLiked;
+    private Long boothCommentCount;
 }

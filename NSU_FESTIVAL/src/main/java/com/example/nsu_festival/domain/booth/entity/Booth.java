@@ -39,7 +39,7 @@ public class Booth {
 
     @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
     @JsonManagedReference
-    private List<BoothLiked> boothLikeds = new ArrayList<>();
+    private List<BoothLiked> boothLiked = new ArrayList<>();
 
     @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
     @JsonManagedReference
