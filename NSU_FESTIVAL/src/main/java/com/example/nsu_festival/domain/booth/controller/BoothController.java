@@ -1,9 +1,6 @@
 package com.example.nsu_festival.domain.booth.controller;
 
-import com.example.nsu_festival.domain.booth.dto.BoothDetailDto;
-import com.example.nsu_festival.domain.booth.dto.BoothDto;
-import com.example.nsu_festival.domain.booth.dto.BoothResponseDto;
-import com.example.nsu_festival.domain.booth.dto.BoothResponseStatus;
+import com.example.nsu_festival.domain.booth.dto.*;
 import com.example.nsu_festival.domain.booth.service.BoothService;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,8 +33,6 @@ public class BoothController {
     public ResponseEntity<BoothResponseDto<BoothDetailDto>> getBoothDetail(@PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
         try {
             BoothDetailDto boothDetailDto = boothService.getDetailBooth(boothId, customOAuth2User);
-            log.info("a:{}",customOAuth2User.getUsername());
-            log.info("b:{}",customOAuth2User.getName());
             BoothResponseDto<BoothDetailDto> responseDto = BoothResponseDto.<BoothDetailDto>builder()
                     .status(BoothResponseStatus.SUCCESS)
                     .message("성공")
@@ -55,5 +48,6 @@ public class BoothController {
             return ResponseEntity.ok().body(responseDto);
         }
     }
+
 
 }

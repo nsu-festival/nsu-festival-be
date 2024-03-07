@@ -1,6 +1,5 @@
 package com.example.nsu_festival.domain.booth.service;
 
-
 import com.example.nsu_festival.domain.booth.dto.BoothCommentDto;
 import com.example.nsu_festival.domain.booth.dto.BoothDetailDto;
 import com.example.nsu_festival.domain.booth.dto.BoothDto;
@@ -16,6 +15,7 @@ import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +36,11 @@ public class BoothServiceImpl implements BoothService{
    private final BoothLikedRepository boothLikedRepository;
    private final CommentRepository commentRepository;
 
+    /**
+     *
+     * 부스리스트 조회
+     */
+
     public List<BoothDto> getAllBooths(){
         List<BoothDto> boothDtoLists = boothRepository.findAll().stream()
                 .map(this::convertToDto)
@@ -48,17 +53,21 @@ public class BoothServiceImpl implements BoothService{
         return modelMapper.map(booth,BoothDto.class);
     }
 
-
+    /**
+     *
+     * 부스 상세페이지 조회
+     */
     public BoothDetailDto getDetailBooth(Long boothId, CustomOAuth2User customOAuth2User) {
         Booth booth = boothRepository.findById(boothId).get();
-        User user = userRepository.findByNickName(customOAuth2User.getName()).get();
+        User user = userRepository.findByEmail(customOAuth2User.getEmail()).get();
         BoothLiked boothLiked = boothLikedRepository.findBoothLikedByUser(user);
 
         List<Comment> comments = commentRepository.findAllCommentByBooth(booth);
-        Long boothCommentCounts = commentRepository.count();
+        Long boothCommentCounts = commentRepository.countCommentByBooth(booth);
 
 
         List<BoothCommentDto> commentDtos = new ArrayList<>();
+
         for (Comment boothComment : comments) {
             User commentUser = boothComment.getUser();
             if (commentUser != null) {

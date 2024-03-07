@@ -9,4 +9,5 @@ import java.util.List;
 public interface BoothService {
     List<BoothDto> getAllBooths();
     BoothDetailDto getDetailBooth(Long boothId, CustomOAuth2User customOAuth2User);
+
 }
