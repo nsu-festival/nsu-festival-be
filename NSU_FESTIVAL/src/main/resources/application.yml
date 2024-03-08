@@ -3,18 +3,18 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/festival
     username: root
-    password: sky0421!
+    password: 3624
 
   jpa:
     database: mysql
     show-sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
+      ddl-auto: create
 
   api:
     key: "554c56466177686431333345437a5175"
 
-      ddl-auto: create
 
 #  security:
 #    oauth2:
