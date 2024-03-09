@@ -1,6 +1,7 @@
 package com.example.nsu_festival.domain.comment.entity;
 
 import com.example.nsu_festival.domain.booth.entity.Booth;
+import com.example.nsu_festival.domain.comment.dto.CommentUpdateDto;
 import com.example.nsu_festival.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -29,5 +30,8 @@ public class Comment {
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
+    public void commentUpdate(CommentUpdateDto commentUpdateDto){
+        this.content = commentUpdateDto.getContent();
+    }
 
 }
