@@ -45,6 +45,7 @@ public class BoothServiceImpl implements BoothService{
 
     public List<BoothDto> getAllBooths(){
         List<BoothDto> boothDtoLists = boothRepository.findAll().stream()
+                .filter(booth -> booth.getBoothCategories().stream().noneMatch(category->category.getCategory().equals("푸드트럭")))
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
 
@@ -56,9 +57,6 @@ public class BoothServiceImpl implements BoothService{
      * 푸드트럭 리스트 조회
      */
 
-    /**
-     * 푸드트럭 리스트 조회
-     */
     public List<BoothDto> getAllFoodTrucks() {
         List<BoothDto> allBooths = getAllBooths();
         log.info("All Booths: {}", allBooths);
@@ -91,16 +89,24 @@ public class BoothServiceImpl implements BoothService{
         for (Comment boothComment : comments) {
             User commentUser = boothComment.getUser();
             if (commentUser != null) {
-
-                BoothCommentDto commentDto = new BoothCommentDto();
-                commentDto.setCommentId(boothComment.getCommentId());
-                commentDto.setContent(boothComment.getContent());
-                commentDto.setUserName(commentUser.getNickName());
-
-
-                commentDtos.add(commentDto);
+                String userName = commentUser.getNickName();
+                if (userName.length() >= 2) {
+                    String maskedName = userName.substring(0, 1) + "*" + userName.substring(2);
+                    BoothCommentDto commentDto = new BoothCommentDto();
+                    commentDto.setCommentId(boothComment.getCommentId());
+                    commentDto.setContent(boothComment.getContent());
+                    commentDto.setUserName(maskedName);
+                    commentDtos.add(commentDto);
+                } else {
+                    BoothCommentDto commentDto = new BoothCommentDto();
+                    commentDto.setCommentId(boothComment.getCommentId());
+                    commentDto.setContent(boothComment.getContent());
+                    commentDto.setUserName(userName);
+                    commentDtos.add(commentDto);
+                }
             }
         }
+
 
         BoothDetailDto boothDetailDto = BoothDetailDto.builder()
                 .boothId(booth.getBoothId())
@@ -118,7 +124,5 @@ public class BoothServiceImpl implements BoothService{
         return boothDetailDto;
 
     }
-
-
 
 }
