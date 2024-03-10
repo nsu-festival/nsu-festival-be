@@ -13,6 +13,7 @@ import com.example.nsu_festival.domain.user.entity.User;
 import com.example.nsu_festival.domain.user.repository.UserRepository;
 import com.example.nsu_festival.global.exception.CustomException;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
+import com.vane.badwordfiltering.BadWordFiltering;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,9 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public boolean writeComment(CommentDto commentDto, CustomOAuth2User customOAuth2User){
         try{
+            BadWordFiltering badWordFiltering = new BadWordFiltering();
+              String badWord =  badWordFiltering.change(commentDto.getContent());
+
             User user = userRepository.findByEmail(customOAuth2User.getEmail()).get();
             Booth booth = boothRepository.findById(commentDto.getBoothId()).get();
             Comment comment = Comment.builder()
