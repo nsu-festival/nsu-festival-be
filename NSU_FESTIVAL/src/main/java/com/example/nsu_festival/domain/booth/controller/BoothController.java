@@ -28,6 +28,18 @@ public class BoothController {
         }
     }
 
+    @GetMapping("/foodTruck")
+
+    public ResponseEntity<List<BoothDto>> getAllFoodTrucks(){
+        try{
+            List<BoothDto> boothDtos = boothService.getAllFoodTrucks();
+            return ResponseEntity.ok(boothDtos);
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 
     @GetMapping("/api/{boothId}")
     public ResponseEntity<BoothResponseDto<BoothDetailDto>> getBoothDetail(@PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
@@ -48,6 +60,8 @@ public class BoothController {
             return ResponseEntity.ok().body(responseDto);
         }
     }
+
+
 
 
 }

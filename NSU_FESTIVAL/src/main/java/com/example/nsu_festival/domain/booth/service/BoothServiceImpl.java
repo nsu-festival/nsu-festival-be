@@ -4,7 +4,9 @@ import com.example.nsu_festival.domain.booth.dto.BoothCommentDto;
 import com.example.nsu_festival.domain.booth.dto.BoothDetailDto;
 import com.example.nsu_festival.domain.booth.dto.BoothDto;
 import com.example.nsu_festival.domain.booth.entity.Booth;
+import com.example.nsu_festival.domain.booth.entity.Menu;
 import com.example.nsu_festival.domain.booth.repository.BoothRepository;
+import com.example.nsu_festival.domain.booth.repository.MenuRepository;
 import com.example.nsu_festival.domain.comment.entity.Comment;
 import com.example.nsu_festival.domain.comment.repository.CommentRepository;
 import com.example.nsu_festival.domain.likes.entity.BoothLiked;
@@ -35,7 +37,7 @@ public class BoothServiceImpl implements BoothService{
    private final UserRepository userRepository;
    private final BoothLikedRepository boothLikedRepository;
    private final CommentRepository commentRepository;
-
+    private final MenuRepository menuRepository;
     /**
      *
      * 부스리스트 조회
@@ -49,6 +51,23 @@ public class BoothServiceImpl implements BoothService{
         return boothDtoLists;
     }
 
+    /**
+     *
+     * 푸드트럭 리스트 조회
+     */
+
+    /**
+     * 푸드트럭 리스트 조회
+     */
+    public List<BoothDto> getAllFoodTrucks() {
+        List<BoothDto> allBooths = getAllBooths();
+        log.info("All Booths: {}", allBooths);
+        return allBooths.stream()
+                .filter(boothDto -> boothDto.getBoothCategories().stream()
+                        .anyMatch(category -> category.getCategory().equals("푸드트럭")))
+                .collect(Collectors.toList());
+    }
+
     private BoothDto convertToDto(Booth booth){
         return modelMapper.map(booth,BoothDto.class);
     }
@@ -60,6 +79,7 @@ public class BoothServiceImpl implements BoothService{
     public BoothDetailDto getDetailBooth(Long boothId, CustomOAuth2User customOAuth2User) {
         Booth booth = boothRepository.findById(boothId).get();
         User user = userRepository.findByEmail(customOAuth2User.getEmail()).get();
+        List<Menu> menu = menuRepository.findMenusByBooth(booth);
         BoothLiked boothLiked = boothLikedRepository.findBoothLikedByUser(user);
 
         List<Comment> comments = commentRepository.findAllCommentByBooth(booth);
@@ -93,9 +113,12 @@ public class BoothServiceImpl implements BoothService{
                 .boothLiked(boothLiked)
                 .comments(commentDtos)
                 .boothCommentCount(boothCommentCounts)
+                .menus(menu)
                 .build();
         return boothDetailDto;
 
     }
+
+
 
 }

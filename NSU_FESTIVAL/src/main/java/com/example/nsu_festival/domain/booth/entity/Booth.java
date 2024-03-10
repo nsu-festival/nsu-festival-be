@@ -28,7 +28,6 @@ public class Booth {
     @NonNull
     private String content;
 
-
     private Long countLike;
 
     private String area;
@@ -49,4 +48,8 @@ public class Booth {
     @JoinColumn(name = "booth_image_id")
     @JsonManagedReference
     private BoothImage boothImage;
+
+    @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Menu> menus = new ArrayList<>();
 }

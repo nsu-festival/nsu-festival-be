@@ -16,8 +16,6 @@ import java.util.List;
 public class BoothDto {
     private Long boothId;
     private String title;
-    private String content;
-    private Long countLike;
     private String area;
     private List<BoothCategory> boothCategories;
     private BoothImage boothImage;
