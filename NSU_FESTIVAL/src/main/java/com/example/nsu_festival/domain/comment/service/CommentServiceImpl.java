@@ -4,8 +4,11 @@ import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.booth.repository.BoothRepository;
 import com.example.nsu_festival.domain.comment.dto.CommentDto;
 import com.example.nsu_festival.domain.comment.dto.CommentUpdateDto;
+import com.example.nsu_festival.domain.comment.dto.ReportCommentDto;
 import com.example.nsu_festival.domain.comment.entity.Comment;
+import com.example.nsu_festival.domain.comment.entity.Report;
 import com.example.nsu_festival.domain.comment.repository.CommentRepository;
+import com.example.nsu_festival.domain.comment.repository.ReportRepository;
 import com.example.nsu_festival.domain.user.entity.User;
 import com.example.nsu_festival.domain.user.repository.UserRepository;
 import com.example.nsu_festival.global.exception.CustomException;
@@ -27,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
     private final BoothRepository boothRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final ReportRepository reportRepository;
 
 
     /**
@@ -92,6 +96,29 @@ public class CommentServiceImpl implements CommentService {
         User user  = userRepository.findByEmail(customOAuth2User.getEmail()).get();
         return comment.getUser().getId().equals(user.getId());
 
+    }
+
+    /**
+     * 댓글 신고
+     */
+    public  void reportComment(Long commentId, ReportCommentDto reportCommentDto){
+        try{
+            Comment comment = commentRepository.findById(commentId).get();
+            User user = comment.getUser();
+            comment.plusReportCount();
+            Report report = Report.builder()
+                    .reportReason(reportCommentDto.getReportReason())
+                    .comment(comment)
+                    .user(user)
+                    .build();
+            reportRepository.save(report);
+            if(comment.getReportCount()>=10){
+                comment.commentUpdate("신고 누적으로 인해 검열된 댓글입니다.");
+            }
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw new CustomException(SERVER_ERROR);
+        }
     }
 
 }

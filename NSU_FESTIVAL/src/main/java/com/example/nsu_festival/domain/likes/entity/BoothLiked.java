@@ -22,7 +22,7 @@ public class BoothLiked {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userBoothLikeId;
 
-    private Boolean isBoothLike;
+    private boolean isBoothLike = false;
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference  // 순환참조를 막기 위한 어노테이션,자식클래스
     @JoinColumn(name = "booth_id",nullable = false)

@@ -5,6 +5,7 @@ import com.example.nsu_festival.domain.booth.dto.BoothResponseDto;
 import com.example.nsu_festival.domain.booth.dto.BoothResponseStatus;
 import com.example.nsu_festival.domain.comment.dto.CommentDto;
 import com.example.nsu_festival.domain.comment.dto.CommentUpdateDto;
+import com.example.nsu_festival.domain.comment.dto.ReportCommentDto;
 import com.example.nsu_festival.domain.comment.service.CommentService;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.swing.plaf.PanelUI;
 
 @RestController
 @RequiredArgsConstructor
@@ -79,4 +82,17 @@ if(    commentService.writeComment(commentDto,customOAuth2User)){
                         .build());
     }
 
+    /**
+     * 댓글 신고
+     */
+        @PostMapping("report/comment/{commentId}")
+    public ResponseEntity<BoothResponseDto> reportComment(@PathVariable Long commentId, @RequestBody ReportCommentDto reportCommentDto){
+        commentService.reportComment(commentId,reportCommentDto);
+        return ResponseEntity.status(200)
+                .body(BoothResponseDto.builder()
+                        .status(BoothResponseStatus.SUCCESS)
+                        .message("댓글 신고 완료")
+                        .data(null)
+                        .build());
+    }
 }
