@@ -47,7 +47,7 @@ public class CommentServiceImpl implements CommentService {
             User user = userRepository.findByEmail(customOAuth2User.getEmail()).get();
             Booth booth = boothRepository.findById(commentDto.getBoothId()).get();
             Comment comment = Comment.builder()
-                            .content(commentDto.getContent())
+                            .content(badWord)
                                     .booth(booth)
                                             .user(user)
                     .build();
