@@ -25,18 +25,18 @@ public class CommentController {
 
     @PostMapping("booth/comment")
     public ResponseEntity<BoothResponseDto> boothWriteComment(@RequestBody CommentDto commentDto, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
-if(    commentService.writeComment(commentDto,customOAuth2User)){
-    return ResponseEntity.status(200).body(BoothResponseDto.builder()
-            .status(BoothResponseStatus.SUCCESS)
-            .message("댓글 등록 완료")
-            .data(null)
-            .build());
-}
-    return ResponseEntity.status(400).body(BoothResponseDto.builder()
-            .status(BoothResponseStatus.SUCCESS)
-            .message("댓글 등록 실패")
-            .data(null)
-            .build());
+        if(    commentService.writeComment(commentDto,customOAuth2User)){
+            return ResponseEntity.status(200).body(BoothResponseDto.builder()
+                 .status(BoothResponseStatus.SUCCESS)
+                    .message("댓글 등록 완료")
+                    .data(null)
+                    .build());
+            }
+            return ResponseEntity.status(400).body(BoothResponseDto.builder()
+                .status(BoothResponseStatus.SUCCESS)
+                .message("댓글 등록 실패")
+                .data(null)
+                .build());
 
     }
 
