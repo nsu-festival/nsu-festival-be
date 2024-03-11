@@ -38,7 +38,7 @@ public enum ExceptionCode {
      */
     EMAIL_NOT_FOUND(NOT_FOUND, "등록된 이메일이 없습니다."),
     MEMBER_NOT_FOUND(NOT_FOUND, "등록된 멤버가 없습니다."),
-    TODO_NOT_FOUND(NOT_FOUND, "등록된 투두가 없습니다."),
+
 
     /**
      * 409 CONFLICT : Resource 의 현재 상태와 충돌. 보통 중복된 데이터 존재
