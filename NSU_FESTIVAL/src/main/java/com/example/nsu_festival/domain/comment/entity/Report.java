@@ -22,12 +22,12 @@ public class Report {
     private String reportReason;
 
     @JsonBackReference //순환 참조 문제 해결하기 위한 어노테이션
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     @JsonBackReference //순환 참조 문제 해결하기 위한 어노테이션
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id",nullable = false)
     private Comment comment;
 

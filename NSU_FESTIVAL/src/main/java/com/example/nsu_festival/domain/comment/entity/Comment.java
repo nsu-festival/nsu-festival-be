@@ -30,7 +30,7 @@ public class Comment {
     private Booth booth;
 
     @JsonBackReference //순환 참조 문제 해결하기 위한 어노테이션
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 

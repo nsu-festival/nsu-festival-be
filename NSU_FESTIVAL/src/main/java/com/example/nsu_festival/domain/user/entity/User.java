@@ -46,7 +46,7 @@ public class User {
         this.email = email;
     }
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
