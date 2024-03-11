@@ -39,4 +39,8 @@ public class FestivalProgram {
         this.countLike = countLike;
         this.festivalDate = festivalDate;
     }
+
+    public void updateCountLike(int countLike){
+        this.countLike = countLike;
+    }
 }

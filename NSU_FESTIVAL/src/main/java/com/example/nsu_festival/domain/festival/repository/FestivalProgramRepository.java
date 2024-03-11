@@ -1,4 +1,7 @@
 package com.example.nsu_festival.domain.festival.repository;
 
-public interface FestivalProgramResitory {
+import com.example.nsu_festival.domain.festival.entity.FestivalProgram;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FestivalProgramRepository extends JpaRepository<FestivalProgram, Long> {
 }
