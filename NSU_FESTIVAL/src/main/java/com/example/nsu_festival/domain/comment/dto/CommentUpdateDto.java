@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentDto {
-    private Long boothId;
+public class CommentUpdateDto {
     private String content;
+
 }

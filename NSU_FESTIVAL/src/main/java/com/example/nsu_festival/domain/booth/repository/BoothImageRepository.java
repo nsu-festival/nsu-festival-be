@@ -1,4 +1,7 @@
 package com.example.nsu_festival.domain.booth.repository;
 
-public interface BoothImageRepository {
+import com.example.nsu_festival.domain.booth.entity.BoothImage;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BoothImageRepository extends JpaRepository<BoothImage,Long> {
 }

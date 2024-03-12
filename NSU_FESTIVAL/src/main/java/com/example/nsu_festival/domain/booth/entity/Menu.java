@@ -7,20 +7,22 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Entity
 @Table
-public class BoothImage {
-
+public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boothImageId;
+    private Long menuId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_id",nullable = true)
-    @JsonBackReference
+    private String name;
+    private int price;
+
+    @JsonBackReference //순환 참조 문제 해결하기 위한 어노테이션
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booth_id",nullable = false)
     private Booth booth;
 }
