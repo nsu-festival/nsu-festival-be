@@ -25,7 +25,7 @@ public class TrafficInformationController {
     /**
      *  성환역 교통실시간 정보 리스트 전달
       */
-    @GetMapping("/api")
+    @GetMapping("/trafficinformations")
     public ResponseEntity<StatusResponseDto> findTrafficInformation(){
         try{
             List<TrafficInformationDto> trafficInformationDtoList = trafficInformationService.findTrafficInformation();

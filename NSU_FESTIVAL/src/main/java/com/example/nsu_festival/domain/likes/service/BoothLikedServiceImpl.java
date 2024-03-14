@@ -74,11 +74,11 @@ public class BoothLikedServiceImpl implements LikedService{
         Booth booth = boothRepository.findById(boothId)
                 .orElseThrow(() -> new RuntimeException("없는 축제 프로그램"));
 
-        int count = boothLikedRepository.countBoothLike(boothId);
-        log.info("좋아요 개수:{}", count);
+//        int count = boothLikedRepository.countBoothLike(boothId);
+//        log.info("좋아요 개수:{}", count);
 
         log.info("=== 좋아요 개수 업데이트 ===");
-        booth.updateCountLike(count);
+//        booth.updateCountLike(count);
 
         // 좋아요 개수 업데이트 후 저장
         boothRepository.save(booth);

@@ -17,43 +17,6 @@ import java.util.List;
 @Entity
 @Table(name = "booth")
 public class Booth {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "booth_Id")
-    private Long boothId;
-
-    @NonNull
-    private String title;
-
-    @NonNull
-    private String content;
-
-    private Long countLike;
-
-    private String area;
-
-    @OneToMany(mappedBy = "booth", fetch = FetchType.LAZY)
-    @JsonManagedReference  //순환 참조 문제 해결하기 위한 어노테이션
-    private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<BoothLiked> boothLiked = new ArrayList<>();
-
-    @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<BoothCategory> boothCategories = new ArrayList<>();
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_image_id")
-    @JsonManagedReference
-    private BoothImage boothImage;
-
-    @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
-    @JsonManagedReference
-    private List<Menu> menus = new ArrayList<>();
-
     public void updateCountLike(int countLike){
         this.countLike = countLike;
     }

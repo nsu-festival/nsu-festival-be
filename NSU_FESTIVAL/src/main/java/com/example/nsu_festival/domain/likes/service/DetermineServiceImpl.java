@@ -1,5 +1,11 @@
 package com.example.nsu_festival.domain.likes.service;
 
+import com.example.nsu_festival.domain.booth.entity.Booth;
+import com.example.nsu_festival.domain.booth.repository.BoothRepository;
+import com.example.nsu_festival.domain.festival.entity.FestivalProgram;
+import com.example.nsu_festival.domain.festival.entity.SingerLineup;
+import com.example.nsu_festival.domain.festival.repository.FestivalProgramRepository;
+import com.example.nsu_festival.domain.festival.repository.SingerLineupRepository;
 import com.example.nsu_festival.domain.likes.dto.UserLikeDto;
 import com.example.nsu_festival.domain.likes.entity.BoothLiked;
 import com.example.nsu_festival.domain.likes.entity.FestivalProgramLiked;
@@ -31,7 +37,9 @@ public class DetermineServiceImpl implements DetermineService{
     private final BoothLikedServiceImpl boothLikedService;
     private final BoothLikedRepository boothLikedRepository;
     private final SingerLineupLikedServiceImpl singerLineupLikedService;
-
+    private final BoothRepository boothRepository;
+    private final FestivalProgramRepository festivalProgramRepository;
+    private final SingerLineupRepository singerLineupRepository;
     /**
      *  좋아요 테이블에 해당 유저에 관한
      *  레코드가 생성되어 있는지 판별하는 메서드
@@ -46,11 +54,14 @@ public class DetermineServiceImpl implements DetermineService{
 
         // contentType에 해당하는 좋아요테이블에서 유저 검색 후 true, false반환
         if("booth".equals(contentType)){
-            return boothLikedRepository.existsByUserId(userId);
+//            return boothLikedRepository.existsByUserId(userId);
+            return false;
         }else if("festivalProgram".equals(contentType)){
             return festivalProgramLikedRepository.existsByUserId(userId);
-        }else {
+        }else if("singerLineup".equals(contentType)){
             return singerLineupLikedRepository.existsByUserId(userId);
+        }else{
+            throw new RuntimeException("존재하지 않는 컨텐츠");
         }
     }
 
@@ -65,11 +76,11 @@ public class DetermineServiceImpl implements DetermineService{
 
         log.info("해당하는 좋아요 메서드 호출");
         if("booth".equals(contentType)){
-            BoothLiked boothLiked = boothLikedRepository.findBoothLikedByContentId(contentId);
-            if(boothLikedService.toggleLikeContents(boothLiked)){
-                log.info("호출된 좋아요 메서드 실행 완료");
-                return true;
-            }
+//            BoothLiked boothLiked = boothLikedRepository.findBoothLikedByContentId(contentId);
+//            if(boothLikedService.toggleLikeContents(boothLiked)){
+//                log.info("호출된 좋아요 메서드 실행 완료");
+//                return true;
+//            }
             log.info("호출된 좋아요 메서드 실행 실패");
             return false;
         } else if ("festivalProgram".equals(contentType)) {
@@ -80,7 +91,7 @@ public class DetermineServiceImpl implements DetermineService{
             }
             log.info("호출된 좋아요 메서드 실행 실패");
             return false;
-        } else {
+        } else if("singerLineup".equals(contentType)){
             SingerLineupLiked singerLineupLiked = singerLineupLikedRepository.findSingerLineupLikedByContentId(contentId);
             if(singerLineupLikedService.toggleLikeContents(singerLineupLiked)){
                 log.info("호출된 좋아요 메서드 실행 완료");
@@ -88,6 +99,9 @@ public class DetermineServiceImpl implements DetermineService{
             }
             log.info("호출된 좋아요 메서드 실행 실패");
             return false;
+        }
+        else{
+            throw new RuntimeException("존재하지 않는 컨텐츠");
         }
     }
 
@@ -103,20 +117,40 @@ public class DetermineServiceImpl implements DetermineService{
                 .getId();
 
         if("booth".equals(contentType)){
-            List<BoothLiked> boothLikedList = boothLikedRepository.findBoothLikeListByUserId(userId);
-            List<UserLikeDto> userLikeDtoList = convertToDto(contentType, boothLikedList);
-            return userLikeDtoList;
+//            List<BoothLiked> boothLikedList = boothLikedRepository.findBoothLikeListByUserId(userId);
+//            return convertToDto(contentType, boothLikedList);
+            return null;
         } else if ("festivalProgram".equals(contentType)) {
             List<FestivalProgramLiked> festivalProgramLikedList = festivalProgramLikedRepository.findFestivalProgramLikeListByUserId(userId);
-            List<UserLikeDto> userLikeDtoList = convertToDto(contentType, festivalProgramLikedList);
-            return userLikeDtoList;
-        } else {
+            return convertToDto(contentType, festivalProgramLikedList);
+        } else if("singerLineup".equals(contentType)){
             List<SingerLineupLiked> singerLineupLikedList = singerLineupLikedRepository.findSingerLineupLikedListByUserId(userId);
-            List<UserLikeDto> userLikeDtoList = convertToDto(contentType, singerLineupLikedList);
-            return  userLikeDtoList;
+            return convertToDto(contentType, singerLineupLikedList);
+        } else{
+            throw new RuntimeException("존재하지 않는 컨텐츠");
         }
     }
 
+    /**
+     * 인가되지 않은 사용자의
+     * 좋아요 여부
+     * 모든 좋아요 여부는 false
+     */
+    public List<UserLikeDto> findNoUserLike(String contentType){
+        if("booth".equals(contentType)){
+//            List<Booth> boothList = boothRepository.findAll();
+//            return convertToDtoNoUser(contentType, boothList);
+            return null;
+        } else if ("festivalProgram".equals(contentType)) {
+            List<FestivalProgram> festivalProgramList = festivalProgramRepository.findAll();
+            return convertToDtoNoUser(contentType, festivalProgramList);
+        } else if("singerLineup".equals(contentType)){
+            List<SingerLineup> singerLineupList = singerLineupRepository.findAll();
+            return convertToDtoNoUser(contentType, singerLineupList);
+        } else{
+            throw new RuntimeException("존재하지 않는 컨텐츠");
+        }
+    }
     /**
      *  현재 사용자의 정보가 해당하는
      *  좋아요 테이블에 없다면 기본 레코드 생성 메서드 호출
@@ -132,8 +166,10 @@ public class DetermineServiceImpl implements DetermineService{
             boothLikedService.createUserLike(userId);
         }else if("festivalProgram".equals(contentType)){
             festivalProgramLikedService.createUserLike(userId);
-        }else {
+        }else if("singerLineup".equals(contentType)){
             singerLineupLikedService.createUserLike(userId);
+        } else{
+            throw new RuntimeException("존재하지 않는 컨텐츠");
         }
     }
 
@@ -172,6 +208,44 @@ public class DetermineServiceImpl implements DetermineService{
                 UserLikeDto userLikeDto = UserLikeDto.builder()
                         .contentName(singerLineupLiked.getSingerLineup().getSinger())
                         .isLike(singerLineupLiked.isSingerLineupLike())
+                        .build();
+                userLikeDtoList.add(userLikeDto);
+            }
+            return userLikeDtoList;
+        }
+    }
+
+    public List<UserLikeDto> convertToDtoNoUser(String contentType, Object likeContentList) {
+        log.info("userLikeDto 변환");
+        if ("booth".equals(contentType)) {
+            List<Booth> boothList = (List<Booth>) likeContentList;
+            List<UserLikeDto> userLikeDtoList = new ArrayList<>();
+            for (Booth booth : boothList) {
+                UserLikeDto userLikeDto = UserLikeDto.builder()
+                        .contentName(booth.getTitle())
+                        .isLike(false)
+                        .build();
+                userLikeDtoList.add(userLikeDto);
+            }
+            return userLikeDtoList;
+        } else if ("festivalProgram".equals(contentType)) {
+            List<FestivalProgram> festivalProgramList = (List<FestivalProgram>) likeContentList;
+            List<UserLikeDto> userLikeDtoList = new ArrayList<>();
+            for (FestivalProgram festivalProgram : festivalProgramList) {
+                UserLikeDto userLikeDto = UserLikeDto.builder()
+                        .contentName(festivalProgram.getTitle())
+                        .isLike(false)
+                        .build();
+                userLikeDtoList.add(userLikeDto);
+            }
+            return userLikeDtoList;
+        } else {
+            List<SingerLineup> singerLineupList = (List<SingerLineup>) likeContentList;
+            List<UserLikeDto> userLikeDtoList = new ArrayList<>();
+            for (SingerLineup singerLineup : singerLineupList) {
+                UserLikeDto userLikeDto = UserLikeDto.builder()
+                        .contentName(singerLineup.getSinger())
+                        .isLike(false)
                         .build();
                 userLikeDtoList.add(userLikeDto);
             }

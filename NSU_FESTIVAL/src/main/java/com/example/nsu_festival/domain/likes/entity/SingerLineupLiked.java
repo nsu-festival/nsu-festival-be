@@ -16,7 +16,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 public class SingerLineupLiked {
     @Id
     @Column(name = "user_singerLineup_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userSingerLineupId;
 
     private boolean isSingerLineupLike;
