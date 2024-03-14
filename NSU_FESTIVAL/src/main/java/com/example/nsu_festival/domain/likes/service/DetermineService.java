@@ -13,4 +13,6 @@ public interface DetermineService {
     List<UserLikeDto> findUserLike (String contentType, CustomOAuth2User customOAuth2User);
 
     void createUserLike(String contentType, CustomOAuth2User customOAuth2User);
+
+    List<UserLikeDto> convertToDto(String contentType, Object likeContentList);
 }

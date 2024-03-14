@@ -22,11 +22,11 @@ public class SingerLineupLiked {
 
     private boolean isSingerLineupLike;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "singerLineup_id")
     private SingerLineup singerLineup;
 

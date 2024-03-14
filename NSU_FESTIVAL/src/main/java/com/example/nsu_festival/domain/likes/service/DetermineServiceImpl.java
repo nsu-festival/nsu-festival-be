@@ -46,11 +46,11 @@ public class DetermineServiceImpl implements DetermineService{
 
         // contentType에 해당하는 좋아요테이블에서 유저 검색 후 true, false반환
         if("booth".equals(contentType)){
-            return boothLikedRepository.findUserByUserId(userId);
+            return boothLikedRepository.existsByUserId(userId);
         }else if("festivalProgram".equals(contentType)){
-            return festivalProgramLikedRepository.findUserByUserId(userId);
+            return festivalProgramLikedRepository.existsByUserId(userId);
         }else {
-            return singerLineupLikedRepository.findUserByUserId(userId);
+            return singerLineupLikedRepository.existsByUserId(userId);
         }
     }
 
@@ -129,7 +129,7 @@ public class DetermineServiceImpl implements DetermineService{
                 .getId();
 
         if("booth".equals(contentType)){
-            log.info("booth");
+            boothLikedService.createUserLike(userId);
         }else if("festivalProgram".equals(contentType)){
             festivalProgramLikedService.createUserLike(userId);
         }else {
@@ -141,7 +141,7 @@ public class DetermineServiceImpl implements DetermineService{
      *  클라이언트에 전달할 사용자의 좋아요 여부 Dto 변환
      */
     @Override
-    private List<UserLikeDto> convertToDto(String contentType, Object likeContentList){
+    public List<UserLikeDto> convertToDto(String contentType, Object likeContentList){
         log.info("userLikeDto 변환");
         if("booth".equals(contentType)){
             List<BoothLiked> boothLikedList = (List<BoothLiked>) likeContentList;

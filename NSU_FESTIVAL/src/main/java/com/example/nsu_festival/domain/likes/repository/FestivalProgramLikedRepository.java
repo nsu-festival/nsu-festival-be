@@ -10,8 +10,7 @@ public interface FestivalProgramLikedRepository extends JpaRepository<FestivalPr
     @Query("select fpl from FestivalProgramLiked fpl where fpl.festivalProgram.festivalProgramId = :contentId")
     FestivalProgramLiked findFestivalProgramLikedByContentId(Long contentId);
 
-    @Query("select exists (select 1 from FestivalProgramLiked where user.id = :userId)")
-    boolean findUserByUserId(Long userId);
+    boolean existsByUserId(Long userId);
 
     @Query("select count(*) from FestivalProgramLiked where festivalProgram.festivalProgramId = :festivalProgramId and isFestivalProgramLike = true")
     int countFestivalProgramLike(Long festivalProgramId);

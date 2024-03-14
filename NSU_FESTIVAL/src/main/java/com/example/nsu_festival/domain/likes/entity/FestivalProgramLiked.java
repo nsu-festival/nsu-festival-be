@@ -21,11 +21,11 @@ public class FestivalProgramLiked {
 
     private boolean isFestivalProgramLike;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "festivalProgram_id")
     private FestivalProgram festivalProgram;
 

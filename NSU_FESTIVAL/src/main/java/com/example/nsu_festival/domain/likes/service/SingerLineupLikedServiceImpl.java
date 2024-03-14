@@ -30,6 +30,7 @@ public class SingerLineupLikedServiceImpl implements LikedService{
             log.info("=== 가수 라인업 좋아요 여부 업데이트시작 ===");
             SingerLineupLiked singerLineupLiked = (SingerLineupLiked) likeContents;
             singerLineupLiked.updateSingerLineupLiked(!singerLineupLiked.isSingerLineupLike());
+            singerLineupLikedRepository.save(singerLineupLiked);
             log.info("=== 가수 라인업 좋아요 여부 업데이트완료 ===");
 
             // 좋아요 개수 업데이트

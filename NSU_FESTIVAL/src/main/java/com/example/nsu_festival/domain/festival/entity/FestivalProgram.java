@@ -14,8 +14,8 @@ import java.time.LocalTime;
 public class FestivalProgram {
 
     @Id
-    @NotNull
     @Column(name = "festivalProgram_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long festivalProgramId;         // 축제프로그램 id
 
     private String title;                   // 축제 프로그램 제목
@@ -26,7 +26,7 @@ public class FestivalProgram {
 
     private int countLike;                  // 좋아요 개수
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "festivalDate_id")
     private FestivalDate festivalDate;      // 행사 날짜 Entity
 

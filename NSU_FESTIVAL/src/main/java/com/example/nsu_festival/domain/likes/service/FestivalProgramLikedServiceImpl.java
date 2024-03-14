@@ -31,6 +31,7 @@ public class FestivalProgramLikedServiceImpl implements LikedService{
             log.info("=== 축제좋아요 여부 업데이트시작 ===");
             FestivalProgramLiked festivalProgramLiked = (FestivalProgramLiked) likeContents;
             festivalProgramLiked.updateFestivalProgramLiked(!festivalProgramLiked.isFestivalProgramLike());
+            festivalProgramLikedRepository.save(festivalProgramLiked);
             log.info("=== 축제좋아요 여부 업데이트완료 ===");
 
             // 좋아요 개수 업데이트

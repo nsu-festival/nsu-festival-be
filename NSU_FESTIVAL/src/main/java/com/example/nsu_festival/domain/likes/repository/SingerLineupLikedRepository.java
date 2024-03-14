@@ -11,8 +11,7 @@ public interface SingerLineupLikedRepository extends JpaRepository<SingerLineupL
     @Query("select sll from SingerLineupLiked sll where sll.singerLineup.singerLineupId = :contentId")
     SingerLineupLiked findSingerLineupLikedByContentId(Long contentId);
 
-    @Query("select exists (select 1 from SingerLineupLiked where user.id = :userId)")
-    boolean findUserByUserId(Long userId);
+    boolean existsByUserId(Long userId);
 
     @Query("select count(*) from SingerLineupLiked where singerLineup.singerLineupId = :singerLineupId and isSingerLineupLike = true")
     int countSingerLineupLike(Long singerLineupId);

@@ -15,6 +15,7 @@ public class SingerLineup {
     @Id
     @NotNull
     @Column(name = "singerLineup_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long singerLineupId;            // 가수 라인업 id
 
     private String singer;                  // 가수 이름
@@ -25,7 +26,7 @@ public class SingerLineup {
 
     private int countLike;                  // 좋아요 개수
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "festivalDate_id")
     private FestivalDate festivalDate;
 
