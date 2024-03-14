@@ -38,7 +38,7 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         TokenDto tokenDto = jwtUtil.generateToken(email, role);
 
         //각 토큰을 헤더와 쿠키에 저장한 후 응답에 담아 넘긴다.
-        response.setHeader("AccessToken", tokenDto.getAccessToken());
+        response.setHeader("Authorization", tokenDto.getAccessToken());
         response.addCookie(createCookie("RefreshToken", tokenDto.getRefreshToken()));
 
     }
