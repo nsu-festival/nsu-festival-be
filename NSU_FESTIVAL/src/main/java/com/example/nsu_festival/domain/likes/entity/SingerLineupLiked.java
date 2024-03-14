@@ -15,7 +15,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 @NoArgsConstructor
 public class SingerLineupLiked {
     @Id
-    @NonNull
     @Column(name = "user_singerLineup_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userSingerLineupId;

@@ -13,7 +13,6 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class SingerLineup {
     @Id
-    @NotNull
     @Column(name = "singerLineup_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long singerLineupId;            // 가수 라인업 id

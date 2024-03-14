@@ -13,9 +13,8 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class BoothLiked {
     @Id
-    @NonNull
     @Column(name = "user_booth_like_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userBoothLikeId;
 
     private boolean isBoothLike;

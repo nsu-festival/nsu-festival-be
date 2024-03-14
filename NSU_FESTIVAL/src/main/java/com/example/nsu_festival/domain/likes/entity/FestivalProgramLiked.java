@@ -14,8 +14,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 @Getter
 public class FestivalProgramLiked {
     @Id
-    @NonNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_festival_program_like_id")
     private Long userFestivalProgramLikeId;
 

@@ -33,7 +33,7 @@ public class LikeController {
             }
         } catch (RuntimeException e){
             log.info(e.getMessage());
-            return ResponseEntity.ok().body(StatusResponseDto.fail(400));
+            return ResponseEntity.status(400).body(StatusResponseDto.fail(e.getMessage()));
         }
     }
 
