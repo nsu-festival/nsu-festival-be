@@ -15,6 +15,6 @@ public interface FestivalProgramLikedRepository extends JpaRepository<FestivalPr
     @Query("select count(*) from FestivalProgramLiked where festivalProgram.festivalProgramId = :festivalProgramId and isFestivalProgramLike = true")
     int countFestivalProgramLike(Long festivalProgramId);
 
-    @Query("select fql from FestivalProgramLiked fql where fql.user.id = :userId")
-    List<FestivalProgramLiked> findFestivalProgramLikeListByUserId(Long userId);
+    @Query("select fql from FestivalProgramLiked fql where fql.user.id = :userId and fql.festivalProgram.festivalDate.festivalDateId = :day")
+    List<FestivalProgramLiked> findFestivalProgramLikedListByUserId(Long userId, int day);
 }

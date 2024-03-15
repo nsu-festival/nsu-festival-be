@@ -25,11 +25,11 @@ public class LikeController {
     ResponseEntity<StatusResponseDto> determineLikeContents(@PathVariable String contentType, @PathVariable int day,@AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         try{
             if(determineService.determineUser(contentType, customOAuth2User)){
-                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User);
+                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, day);
                 return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
             }else{
                 determineService.createUserLike(contentType, customOAuth2User);
-                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User);
+                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, day);
                 return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
             }
         } catch (NullPointerException e) {

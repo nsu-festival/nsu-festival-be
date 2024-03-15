@@ -10,7 +10,7 @@ public interface DetermineService {
 
     boolean determineContents(String contentType, Long contentId);
 
-    List<UserLikeDto> findUserLike (String contentType, CustomOAuth2User customOAuth2User);
+    List<UserLikeDto> findUserLike (String contentType, CustomOAuth2User customOAuth2User, int day);
 
     void createUserLike(String contentType, CustomOAuth2User customOAuth2User);
 

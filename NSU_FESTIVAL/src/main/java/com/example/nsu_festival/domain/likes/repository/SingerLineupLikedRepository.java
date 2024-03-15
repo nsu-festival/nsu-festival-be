@@ -16,6 +16,6 @@ public interface SingerLineupLikedRepository extends JpaRepository<SingerLineupL
     @Query("select count(*) from SingerLineupLiked where singerLineup.singerLineupId = :singerLineupId and isSingerLineupLike = true")
     int countSingerLineupLike(Long singerLineupId);
 
-    @Query("select sll from SingerLineupLiked sll where sll.user.id = :userId")
-    List<SingerLineupLiked> findSingerLineupLikedListByUserId(Long userId);
+    @Query("select sll from SingerLineupLiked sll where sll.user.id = :userId and sll.singerLineup.festivalDate.dDay = : day")
+    List<SingerLineupLiked> findSingerLineupLikedListByUserId(Long userId, int day);
 }

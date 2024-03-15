@@ -109,7 +109,7 @@ public class DetermineServiceImpl implements DetermineService{
      *  현재 사용자의 각 컨텐츠의 좋아요 여부 반환 메서드
      */
     @Override
-    public List<UserLikeDto> findUserLike (String contentType, CustomOAuth2User customOAuth2User){
+    public List<UserLikeDto> findUserLike (String contentType, CustomOAuth2User customOAuth2User, int day){
         //유저 정보 추출
         String userEmail = customOAuth2User.getEmail();
         Long userId = userRepository.findByEmail(userEmail)
@@ -121,10 +121,10 @@ public class DetermineServiceImpl implements DetermineService{
 //            return convertToDto(contentType, boothLikedList);
             return null;
         } else if ("festivalProgram".equals(contentType)) {
-            List<FestivalProgramLiked> festivalProgramLikedList = festivalProgramLikedRepository.findFestivalProgramLikeListByUserId(userId);
+            List<FestivalProgramLiked> festivalProgramLikedList = festivalProgramLikedRepository.findFestivalProgramLikedListByUserId(userId, day);
             return convertToDto(contentType, festivalProgramLikedList);
         } else if("singerLineup".equals(contentType)){
-            List<SingerLineupLiked> singerLineupLikedList = singerLineupLikedRepository.findSingerLineupLikedListByUserId(userId);
+            List<SingerLineupLiked> singerLineupLikedList = singerLineupLikedRepository.findSingerLineupLikedListByUserId(userId, day);
             return convertToDto(contentType, singerLineupLikedList);
         } else{
             throw new RuntimeException("존재하지 않는 컨텐츠");
@@ -180,16 +180,17 @@ public class DetermineServiceImpl implements DetermineService{
     public List<UserLikeDto> convertToDto(String contentType, Object likeContentList){
         log.info("userLikeDto 변환");
         if("booth".equals(contentType)){
-            List<BoothLiked> boothLikedList = (List<BoothLiked>) likeContentList;
-            List<UserLikeDto> userLikeDtoList = new ArrayList<>();
-            for(BoothLiked boothLiked : boothLikedList){
-                UserLikeDto userLikeDto = UserLikeDto.builder()
-                        .contentName(boothLiked.getBooth().getTitle())
-                        .isLike(boothLiked.isBoothLike())
-                        .build();
-                userLikeDtoList.add(userLikeDto);
-            }
-            return userLikeDtoList;
+//            List<BoothLiked> boothLikedList = (List<BoothLiked>) likeContentList;
+//            List<UserLikeDto> userLikeDtoList = new ArrayList<>();
+//            for(BoothLiked boothLiked : boothLikedList){
+//                UserLikeDto userLikeDto = UserLikeDto.builder()
+//                        .contentName(boothLiked.getBooth().getTitle())
+//                        .isLike(boothLiked.isBoothLike())
+//                        .build();
+//                userLikeDtoList.add(userLikeDto);
+//            }
+//            return userLikeDtoList;
+            return null;
         }else if("festivalProgram".equals(contentType)){
             List<FestivalProgramLiked> festivalProgramLikedlist = (List<FestivalProgramLiked>) likeContentList;
             List<UserLikeDto> userLikeDtoList = new ArrayList<>();
@@ -218,16 +219,17 @@ public class DetermineServiceImpl implements DetermineService{
     public List<UserLikeDto> convertToDtoNoUser(String contentType, Object likeContentList) {
         log.info("userLikeDto 변환");
         if ("booth".equals(contentType)) {
-            List<Booth> boothList = (List<Booth>) likeContentList;
-            List<UserLikeDto> userLikeDtoList = new ArrayList<>();
-            for (Booth booth : boothList) {
-                UserLikeDto userLikeDto = UserLikeDto.builder()
-                        .contentName(booth.getTitle())
-                        .isLike(false)
-                        .build();
-                userLikeDtoList.add(userLikeDto);
-            }
-            return userLikeDtoList;
+//            List<Booth> boothList = (List<Booth>) likeContentList;
+//            List<UserLikeDto> userLikeDtoList = new ArrayList<>();
+//            for (Booth booth : boothList) {
+//                UserLikeDto userLikeDto = UserLikeDto.builder()
+//                        .contentName(booth.getTitle())
+//                        .isLike(false)
+//                        .build();
+//                userLikeDtoList.add(userLikeDto);
+//            }
+//            return userLikeDtoList;
+            return null;
         } else if ("festivalProgram".equals(contentType)) {
             List<FestivalProgram> festivalProgramList = (List<FestivalProgram>) likeContentList;
             List<UserLikeDto> userLikeDtoList = new ArrayList<>();

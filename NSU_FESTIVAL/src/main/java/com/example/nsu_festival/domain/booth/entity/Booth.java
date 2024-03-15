@@ -17,7 +17,9 @@ import java.util.List;
 @Entity
 @Table(name = "booth")
 public class Booth {
-    public void updateCountLike(int countLike){
-        this.countLike = countLike;
-    }
+    @Id
+    private String a;
+//    public void updateCountLike(int countLike){
+//        this.countLike = countLike;
+//    }
 }
