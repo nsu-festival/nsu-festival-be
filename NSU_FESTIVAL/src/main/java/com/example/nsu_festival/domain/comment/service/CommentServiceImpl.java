@@ -39,13 +39,13 @@ public class CommentServiceImpl implements CommentService {
      * 댓글 작성
      */
     @Transactional
-    public boolean writeComment(CommentDto commentDto, CustomOAuth2User customOAuth2User){
+    public boolean writeComment(CommentDto commentDto,Long boothId, CustomOAuth2User customOAuth2User){
         try{
             BadWordFiltering badWordFiltering = new BadWordFiltering();
               String badWord =  badWordFiltering.change(commentDto.getContent());
 
             User user = userRepository.findByEmail(customOAuth2User.getEmail()).get();
-            Booth booth = boothRepository.findById(commentDto.getBoothId()).get();
+            Booth booth = boothRepository.findById(boothId).get();
             Comment comment = Comment.builder()
                             .content(badWord)
                                     .booth(booth)
