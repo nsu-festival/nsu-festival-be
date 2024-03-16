@@ -26,10 +26,11 @@ public class Booth {
     @NonNull
     private String content;
 
-    private Long countLike;
+    private int countLike;
 
     private String area;
 
+    private String boothImageUrl;
     @OneToMany(mappedBy = "booth", fetch = FetchType.LAZY)
     @JsonManagedReference  //순환 참조 문제 해결하기 위한 어노테이션
     private List<Comment> comments = new ArrayList<>();
@@ -42,14 +43,14 @@ public class Booth {
     @JsonManagedReference
     private List<BoothCategory> boothCategories = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booth_image_id")
-    @JsonManagedReference
-    private BoothImage boothImage;
-
     @OneToMany(mappedBy = "booth",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Menu> menus = new ArrayList<>();
+
+    public void setBoothCategories(List<BoothCategory> boothCategories){
+        this.boothCategories=boothCategories;
+    }
+    public void setMenus(List<Menu> menus){this.menus = menus;}
   
     public void updateCountLike(int countLike){
          this.countLike = countLike;

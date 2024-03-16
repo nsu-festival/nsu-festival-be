@@ -47,6 +47,9 @@ dependencies {
 	/* 욕설 필터링 의존성 추가 */
 	implementation 'io.github.vaneproject:badwordfiltering:1.0.0'
 
+	/* S3 의존성 추가 */
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
 }
 
 tasks.named('test') {

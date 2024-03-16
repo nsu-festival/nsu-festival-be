@@ -1,7 +1,6 @@
 package com.example.nsu_festival.domain.booth.dto;
 
 import com.example.nsu_festival.domain.booth.entity.BoothCategory;
-import com.example.nsu_festival.domain.booth.entity.BoothImage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +12,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BoothDto {
+public class AllBoothDto {
     private Long boothId;
     private String title;
     private String area;
     private List<BoothCategory> boothCategories;
-    private BoothImage boothImage;
+    private String boothImageUrl;
 }
