@@ -1,6 +1,6 @@
 package com.example.nsu_festival.global.security.handler;
 
-import com.example.nsu_festival.domain.user.entity.GeneratedToken;
+import com.example.nsu_festival.domain.user.dto.TokenDto;
 import com.example.nsu_festival.global.security.jwt.JwtUtil;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import jakarta.servlet.ServletException;
@@ -35,11 +35,11 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
                 .map(GrantedAuthority::getAuthority)
                 .orElseThrow(IllegalAccessError::new);
         //Access/Refresh Token 생성
-        GeneratedToken generatedToken = jwtUtil.generateToken(email, role);
+        TokenDto tokenDto = jwtUtil.generateToken(email, role);
 
-        //각 토큰을 쿠키에 저장한 후 응답에 담아 넘긴다.
-        response.addCookie(createCookie("AccessToken", generatedToken.getAccessToken()));
-        response.addCookie(createCookie("RefreshToken", generatedToken.getRefreshToken()));
+        //각 토큰을 헤더와 쿠키에 저장한 후 응답에 담아 넘긴다.
+        response.setHeader("Authorization", tokenDto.getAccessToken());
+        response.addCookie(createCookie("RefreshToken", tokenDto.getRefreshToken()));
 
     }
 

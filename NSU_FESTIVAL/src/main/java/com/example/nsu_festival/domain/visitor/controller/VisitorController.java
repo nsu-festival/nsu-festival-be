@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/visit")
+@RequestMapping("/visitors")
 public class VisitorController {
 
     private final VisitorService visitorService;
 
-    @GetMapping("")
-    public void getIp(HttpServletRequest request) {
+    @GetMapping("/address")
+    public ResponseEntity<StatusResponseDto> getIp(HttpServletRequest request) {
         visitorService.savedVisitor(request);
+        return ResponseEntity.ok(StatusResponseDto.success());
     }
 
-    @GetMapping("/count")
+    @GetMapping()
     public ResponseEntity<StatusResponseDto> getCount() {
         VisitorResponseDto countResponse = visitorService.findVisitor();
         return ResponseEntity.ok(StatusResponseDto.success(countResponse));

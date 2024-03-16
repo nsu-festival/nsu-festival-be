@@ -33,6 +33,8 @@ public class BoothLiked {
     private User user;
 
     public void setIsBoothLike(boolean isBoothLike){
+  
+    public void updateBoothLiked(boolean isBoothLike){
         this.isBoothLike = isBoothLike;
     }
 }

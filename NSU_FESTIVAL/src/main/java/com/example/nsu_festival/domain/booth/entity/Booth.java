@@ -5,7 +5,6 @@ import com.example.nsu_festival.domain.likes.entity.BoothLiked;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
 @Entity
 @Table(name = "booth")
 public class Booth {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booth_Id")
@@ -53,4 +51,9 @@ public class Booth {
         this.boothCategories=boothCategories;
     }
     public void setMenus(List<Menu> menus){this.menus = menus;}
+  
+    public void updateCountLike(int countLike){
+         this.countLike = countLike;
+   }
+
 }

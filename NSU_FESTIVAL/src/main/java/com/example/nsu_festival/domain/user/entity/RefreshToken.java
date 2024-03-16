@@ -7,10 +7,12 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Getter
 @Entity
 @NoArgsConstructor
-public class GeneratedToken {
+public class RefreshToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,22 +20,18 @@ public class GeneratedToken {
 
     private String refreshToken;
 
-    private String accessToken;
-
     private String userEmail;
 
-    public GeneratedToken(String refreshToken, String accessToken, String userEmail) {
+    private Date expiration;
+
+    public RefreshToken(String refreshToken, Date expiration, String userEmail) {
         this.refreshToken = refreshToken;
-        this.accessToken = accessToken;
+        this.expiration = expiration;
         this.userEmail = userEmail;
     }
 
-    public void updateAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public void updateRefreshToken(String refreshToken, String accessToken) {
+    public void updateRefreshToken(String refreshToken, Date expiration) {
         this.refreshToken = refreshToken;
-        this.accessToken = accessToken;
+        this.expiration = expiration;
     }
 }
