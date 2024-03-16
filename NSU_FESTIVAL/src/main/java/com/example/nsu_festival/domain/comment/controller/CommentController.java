@@ -26,7 +26,7 @@ public class CommentController {
         if(    commentService.writeComment(commentDto,boothId,customOAuth2User)){
             return ResponseEntity.ok(StatusResponseDto.success(null));
             }
-            return ResponseEntity.ok(StatusResponseDto.addStatus(404));
+            return ResponseEntity.status(404).body(StatusResponseDto.addStatus(404));
 
     }
 
@@ -38,7 +38,7 @@ public class CommentController {
             commentService.updateComment(commentId,commentUpdateDto);
             return ResponseEntity.ok(StatusResponseDto.success(null));
         }
-        return ResponseEntity.ok(StatusResponseDto.addStatus(404));
+        return ResponseEntity.status(403).body(StatusResponseDto.addStatus(403));
     }
 
     /**
@@ -50,7 +50,7 @@ public class CommentController {
             commentService.deleteComment(commentId);
             return ResponseEntity.ok(StatusResponseDto.success(null));
         }
-        return ResponseEntity.ok(StatusResponseDto.addStatus(404));
+        return ResponseEntity.status(403).body(StatusResponseDto.addStatus(403));
     }
 
     /**
@@ -62,7 +62,7 @@ public class CommentController {
            commentService.reportComment(commentId,reportCommentDto);
            return ResponseEntity.ok(StatusResponseDto.success(null));
        }catch (Exception e){
-           return ResponseEntity.ok(StatusResponseDto.addStatus(404));
+           return ResponseEntity.status(404).body(StatusResponseDto.addStatus(404));
        }
        }
 

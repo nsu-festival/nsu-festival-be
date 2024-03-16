@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/booths")
 public class BoothController {
     private final BoothService boothService;
-    private final AmazonS3 s3Client;
+//    private final AmazonS3 s3Client;
 
     @GetMapping("")
     public ResponseEntity<StatusResponseDto> getAllBooths(){
@@ -28,7 +28,7 @@ public class BoothController {
             List<AllBoothDto> booths = boothService.getAllBooths();
             return ResponseEntity.ok(StatusResponseDto.success(booths));
         }catch (Exception e){
-            return ResponseEntity.ok(StatusResponseDto.fail(400));
+            return ResponseEntity.status(400).body(StatusResponseDto.fail(400));
         }
     }
 
@@ -52,7 +52,7 @@ public class BoothController {
 
             return ResponseEntity.ok().body(StatusResponseDto.success(boothDetailDto));
         } catch (Exception e) {
-            return ResponseEntity.ok().body(StatusResponseDto.addStatus(404));
+            return ResponseEntity.status(404).body(StatusResponseDto.addStatus(404));
         }
     }
 
