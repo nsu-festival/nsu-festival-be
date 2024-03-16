@@ -34,9 +34,9 @@ public class TrafficInformationController {
             return ResponseEntity.ok().body(StatusResponseDto.fail("예정된 운행정보가 없습니다."));
         } catch (RuntimeException e){
             log.info("에러 코드(숫자) : {}", e.getMessage());
-            String errMessage = trafficInformationError.errorHandler(e.getMessage());
-            log.info("에러 메시지 : {}", errMessage);
-            return ResponseEntity.ok().body(StatusResponseDto.fail(errMessage));
+            int errCode = trafficInformationError.errorHandler(e.getMessage());
+            log.info("에러 메시지 : {}", errCode);
+            return ResponseEntity.status(errCode).body(StatusResponseDto.addStatus(errCode));
         }
     }
 }
