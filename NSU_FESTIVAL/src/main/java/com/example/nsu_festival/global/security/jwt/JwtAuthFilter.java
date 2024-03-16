@@ -30,11 +30,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        //'token/'이 포함된 uri는 본 클래스 필터를 지나친다.
-        return request.getRequestURI().contains("token/");
-    }
+//    @Override
+//    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+//        //'reissue/'이 포함된 uri는 본 클래스 필터를 지나친다.
+//        return request.getRequestURI().contains("/reissue/access");
+//    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -92,7 +92,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    // 인증 객체 생
+    // 인증 객체 생성
     public Authentication getAuthentication(CustomOAuth2User customOAuth2User) {
         return new UsernamePasswordAuthenticationToken(customOAuth2User, "", customOAuth2User.getAuthorities());
     }
