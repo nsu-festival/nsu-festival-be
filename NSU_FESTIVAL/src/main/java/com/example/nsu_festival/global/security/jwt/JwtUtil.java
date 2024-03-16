@@ -1,7 +1,8 @@
 package com.example.nsu_festival.global.security.jwt;
 
-import com.example.nsu_festival.domain.user.entity.GeneratedToken;
-import com.example.nsu_festival.domain.user.repository.GeneratedTokenRepository;
+import com.example.nsu_festival.domain.user.dto.TokenDto;
+import com.example.nsu_festival.domain.user.entity.RefreshToken;
+import com.example.nsu_festival.domain.user.repository.RefreshTokenRepository;
 import com.example.nsu_festival.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -25,28 +26,28 @@ public class JwtUtil {
 
     private SecretKey secretKey;
     private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 30L;      // 만료일 30분
-    private final Long REFRESH_TOKEN_EXPIRE_LENGTH =  1000L * 60L * 60L * 24L;       // 만료일 24시간
+    private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60L ;//* 60L * 10L;       // 만료일 10시간
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private GeneratedTokenRepository generatedTokenRepository;
+    private RefreshTokenRepository refreshTokenRepository;
 
     private JwtUtil(@Value("${spring.jwt.secret}") String secret) {
         // secret 키를 UTF8로 인코딩하고, HS256 암호화 설정
         secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
-    public GeneratedToken generateToken(String email, String role) {
+    public TokenDto generateToken(String email, String role) {
         // RefreshToken 발급
         String refreshToken = generateRefreshToken(email, role);
         // AccessToken 발급
         String accessToken = generateAccessToken(email, role);
+        log.info("-------Refresh 토큰 저장 시작...-------");
+        Date expiration = new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRE_LENGTH);
+        refreshTokenRepository.save(new RefreshToken(refreshToken, expiration, email));
+        log.info("-------Refresh 토큰 저장 완료...-------");
 
-        log.info("-------토큰 저장 시작...-------");
-        GeneratedToken generatedToken = generatedTokenRepository.save(new GeneratedToken(refreshToken, accessToken, email));
-        log.info("-------토큰 저장 완료...-------");
-
-        return generatedToken;
+        return new TokenDto(refreshToken, accessToken, email);
     }
 
     public String generateAccessToken(String email, String role) {
@@ -97,11 +98,13 @@ public class JwtUtil {
 
     // 토큰 만료 시간 검증 메서드
     public boolean verifyToken(String token) {
-        log.info("=====토큰 검증 실패...=====");
-        Jws<Claims> claims = Jwts.parser().verifyWith(secretKey).build()
-                .parseSignedClaims(token);
-        return claims.getPayload().getExpiration().after(new Date());
-
+        try {
+            Jws<Claims> claims = Jwts.parser().verifyWith(secretKey).build()
+                    .parseSignedClaims(token);
+            return claims.getPayload().getExpiration().after(new Date());
+        } catch (ExpiredJwtException e) {
+            return false;
+        }
     }
 
     //RefreshToken 검증
@@ -112,7 +115,7 @@ public class JwtUtil {
         }
 
         //유저 정보가 일치하는 DB 토큰 찾기
-        Optional<GeneratedToken> findTokens = generatedTokenRepository.findByUserEmail(getEmail(token));
+        Optional<RefreshToken> findTokens = refreshTokenRepository.findByUserEmail(getEmail(token));
 
         //해당 유저의 토큰이 DB에 저장되어 있고, 요청한 RefreshToken과 DB RefreshToken이 일치하는지 검증
         return findTokens.isPresent() && token.equals(findTokens.get().getRefreshToken());
