@@ -43,7 +43,7 @@ public class AuthController {
                                                      HttpServletResponse response) {
         try {
             if (refreshToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(StatusResponseDto.addStatus(401));
             }
             TokenDto newAccess = tokenService.reissueAccessToken(refreshToken);
             response.setHeader("Authorization", newAccess.getAccessToken());
