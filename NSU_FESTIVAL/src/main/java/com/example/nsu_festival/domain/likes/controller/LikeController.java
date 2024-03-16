@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,9 +22,10 @@ import java.util.concurrent.RunnableScheduledFuture;
 @Controller
 @Slf4j
 @AllArgsConstructor
+@RequestMapping("likes/{contentType}")
 public class LikeController {
     private final DetermineServiceImpl determineService;
-    @GetMapping("/likes/{contentType}/days/{dDay}")
+    @GetMapping("/days/{dDay}")
     ResponseEntity<StatusResponseDto> determineLikeContents(@PathVariable ContentType contentType, @PathVariable LocalDate dDay, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         try{
             if(customOAuth2User == null){
@@ -42,7 +44,7 @@ public class LikeController {
             return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         }
     }
-    @PostMapping("/likes/{contentType}/{contentId}")
+    @PostMapping("/{contentId}")
     ResponseEntity<StatusResponseDto> likeContents(@PathVariable ContentType contentType, @PathVariable Long contentId){
         try{
             if(determineService.determineContents(contentType, contentId)){

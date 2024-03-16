@@ -62,7 +62,7 @@ public class SecurityConfig {
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) ->auth
-                        .requestMatchers("/login/**", "/", "/token/**", "/trafficinformations").permitAll()
+                        .requestMatchers("/login/**", "/", "/token/**", "/trafficinformations", "/likes/{contentType}/days/{day}").permitAll()
                         .anyRequest().authenticated());
 
         http
