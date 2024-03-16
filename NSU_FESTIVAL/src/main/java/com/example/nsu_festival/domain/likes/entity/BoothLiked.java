@@ -3,7 +3,6 @@ package com.example.nsu_festival.domain.likes.entity;
 import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,4 +31,8 @@ public class BoothLiked {
     @JsonBackReference  // 순환참조를 막기 위한 어노테이션,자식클래스
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
+
+    public void setIsBoothLike(boolean isBoothLike){
+        this.isBoothLike = isBoothLike;
+    }
 }
