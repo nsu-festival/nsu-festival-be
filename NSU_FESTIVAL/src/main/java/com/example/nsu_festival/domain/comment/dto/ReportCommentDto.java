@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentDto {
-    private Long boothId;
-    private String content;
+public class ReportCommentDto {
+    private String reportReason;
+
 }
