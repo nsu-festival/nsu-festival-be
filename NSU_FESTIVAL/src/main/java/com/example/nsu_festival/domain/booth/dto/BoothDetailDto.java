@@ -1,7 +1,6 @@
 package com.example.nsu_festival.domain.booth.dto;
 
 import com.example.nsu_festival.domain.booth.entity.BoothCategory;
-import com.example.nsu_festival.domain.booth.entity.BoothImage;
 import com.example.nsu_festival.domain.booth.entity.Menu;
 import com.example.nsu_festival.domain.comment.entity.Comment;
 import com.example.nsu_festival.domain.likes.entity.BoothLiked;
@@ -23,7 +22,7 @@ public class BoothDetailDto {
     private Long countLike;
     private String area;
     private List<BoothCategory> boothCategories;
-    private BoothImage boothImage;
+    private String boothImageUrl;
 
     private List<BoothCommentDto> comments;
     private BoothLiked boothLiked;

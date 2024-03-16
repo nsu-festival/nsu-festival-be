@@ -16,20 +16,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@RequestMapping("/booths")
 public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("booth/comment")
-    public ResponseEntity<StatusResponseDto> boothWriteComment(@RequestBody CommentDto commentDto, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
-        if(    commentService.writeComment(commentDto,customOAuth2User)){
+    @PostMapping("/{boothId}/comment/posts")
+    public ResponseEntity<StatusResponseDto> boothWriteComment(@RequestBody CommentDto commentDto, @PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+        if(    commentService.writeComment(commentDto,boothId,customOAuth2User)){
             return ResponseEntity.ok(StatusResponseDto.success(null));
             }
             return ResponseEntity.ok(StatusResponseDto.addStatus(404));
 
     }
 
-    @PutMapping("/comments/{commentId}")
+    @PutMapping("/{boothId}/comment/{commentId}")
     public ResponseEntity<StatusResponseDto> updateComment( @PathVariable Long commentId, @RequestBody CommentUpdateDto commentUpdateDto
     ,@AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
         commentService.updateComment(commentId,commentUpdateDto);
@@ -43,7 +44,7 @@ public class CommentController {
     /**
      * 댓글 삭제
      */
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/{boothId}/comment/{commentId}")
     public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         if(commentService.commentMatchUser(commentId,customOAuth2User)){
             commentService.deleteComment(commentId);
@@ -55,7 +56,7 @@ public class CommentController {
     /**
      * 댓글 신고
      */
-        @PostMapping("report/comment/{commentId}")
+        @PostMapping("/boothId/comment/{commentId}/report")
     public ResponseEntity<StatusResponseDto> reportComment(@PathVariable Long commentId, @RequestBody ReportCommentDto reportCommentDto){
        try{
            commentService.reportComment(commentId,reportCommentDto);

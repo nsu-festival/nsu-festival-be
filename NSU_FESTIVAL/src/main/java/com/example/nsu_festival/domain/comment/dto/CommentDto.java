@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class CommentDto {
-    private Long boothId;
     private String content;
 }
