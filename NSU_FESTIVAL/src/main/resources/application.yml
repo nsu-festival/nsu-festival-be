@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/festival
     username: root
-    password: sky0421!
+    password: 3624
 
   jpa:
     database: mysql

@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @AllArgsConstructor
 public class TrafficInformationError {
-    public String errorHandler(String errCode){
+    public int errorHandler(String errCode){
         int code = Integer.parseInt(errCode);
         if(code < 300){
-            return "인증키 오류";
+            return 500;
         }else if(code >= 300 && code <= 335) {
-            return "요청값 오류";
+            return 400;
         } else{
-            return "서버 오류";
+            return 500;
         }
     }
 }

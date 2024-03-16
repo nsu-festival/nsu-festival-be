@@ -32,4 +32,8 @@ public class BoothLiked {
     @JsonBackReference  // 순환참조를 막기 위한 어노테이션,자식클래스
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
+  
+    public void updateBoothLiked(boolean isBoothLike){
+        this.isBoothLike = isBoothLike;
+    }
 }
