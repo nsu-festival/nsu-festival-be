@@ -1,6 +1,7 @@
 package com.example.nsu_festival.domain.likes.controller;
 
 import com.example.nsu_festival.domain.likes.dto.UserLikeDto;
+import com.example.nsu_festival.domain.likes.entity.ContentType;
 import com.example.nsu_festival.domain.likes.service.DetermineServiceImpl;
 import com.example.nsu_festival.global.etc.StatusResponseDto;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.RunnableScheduledFuture;
 
@@ -21,36 +23,34 @@ import java.util.concurrent.RunnableScheduledFuture;
 @AllArgsConstructor
 public class LikeController {
     private final DetermineServiceImpl determineService;
-    @GetMapping("/likes/{contentType}/days/{day}")
-    ResponseEntity<StatusResponseDto> determineLikeContents(@PathVariable String contentType, @PathVariable int day,@AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+    @GetMapping("/likes/{contentType}/days/{dDay}")
+    ResponseEntity<StatusResponseDto> determineLikeContents(@PathVariable ContentType contentType, @PathVariable LocalDate dDay, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         try{
+            if(customOAuth2User == null){
+                List<UserLikeDto> userLikeDtoList = determineService.findNoUserLike(contentType, dDay);
+                return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
+            }
             if(determineService.determineUser(contentType, customOAuth2User)){
-                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, day);
+                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, dDay);
                 return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
             }else{
                 determineService.createUserLike(contentType, customOAuth2User);
-                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, day);
+                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, dDay);
                 return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
             }
-        } catch (NullPointerException e) {
-            List<UserLikeDto> userLikeDtoList = determineService.findNoUserLike(contentType);
-            return ResponseEntity.status(401).body(StatusResponseDto.fail(userLikeDtoList));
         } catch (RuntimeException e){
-            return ResponseEntity.status(400).body(StatusResponseDto.fail(e.getMessage()));
+            return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         }
     }
-//    @GetMapping("/likes/no-access/{contentType}/days/{day}")
-//    ResponseEntity<StatusResponseDto>
     @PostMapping("/likes/{contentType}/{contentId}")
-    ResponseEntity<StatusResponseDto> likeContents(@PathVariable String contentType, @PathVariable Long contentId){
+    ResponseEntity<StatusResponseDto> likeContents(@PathVariable ContentType contentType, @PathVariable Long contentId){
         try{
             if(determineService.determineContents(contentType, contentId)){
                 return ResponseEntity.ok().body(StatusResponseDto.success());
             }
-            return ResponseEntity.status(500).body(StatusResponseDto.fail(500));
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }catch (RuntimeException e){
-            log.info(e.getMessage());
-            return ResponseEntity.status(400).body(StatusResponseDto.fail(400));
+            return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         }
     }
 }

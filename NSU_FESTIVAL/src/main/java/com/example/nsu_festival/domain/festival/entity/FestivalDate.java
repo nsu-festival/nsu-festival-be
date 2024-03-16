@@ -18,6 +18,7 @@ public class FestivalDate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long festivalDateId;            // 행사날짜 id
 
+    @Column(unique = true, name = "dDay")
     private LocalDate dDay;                 // 행사 날짜
 
     @OneToMany(mappedBy = "festivalDate")

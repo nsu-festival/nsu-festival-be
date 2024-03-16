@@ -8,14 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BoothLikedRepository extends JpaRepository<BoothLiked, Long> {
-//    @Query("select fpl from BoothLiked fpl where fpl.booth.boothId = :contentId")
-//    BoothLiked findBoothLikedByContentId(Long contentId);
-//
-//    @Query("select count(*) from BoothLiked where booth.boothId = :festivalProgramId and isBoothLike = true")
-//    int countBoothLike(Long boothId);
-//
-//    @Query("select fql from BoothLiked fql where fql.user.id = :userId")
-//    List<BoothLiked> findBoothLikeListByUserId(Long userId);
-//
-//    boolean existsByUserId(Long userId);
+    @Query("select fpl from BoothLiked fpl where fpl.booth.boothId = :contentId")
+    BoothLiked findBoothLikedByContentId(Long contentId);
+
+    @Query("select count(*) from BoothLiked where booth.boothId = :festivalProgramId and isBoothLike = true")
+    int countBoothLike(Long boothId);
 }
