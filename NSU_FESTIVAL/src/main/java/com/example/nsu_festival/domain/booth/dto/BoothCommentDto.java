@@ -1,4 +1,4 @@
-package com.example.nsu_festival.domain.comment.dto;
+package com.example.nsu_festival.domain.booth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentDto {
-    private Long boothId;
+public class BoothCommentDto {
+    private Long commentId;
     private String content;
+    private String userName;
 }

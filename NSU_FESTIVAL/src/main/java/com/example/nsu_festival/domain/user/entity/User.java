@@ -1,12 +1,17 @@
 package com.example.nsu_festival.domain.user.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.nsu_festival.domain.booth.entity.BoothCategory;
+import com.example.nsu_festival.domain.comment.entity.Comment;
+import com.example.nsu_festival.domain.comment.entity.Report;
+import com.example.nsu_festival.domain.likes.entity.BoothLiked;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -40,4 +45,17 @@ public class User {
         this.nickName = nickName;
         this.email = email;
     }
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<BoothLiked> boothLiked = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<Report> reports = new ArrayList<>();
+
 }
