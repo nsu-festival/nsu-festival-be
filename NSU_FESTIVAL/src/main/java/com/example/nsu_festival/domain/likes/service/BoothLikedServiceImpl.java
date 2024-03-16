@@ -80,7 +80,7 @@ public class BoothLikedServiceImpl implements LikedService{
         log.info("=== 좋아요 개수 업데이트 ===");
         booth.updateCountLike(count);
 
-         좋아요 개수 업데이트 후 저장
+        //좋아요 개수 업데이트 후 저장
         boothRepository.save(booth);
     }
 }

@@ -26,7 +26,7 @@ public class Booth {
     @NonNull
     private String content;
 
-    private Long countLike;
+    private int countLike;
 
     private String area;
 
