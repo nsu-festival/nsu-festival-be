@@ -5,6 +5,7 @@ import com.example.nsu_festival.domain.user.entity.RefreshToken;
 import com.example.nsu_festival.domain.user.repository.RefreshTokenRepository;
 import com.example.nsu_festival.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class JwtUtil {
 
     private SecretKey secretKey;
     private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 30L;      // 만료일 30분
-    private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 60L * 10L;       // 만료일 10시간
+    private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60L ;//* 60L * 10L;       // 만료일 10시간
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -97,11 +98,13 @@ public class JwtUtil {
 
     // 토큰 만료 시간 검증 메서드
     public boolean verifyToken(String token) {
-        log.info("=====토큰 검증 실패...=====");
-        Jws<Claims> claims = Jwts.parser().verifyWith(secretKey).build()
-                .parseSignedClaims(token);
-        return claims.getPayload().getExpiration().after(new Date());
-
+        try {
+            Jws<Claims> claims = Jwts.parser().verifyWith(secretKey).build()
+                    .parseSignedClaims(token);
+            return claims.getPayload().getExpiration().after(new Date());
+        } catch (ExpiredJwtException e) {
+            return false;
+        }
     }
 
     //RefreshToken 검증
