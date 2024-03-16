@@ -15,7 +15,7 @@ public class RefreshTokenCleanup {
     private RefreshTokenRepository refreshTokenRepository;
 
     //12시간마다 스케줄링
-    @Scheduled(fixedRate = 1000L * 60L * 12L)
+    @Scheduled(fixedRate = 1000L * 60L * 24L * 12L)
     @Transactional
     public void deleteExpiredTokens() {
         log.info("만료된 RefreshToken 삭제 시작..");
