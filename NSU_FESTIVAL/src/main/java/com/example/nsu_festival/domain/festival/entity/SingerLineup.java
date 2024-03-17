@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalTime;
 
@@ -19,8 +20,10 @@ public class SingerLineup {
 
     private String singer;                  // 가수 이름
 
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startTime;            // 프로그램 시작시간
 
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endTime;              // 프로그램 종료시간
 
     private int countLike;                  // 좋아요 개수
