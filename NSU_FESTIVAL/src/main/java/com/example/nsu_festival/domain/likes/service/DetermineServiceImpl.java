@@ -83,9 +83,10 @@ public class DetermineServiceImpl implements DetermineService{
         log.info("해당하는 좋아요 메서드 호출");
         switch (contentType) {
             case booth:
-//                BoothLiked boothLiked = boothLikedRepository.findBoothLikedByContentId(contentId);
-//                return boothLikedService.toggleLikeContents(boothLiked);
-                break;
+                Booth booth = boothRepository.findById(contentId)
+                        .orElseThrow(() -> new RuntimeException("존재하지 않는 부스"));
+                BoothLiked boothLiked = boothLikedRepository.findByBooth(booth);
+                return boothLikedService.toggleLikeContents(boothLiked);
             case festivalProgram:
                 FestivalProgramLiked festivalProgramLiked = festivalProgramLikedRepository.findFestivalProgramLikedByContentId(contentId);
                 return festivalProgramLikedService.toggleLikeContents(festivalProgramLiked);
@@ -95,7 +96,6 @@ public class DetermineServiceImpl implements DetermineService{
             default:
                 throw new RuntimeException("존재하지 않는 컨텐츠");
         }
-        return false;
     }
 
     /**

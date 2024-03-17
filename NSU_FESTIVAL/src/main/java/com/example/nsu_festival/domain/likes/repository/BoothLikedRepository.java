@@ -10,6 +10,8 @@ public interface BoothLikedRepository extends JpaRepository<BoothLiked,Long> {
     BoothLiked findBoothLikedByUser(User user);
     BoothLiked findBoothLikedByBoothAndUser(Booth booth, User user);
     
-    @Query("select count(*) from BoothLiked where booth.boothId = :festivalProgramId and isBoothLike = true")
+    @Query("select count(*) from BoothLiked where booth.boothId = :boothId and isBoothLike = true")
     int countBoothLike(Long boothId);
+
+    BoothLiked findByBooth(Booth booth);
 }
