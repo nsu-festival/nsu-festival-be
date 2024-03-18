@@ -1,7 +1,6 @@
 package com.example.nsu_festival.domain.festival.controller;
 
 import com.example.nsu_festival.domain.festival.dto.FestivalProgramResponseDto;
-import com.example.nsu_festival.domain.festival.entity.FestivalProgram;
 import com.example.nsu_festival.domain.festival.service.FestivalProgramService;
 import com.example.nsu_festival.global.etc.StatusResponseDto;
 import lombok.AllArgsConstructor;

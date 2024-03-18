@@ -2,6 +2,7 @@ package com.example.nsu_festival.domain.likes.service;
 
 import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.booth.repository.BoothRepository;
+import com.example.nsu_festival.domain.festival.entity.DDay;
 import com.example.nsu_festival.domain.festival.entity.FestivalDate;
 import com.example.nsu_festival.domain.festival.entity.FestivalProgram;
 import com.example.nsu_festival.domain.festival.entity.SingerLineup;
@@ -151,6 +152,7 @@ public class DetermineServiceImpl implements DetermineService{
                 throw new RuntimeException("존재하지 않는 컨텐츠");
         }
     }
+
     /**
      *  현재 사용자의 정보가 해당하는
      *  좋아요 테이블에 없다면 기본 레코드 생성 메서드 호출
@@ -238,6 +240,19 @@ public class DetermineServiceImpl implements DetermineService{
                 return userLikeDtoList;
             default:
                 throw new RuntimeException("존재하지 않는 컨텐츠");
+        }
+    }
+
+    /**
+     *  클라이언트에서 요청한 날짜가
+     *  올바른지 판별하는 메서드
+     */
+    @Override
+    public boolean isCorrectDate(LocalDate dDay) {
+        if(DDay.FIRST_DATE.getDate().equals(String.valueOf(dDay)) || DDay.SECOND_DATE.getDate().equals(String.valueOf(dDay)) || DDay.LAST_DATE.getDate().equals(String.valueOf(dDay))){
+            return true;
+        } else{
+            return false;
         }
     }
 }

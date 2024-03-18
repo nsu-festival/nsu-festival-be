@@ -19,4 +19,6 @@ public interface DetermineService {
     List<UserLikeDto> convertToDto(ContentType contentType, Object likeContentList);
 
     List<UserLikeDto> findNoUserLike(ContentType contentType, LocalDate dDay);
+
+    boolean isCorrectDate(LocalDate dDay);
 }

@@ -55,7 +55,7 @@ public class FestivalProgramServiceImpl implements FestivalProgramService{
     }
 
     /**
-     *  클라이언트에서 요청할 날짜가
+     *  클라이언트에서 요청한 날짜가
      *  올바른지 판별하는 메서드
      */
     @Override

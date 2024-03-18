@@ -56,6 +56,10 @@ public class SingerLineupServiceImpl implements SingerLineupService{
         return singerLineupResponseDtoList;
     }
 
+    /**
+     *  클라이언트에서 요청한 날짜가
+     *  올바른지 판별하는 메서드
+     */
     @Override
     public boolean isCorrectDate(LocalDate dDay) {
         if(DDay.FIRST_DATE.getDate().equals(String.valueOf(dDay)) || DDay.SECOND_DATE.getDate().equals(String.valueOf(dDay)) || DDay.LAST_DATE.getDate().equals(String.valueOf(dDay))){
