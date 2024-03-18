@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 @Service
@@ -59,11 +58,12 @@ public class FestivalProgramServiceImpl implements FestivalProgramService{
      *  올바른지 판별하는 메서드
      */
     @Override
-    public boolean isCorrectDate(LocalDate dDay){
-        if(DDay.FIRST_DATE.getDate().equals(String.valueOf(dDay)) || DDay.SECOND_DATE.getDate().equals(String.valueOf(dDay)) || DDay.LAST_DATE.getDate().equals(String.valueOf(dDay))){
-            return true;
-        } else{
-            return false;
+    public boolean isCorrectDate(LocalDate dDay) {
+        for (DDay day : DDay.values()) {
+            if (day.getDate().equals(String.valueOf(dDay))) {
+                return true;
+            }
         }
+        return false;
     }
 }

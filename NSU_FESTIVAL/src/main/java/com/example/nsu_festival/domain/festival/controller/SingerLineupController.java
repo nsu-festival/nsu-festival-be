@@ -27,7 +27,6 @@ public class SingerLineupController {
                 List<SingerLineupResponseDto> singerLineupResponseDtoList = singerLineupService.findSingerLineupList(dDay);
                 return ResponseEntity.ok().body(StatusResponseDto.success(singerLineupResponseDtoList));
             }
-            log.info("올바르지 않은 날짜 형식");
             return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         } catch (RuntimeException e){
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));

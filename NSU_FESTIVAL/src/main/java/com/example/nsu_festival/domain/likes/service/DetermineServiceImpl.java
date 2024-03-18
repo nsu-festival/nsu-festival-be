@@ -249,10 +249,11 @@ public class DetermineServiceImpl implements DetermineService{
      */
     @Override
     public boolean isCorrectDate(LocalDate dDay) {
-        if(DDay.FIRST_DATE.getDate().equals(String.valueOf(dDay)) || DDay.SECOND_DATE.getDate().equals(String.valueOf(dDay)) || DDay.LAST_DATE.getDate().equals(String.valueOf(dDay))){
-            return true;
-        } else{
-            return false;
+        for (DDay day : DDay.values()) {
+            if (day.getDate().equals(String.valueOf(dDay))) {
+                return true;
+            }
         }
+        return false;
     }
 }
