@@ -1,7 +1,7 @@
 package com.example.nsu_festival.domain.trafficinformation.service;
 
 import com.example.nsu_festival.domain.trafficinformation.ApiProperties;
-import com.example.nsu_festival.domain.trafficinformation.dto.TrafficInformationDto;
+import com.example.nsu_festival.domain.trafficinformation.dto.TrafficInformationResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ public class TrafficInformationService {
     /**
      *  실시간 지하철 정보 리스트 반환 메서드
      */
-    public List<TrafficInformationDto> findTrafficInformation() {
+    public List<TrafficInformationResponseDto> findTrafficInformation() {
         RestTemplate restTemplate = new RestTemplate();
         String apiKey = apiProperties.getKey();
         String api = "http://swopenapi.seoul.go.kr/api/subway/"+apiKey+"/json/realtimeStationArrival/0/5/성환";
@@ -57,8 +57,8 @@ public class TrafficInformationService {
                 throw new NoSuchElementException();
             }
 
-            List<TrafficInformationDto> trafficInformationDtoList = convertToDto(realtimeArrivalList);
-            return trafficInformationDtoList;
+            List<TrafficInformationResponseDto> trafficInformationResponseDtoList = convertToDto(realtimeArrivalList);
+            return trafficInformationResponseDtoList;
         } catch (JsonProcessingException e) {
             log.error("JSON Processing Error: {}", e.getMessage());
             throw new RuntimeException(e);
@@ -69,8 +69,8 @@ public class TrafficInformationService {
      *
      * 프론트에게 전달할 Dto 변환 메서드
      */
-    private List<TrafficInformationDto> convertToDto(JsonNode realtimeArrivalList) {
-        List<TrafficInformationDto> trafficInformationDtoList = new ArrayList<>();
+    private List<TrafficInformationResponseDto> convertToDto(JsonNode realtimeArrivalList) {
+        List<TrafficInformationResponseDto> trafficInformationResponseDtoList = new ArrayList<>();
         for (JsonNode arrivalNode : realtimeArrivalList) {
             String updnLine = arrivalNode.get("updnLine").asText();     //상하행 여부
             String ordKey = arrivalNode.get("ordkey").asText();         //열차운행 정보 코드, 급행인지 아닌지 판단하기 위함
@@ -85,13 +85,13 @@ public class TrafficInformationService {
                 arvlMsg2 = arvlMsg2 + "(급)";
             }
 
-            TrafficInformationDto trafficInformationDto = TrafficInformationDto.builder()
+            TrafficInformationResponseDto trafficInformationResponseDto = TrafficInformationResponseDto.builder()
                     .updnLine(updnLine)
                     .arrivalLocation(arvlMsg3)
                     .arrivalTime(arvlMsg2)
                     .build();
-            trafficInformationDtoList.add(trafficInformationDto);
+            trafficInformationResponseDtoList.add(trafficInformationResponseDto);
         }
-        return trafficInformationDtoList;
+        return trafficInformationResponseDtoList;
     }
 }

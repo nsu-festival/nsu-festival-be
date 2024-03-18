@@ -114,7 +114,7 @@ public class BoothServiceImpl implements BoothService{
             } else {
                 // 로그인되어 있지 않은 경우
                 boothLiked = new BoothLiked();
-                boothLiked.setIsBoothLike(false);
+                boothLiked.updateBoothLiked(false);
             }
 
             List<Comment> comments = commentRepository.findAllCommentByBooth(booth);

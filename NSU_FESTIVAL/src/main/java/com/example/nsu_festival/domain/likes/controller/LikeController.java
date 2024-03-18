@@ -28,18 +28,21 @@ public class LikeController {
     @GetMapping("/days/{dDay}")
     ResponseEntity<StatusResponseDto> determineLikeContents(@PathVariable ContentType contentType, @PathVariable LocalDate dDay, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         try{
-            if(customOAuth2User == null){
-                List<UserLikeDto> userLikeDtoList = determineService.findNoUserLike(contentType, dDay);
-                return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
+            if(determineService.isCorrectDate(dDay)){
+                if(customOAuth2User == null){
+                    List<UserLikeDto> userLikeDtoList = determineService.findNoUserLike(contentType, dDay);
+                    return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
+                }
+                if(determineService.determineUser(contentType, customOAuth2User)){
+                    List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, dDay);
+                    return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
+                }else{
+                    determineService.createUserLike(contentType, customOAuth2User);
+                    List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, dDay);
+                    return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
+                }
             }
-            if(determineService.determineUser(contentType, customOAuth2User)){
-                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, dDay);
-                return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
-            }else{
-                determineService.createUserLike(contentType, customOAuth2User);
-                List<UserLikeDto> userLikeDtoList = determineService.findUserLike(contentType, customOAuth2User, dDay);
-                return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDtoList));
-            }
+            return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         } catch (RuntimeException e){
             return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         }
