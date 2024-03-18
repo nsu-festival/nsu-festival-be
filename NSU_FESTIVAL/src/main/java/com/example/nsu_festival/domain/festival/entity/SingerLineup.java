@@ -1,5 +1,6 @@
 package com.example.nsu_festival.domain.festival.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,10 +21,10 @@ public class SingerLineup {
 
     private String singer;                  // 가수 이름
 
-    @DateTimeFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;            // 프로그램 시작시간
 
-    @DateTimeFormat(pattern = "HH:mm")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime endTime;              // 프로그램 종료시간
 
     private int countLike;                  // 좋아요 개수
