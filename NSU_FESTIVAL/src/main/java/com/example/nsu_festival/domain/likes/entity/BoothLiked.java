@@ -32,8 +32,7 @@ public class BoothLiked {
     @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
-    public void setIsBoothLike(boolean isBoothLike){
-  
+
     public void updateBoothLiked(boolean isBoothLike){
         this.isBoothLike = isBoothLike;
     }
