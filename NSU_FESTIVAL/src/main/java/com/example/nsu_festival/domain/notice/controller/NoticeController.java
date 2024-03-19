@@ -39,7 +39,7 @@ public class NoticeController {
             noticeService.writeNotice(noticeRequestDto, customOAuth2User);
             return ResponseEntity.ok().body(StatusResponseDto.success());
         }catch (HttpClientErrorException e){
-            return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
+            return ResponseEntity.status(e.getStatusCode()).body(StatusResponseDto.addStatus(401));
         }catch (RuntimeException e){
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
@@ -51,14 +51,21 @@ public class NoticeController {
             noticeService.updateNotice(noticeId, noticeRequestDto, customOAuth2User);
             return ResponseEntity.ok().body(StatusResponseDto.success());
         }catch (HttpClientErrorException e){
-            return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
+            return ResponseEntity.status(e.getStatusCode()).body(StatusResponseDto.addStatus(401));
         }catch (RuntimeException e){
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }
 
     @DeleteMapping("/{noticeId}")
-    public ResponseEntity<StatusResponseDto> deleteNotice(@PathVariable Long noticeId){
-        return ResponseEntity.ok().body(StatusResponseDto.success());
+    public ResponseEntity<StatusResponseDto> deleteNotice(@PathVariable Long noticeId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+        try{
+            noticeService.deleteNotice(noticeId, customOAuth2User);
+            return ResponseEntity.ok().body(StatusResponseDto.success());
+        } catch (HttpClientErrorException e){
+            return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
+        } catch (RuntimeException e){
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
+        }
     }
 }

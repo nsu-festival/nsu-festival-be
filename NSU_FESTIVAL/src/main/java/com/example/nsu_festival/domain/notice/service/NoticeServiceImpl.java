@@ -57,6 +57,22 @@ public class NoticeServiceImpl implements NoticeService{
         }
     }
 
+    @Override
+    public void deleteNotice(Long noticeId, CustomOAuth2User customOAuth2User){
+        try{
+            if (customOAuth2User != null && isAdmin(customOAuth2User)) {
+                noticeRepository.deleteById(noticeId);
+            }else{
+                throw new HttpClientErrorException(HttpStatusCode.valueOf(401));
+            }
+        }catch (HttpClientErrorException e){
+            throw new HttpClientErrorException(HttpStatusCode.valueOf(401));
+        }catch (RuntimeException e){
+            throw new RuntimeException();
+        }
+
+    }
+
     /**
      * 관리자인지 판별하는 메서드
      */

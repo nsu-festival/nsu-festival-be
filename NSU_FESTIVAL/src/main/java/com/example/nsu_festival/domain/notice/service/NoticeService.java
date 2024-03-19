@@ -8,4 +8,6 @@ public interface NoticeService {
     void writeNotice(NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User);
 
     void updateNotice(Long noticeId, NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User);
+
+    void deleteNotice(Long noticeId, CustomOAuth2User customOAuth2User);
 }
