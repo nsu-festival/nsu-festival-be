@@ -46,8 +46,15 @@ public class NoticeController {
     }
 
     @PutMapping("/{noticeId}")
-    public ResponseEntity<StatusResponseDto> updateNotice(@PathVariable Long noticeId, @RequestBody NoticeRequestDto noticeRequestDto){
-        return ResponseEntity.ok().body(StatusResponseDto.success());
+    public ResponseEntity<StatusResponseDto> updateNotice(@PathVariable Long noticeId, @Valid @RequestBody NoticeRequestDto noticeRequestDto, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+        try{
+            noticeService.updateNotice(noticeId, noticeRequestDto, customOAuth2User);
+            return ResponseEntity.ok().body(StatusResponseDto.success());
+        }catch (HttpClientErrorException e){
+            return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
+        }catch (RuntimeException e){
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
+        }
     }
 
     @DeleteMapping("/{noticeId}")

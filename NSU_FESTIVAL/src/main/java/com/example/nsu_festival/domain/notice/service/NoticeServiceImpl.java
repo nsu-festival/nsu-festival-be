@@ -42,6 +42,22 @@ public class NoticeServiceImpl implements NoticeService{
     }
 
     /**
+     *  공지사항
+     */
+    @Override
+    public void updateNotice(Long noticeId, NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User) {
+        if (customOAuth2User != null && isAdmin(customOAuth2User)) {
+            String email = customOAuth2User.getEmail();
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+            Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("Notice not found with noticeId: " + noticeId));;
+            notice.updateNotice(noticeRequestDto, LocalDateTime.now(), user);
+            noticeRepository.save(notice);
+        } else {
+            throw new HttpClientErrorException(HttpStatusCode.valueOf(401));
+        }
+    }
+
+    /**
      * 관리자인지 판별하는 메서드
      */
     private boolean isAdmin(CustomOAuth2User customOAuth2User){

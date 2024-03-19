@@ -6,4 +6,6 @@ import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 public interface NoticeService {
 
     void writeNotice(NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User);
+
+    void updateNotice(Long noticeId, NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User);
 }
