@@ -50,6 +50,8 @@ dependencies {
 	/* S3 의존성 추가 */
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+	/*Valid annotation 사용을위한 의존성 추가*/
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
