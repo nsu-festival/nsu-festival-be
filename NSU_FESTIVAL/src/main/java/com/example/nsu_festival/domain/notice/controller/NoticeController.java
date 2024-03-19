@@ -1,4 +1,54 @@
 package com.example.nsu_festival.domain.notice.controller;
 
+import com.example.nsu_festival.domain.notice.dto.NoticeRequestDto;
+import com.example.nsu_festival.domain.notice.exception.ValidExceptionHandler;
+import com.example.nsu_festival.global.etc.StatusResponseDto;
+import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+
+@Controller
+@AllArgsConstructor
+@Slf4j
+@RequestMapping("/notices")
 public class NoticeController {
+    @GetMapping("")
+    public ResponseEntity<StatusResponseDto> findAllNoticeList(){
+        return ResponseEntity.ok().body(StatusResponseDto.success());
+    }
+
+    @GetMapping("/{noticeId}")
+    public ResponseEntity<StatusResponseDto> findNoticeDetail(@PathVariable Long noticeId){
+        return ResponseEntity.ok().body(StatusResponseDto.success());
+    }
+
+    /**
+     *  공지사항 작성
+     */
+    @PostMapping("/posts")
+    public ResponseEntity<StatusResponseDto> writeNotice(@Valid @RequestBody NoticeRequestDto noticeRequestDto, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+        try{
+            String email = customOAuth2User.getEmail();
+
+            return ResponseEntity.ok().body(StatusResponseDto.success());
+        }catch (RuntimeException e){
+            return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
+        }
+    }
+
+    @PutMapping("/{noticeId}")
+    public ResponseEntity<StatusResponseDto> updateNotice(@PathVariable Long noticeId, @RequestBody NoticeRequestDto noticeRequestDto){
+        return ResponseEntity.ok().body(StatusResponseDto.success());
+    }
+
+    @DeleteMapping("/{noticeId}")
+    public ResponseEntity<StatusResponseDto> deleteNotice(@PathVariable Long noticeId){
+        return ResponseEntity.ok().body(StatusResponseDto.success());
+    }
 }
