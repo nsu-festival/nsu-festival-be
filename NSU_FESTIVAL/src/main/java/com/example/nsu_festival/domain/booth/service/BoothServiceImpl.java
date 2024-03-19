@@ -27,6 +27,7 @@ import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERR
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -167,6 +168,23 @@ public class BoothServiceImpl implements BoothService{
 
 
     }
+
+    @Transactional
+    @Override
+    public List<AllBoothDto> findTopBooths() {
+        List<AllBoothDto> responseList = new ArrayList<>();
+        List<Booth> findTopBoothList = boothRepository.findTopBoothByCountLike();
+        for (Booth booth : findTopBoothList) {
+            AllBoothDto allBoothDto = AllBoothDto.builder()
+                    .title(booth.getTitle())
+                    .build();
+            responseList.add(allBoothDto);
+        }
+        return responseList;
+    }
+
+
+
     @PostConstruct // 초기 데이터 설정 어노테이션
     public void initializeData() {
         // 부스 1
