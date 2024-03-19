@@ -36,16 +36,12 @@ public class NoticeController {
     @PostMapping("/posts")
     public ResponseEntity<StatusResponseDto> writeNotice(@Valid @RequestBody NoticeRequestDto noticeRequestDto, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         try{
-            if(customOAuth2User !=null && noticeService.isAdmin(customOAuth2User)){     //로그인된 유저가 아니거나 관리자가 아닌 경우 401에러 발생
-
-                return ResponseEntity.ok().body(StatusResponseDto.success());
-            }else{
-                throw new HttpClientErrorException(HttpStatusCode.valueOf(401));
-            }
+            noticeService.writeNotice(noticeRequestDto, customOAuth2User);
+            return ResponseEntity.ok().body(StatusResponseDto.success());
         }catch (HttpClientErrorException e){
             return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
         }catch (RuntimeException e){
-            return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }
 

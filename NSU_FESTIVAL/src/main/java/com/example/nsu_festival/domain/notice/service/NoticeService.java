@@ -5,6 +5,5 @@ import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 
 public interface NoticeService {
 
-//    void writeNotice(NoticeRequestDto noticeRequestDto);
-    boolean isAdmin(CustomOAuth2User customOAuth2User);
+    void writeNotice(NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User);
 }
