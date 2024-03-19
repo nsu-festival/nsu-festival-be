@@ -27,18 +27,18 @@ public class Notice extends BaseTimeRegDateEntity {
     private User user;
 
     @Builder
-    Notice(Long noticeId, String title, String content, LocalDateTime regDate, User user){
+    Notice(Long noticeId, String title, String content, LocalDateTime creatAt, User user){
         this.noticeId = noticeId;
         this.title = title;
         this.content = content;
-        this.regDate = regDate;
+        this.creatAt = creatAt;
         this.user = user;
     }
 
-    public void updateNotice(NoticeRequestDto noticeRequestDto, LocalDateTime regDate, User user){
+    public void updateNotice(NoticeRequestDto noticeRequestDto, LocalDateTime creatAt, User user){
         this.title = noticeRequestDto.getTitle();
         this.content = noticeRequestDto.getContent();
-        this.regDate = regDate;
+        this.creatAt = creatAt;
         this.user = user;
     }
 }

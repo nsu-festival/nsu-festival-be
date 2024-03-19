@@ -1,6 +1,7 @@
 package com.example.nsu_festival.domain.notice.controller;
 
 import com.example.nsu_festival.domain.notice.dto.NoticeRequestDto;
+import com.example.nsu_festival.domain.notice.dto.NoticeResponseDto;
 import com.example.nsu_festival.domain.notice.service.NoticeService;
 import com.example.nsu_festival.global.etc.StatusResponseDto;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
+
 @Controller
 @AllArgsConstructor
 @Slf4j
@@ -22,12 +25,22 @@ public class NoticeController {
     private final NoticeService noticeService;
     @GetMapping("")
     public ResponseEntity<StatusResponseDto> findAllNoticeList(){
-        return ResponseEntity.ok().body(StatusResponseDto.success());
+        try{
+            List<NoticeResponseDto> noticeResponseDtoList = noticeService.findAllNoticeList();
+            return ResponseEntity.ok().body(StatusResponseDto.success(noticeResponseDtoList));
+        } catch (RuntimeException e){
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
+        }
     }
 
     @GetMapping("/{noticeId}")
     public ResponseEntity<StatusResponseDto> findNoticeDetail(@PathVariable Long noticeId){
-        return ResponseEntity.ok().body(StatusResponseDto.success());
+        try{
+            NoticeResponseDto noticeResponseDto = noticeService.findNoticeDetail(noticeId);
+            return ResponseEntity.ok().body(StatusResponseDto.success(noticeResponseDto));
+        } catch (RuntimeException e){
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
+        }
     }
 
     /**

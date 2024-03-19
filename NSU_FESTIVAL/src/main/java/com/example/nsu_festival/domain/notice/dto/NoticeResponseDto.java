@@ -2,7 +2,7 @@ package com.example.nsu_festival.domain.notice.dto;
 
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -11,6 +11,6 @@ import java.time.LocalDate;
 public class NoticeResponseDto {
     private Long noticeId;
     private String title;
-    private LocalDate cheatAt;
+    private LocalDateTime creatAt;
     private String content;
 }
