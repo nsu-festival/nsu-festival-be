@@ -168,7 +168,7 @@ public class BoothServiceImpl implements BoothService{
 
 
     }
-
+  
     @Transactional
     @Override
     public List<AllBoothDto> findTopBooths() {
@@ -182,7 +182,6 @@ public class BoothServiceImpl implements BoothService{
         }
         return responseList;
     }
-
 
 
     @PostConstruct // 초기 데이터 설정 어노테이션
@@ -688,7 +687,6 @@ public class BoothServiceImpl implements BoothService{
 
 
     }
-
 
 
 }

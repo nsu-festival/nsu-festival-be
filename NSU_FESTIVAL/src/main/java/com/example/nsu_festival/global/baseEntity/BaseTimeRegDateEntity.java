@@ -19,5 +19,5 @@ public class BaseTimeRegDateEntity {
     @CreatedDate // 엔티티가 생성될 때 자동으로 시간을 지정
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "createAt", updatable = true) // 컬럼 업데이트시 해당 필드 변경 가능
-    private LocalDateTime regDate;
+    protected LocalDateTime creatAt;
 }
