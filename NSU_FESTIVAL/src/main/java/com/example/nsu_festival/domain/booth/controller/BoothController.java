@@ -2,6 +2,7 @@ package com.example.nsu_festival.domain.booth.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.example.nsu_festival.domain.booth.dto.*;
+import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.booth.service.BoothService;
 import com.example.nsu_festival.global.etc.StatusResponseDto;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
@@ -65,5 +66,14 @@ public class BoothController {
 //        return ResponseEntity.ok(StatusResponseDto.success(urltext));
 //    }
 
+    @GetMapping("/top")
+    public ResponseEntity<StatusResponseDto> getTopBooths() {
+        try {
+            List<AllBoothDto> topBoothList = boothService.findTopBooths();
+            return ResponseEntity.ok().body(StatusResponseDto.success(topBoothList));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
+        }
+    }
 
 }
