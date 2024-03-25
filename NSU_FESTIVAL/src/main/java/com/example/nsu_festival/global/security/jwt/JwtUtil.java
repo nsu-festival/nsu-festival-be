@@ -7,6 +7,7 @@ import com.example.nsu_festival.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -138,6 +139,7 @@ public class JwtUtil {
         return refreshTokenRepository.existsByUserEmail(email);
     }
 
+    @Transactional
     public void removePreviousToken(String email){
         refreshTokenRepository.deleteByUserEmail(email);
     }
