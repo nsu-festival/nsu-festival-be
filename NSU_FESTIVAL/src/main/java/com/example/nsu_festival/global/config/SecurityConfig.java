@@ -65,11 +65,23 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) ->auth
                         .requestMatchers(
                                 HttpMethod.GET,
-                                "/notices/{noticeId}" // GET 요청에 대해서만 규칙 적용
+                                "/notices/{noticeId}", // GET 요청에 대해서만 규칙 적용
+                                "/visitors",
+                                "/visitors/address",
+                                "/booths/top",
+                                "/booths",
+                                "/booths/{boothId}/details",
+                                "/likes/{contentType}/days/{dDay}",
+                                "/trafficinformations",
+                                "/festivalprograms/days/{dDay}",
+                                "/singerlineups/days/{dDay}",
+                                "/notices"
                         ).permitAll()
-                        .requestMatchers("/login/**", "/", "/auth/**", "/token/**", "/trafficinformations",
-                                "/likes/{contentType}/days/{day}", "/festivalprograms/days/{dDay}", "/singerlineups/days/{dDay}",
-                                "/notices").permitAll()
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/booths/{boothId}/comment/{commentId}/repot"
+                        ).permitAll()
+                        .requestMatchers("/login/**", "/auth/**", "/token/**").permitAll()
                         .anyRequest().authenticated());
 
         http

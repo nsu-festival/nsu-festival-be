@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -34,13 +36,19 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
                 .orElseThrow(IllegalAccessError::new);
+
+        //기존 토큰이 있다면 삭제..
+        if(jwtUtil.isRefreshToken(email)){
+            jwtUtil.removePreviousToken(email);
+        }
+
         //Access/Refresh Token 생성
         TokenDto tokenDto = jwtUtil.generateToken(email, role);
 
         //각 토큰을 헤더와 쿠키에 저장한 후 응답에 담아 넘긴다.
         response.setHeader("Authorization", tokenDto.getAccessToken());
         response.addCookie(createCookie("RefreshToken", tokenDto.getRefreshToken()));
-
+        response.sendRedirect("http://nsu-festival-fe.s3-website.ap-northeast-2.amazonaws.com/");
     }
 
     private Cookie createCookie(String key, String value) {
