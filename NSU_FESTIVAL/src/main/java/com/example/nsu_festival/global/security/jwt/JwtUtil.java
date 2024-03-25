@@ -134,4 +134,12 @@ public class JwtUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
     }
 
+    public boolean isRefreshToken(String email){
+        return refreshTokenRepository.existsByUserEmail(email);
+    }
+
+    public void removePreviousToken(String email){
+        refreshTokenRepository.deleteByUserEmail(email);
+    }
+
 }
