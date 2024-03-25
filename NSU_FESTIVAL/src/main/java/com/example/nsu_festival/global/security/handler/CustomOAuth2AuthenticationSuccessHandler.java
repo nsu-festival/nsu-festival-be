@@ -48,7 +48,7 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         //각 토큰을 헤더와 쿠키에 저장한 후 응답에 담아 넘긴다.
         response.setHeader("Authorization", tokenDto.getAccessToken());
         response.addCookie(createCookie("RefreshToken", tokenDto.getRefreshToken()));
-
+        response.sendRedirect("http://nsu-festival-fe.s3-website.ap-northeast-2.amazonaws.com/");
     }
 
     private Cookie createCookie(String key, String value) {
