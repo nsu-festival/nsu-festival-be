@@ -139,9 +139,9 @@ public class JwtUtil {
         return refreshTokenRepository.existsByUserEmail(email);
     }
 
-    @Transactional
-    public void removePreviousToken(String email){
-        refreshTokenRepository.deleteByUserEmail(email);
-    }
+//    @Transactional
+//    public void removePreviousToken(String email){
+//        refreshTokenRepository.deleteByUserEmail(email);
+//    }
 
 }
