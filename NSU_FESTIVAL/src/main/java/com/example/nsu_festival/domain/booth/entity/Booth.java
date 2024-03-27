@@ -31,6 +31,8 @@ public class Booth {
     private String area;
 
     private String boothImageUrl;
+    private int entryFee;
+
     @OneToMany(mappedBy = "booth", fetch = FetchType.LAZY)
     @JsonManagedReference  //순환 참조 문제 해결하기 위한 어노테이션
     private List<Comment> comments = new ArrayList<>();

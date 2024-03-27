@@ -28,4 +28,5 @@ public class BoothDetailDto {
     private BoothLiked boothLiked;
     private Long boothCommentCount;
     private List<Menu> menus;
+    private int entryFee;
 }
