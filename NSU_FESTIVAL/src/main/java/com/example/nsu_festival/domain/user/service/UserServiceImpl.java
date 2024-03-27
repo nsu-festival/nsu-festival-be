@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService{
         String email = customOAuth2User.getEmail();
         //DB에 저장되어 있는 유저가 맞는지 검증 후 검증 성공 시 유저 이름 반환
         if (userRepository.existsByEmail(email)) {
+            log.info("사용자 이름 획득 성공!");
             return customOAuth2User.getName();
         }
         //검증 실패 시 알려지지 않은 사용자인 Unknown 문자열을 반환

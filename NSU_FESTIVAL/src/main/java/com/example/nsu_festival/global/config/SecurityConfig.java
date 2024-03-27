@@ -54,12 +54,11 @@ public class SecurityConfig {
 //                .oauth2Login((oauth2) -> oauth2
 //                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
 //                                .userService(customOAuth2UserService)));
-                .oauth2Login(oauth2Configurer -> oauth2Configurer
-                    .loginPage("/login")
+                .oauth2Login((oauth2) -> oauth2
                     .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
                     .successHandler(customOAuth2AuthenticationSuccessHandler)
-                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService)));
+                    .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                        .userService(customOAuth2UserService)));
         //경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) ->auth
@@ -81,7 +80,7 @@ public class SecurityConfig {
                                 HttpMethod.POST,
                                 "/booths/{boothId}/comment/{commentId}/repot"
                         ).permitAll()
-                        .requestMatchers("/login/**", "/auth/**", "/token/**").permitAll()
+                        .requestMatchers("/auth/**", "/token/**").permitAll()
                         .anyRequest().authenticated());
 
         http
@@ -89,26 +88,6 @@ public class SecurityConfig {
                 .addFilterBefore(jwtExceptionFilter, JwtAuthFilter.class);
 
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        return (request, response, authentication) -> {
-            CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-
-            String username = customOAuth2User.getUsername();
-            String body = "{\"customOAuth2User\":\"" + customOAuth2User.getName()+ "\"}";
-
-
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
-
-            try (PrintWriter writer = response.getWriter()) {
-                writer.println(body);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        };
     }
 }
 

@@ -46,19 +46,26 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         TokenDto tokenDto = jwtUtil.generateToken(email, role);
 
         //각 토큰을 헤더와 쿠키에 저장한 후 응답에 담아 넘긴다.
-        response.setHeader("Authorization", tokenDto.getAccessToken());
+//        response.addCookie("Authorization", tokenDto.getAccessToken());
+        response.addCookie(createCookie("Authorization", tokenDto.getAccessToken()));
         response.addCookie(createCookie("RefreshToken", tokenDto.getRefreshToken()));
         response.sendRedirect("http://localhost:5173/kakao/login");
+//        response.sendRedirect("http://nsu-festival-fe.s3-website.ap-northeast-2.amazonaws.com");
     }
 
     private Cookie createCookie(String key, String value) {
         Cookie cookie = new Cookie(key, value);
+
         //쿠키 지속 시간
-        cookie.setMaxAge(60*60*60);
+        if("Authorization".equals(key)){
+            cookie.setMaxAge(30 * 60 * 1000);       //30분
+        }
+        if("RefreshToken".equals(key)){
+            cookie.setMaxAge(10 * 60 * 60 * 1000);      //10시간
+        }
         //쿠키 보일 위치는 모든 전역
         cookie.setPath("/");
-        //자바스크립트로 쿠키 못 가져가도록 설정
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
 
         return cookie;
     }

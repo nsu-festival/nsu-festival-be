@@ -24,6 +24,7 @@ public class SocialClientRegistration {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
                 .clientName("NsuFestival")
                 .redirectUri("http://15.165.217.112:8080/login/oauth2/code/kakao")
+//                .redirectUri("http://localhost:8080/login/oauth2/code/kakao")
                 .scope("profile_nickname", "account_email")
                 .issuerUri("https://kauth.kakao.com")
                 .authorizationUri("https://kauth.kakao.com/oauth/authorize")
