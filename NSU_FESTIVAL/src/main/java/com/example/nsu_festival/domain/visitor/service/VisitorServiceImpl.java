@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class VisitorServiceImpl implements VisitorService{
     private static final String[] headerTypes = {"Proxy-Client-IP", "WL-Proxy-Client-IP",
             "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR", "X-Forwarded-For"};
 
+    @Transactional
     public void savedVisitor(HttpServletRequest request) {
         LocalDate now = LocalDate.now();
         String ipAddress = getRemoteAddr(request);
@@ -42,6 +44,7 @@ public class VisitorServiceImpl implements VisitorService{
             log.info("새로운 ip 저장 완료..");
             return;
         }
+
         Visitor findVisitor = OptionalVisitor.get();
         //저장된 ip일 때 과거 방문일아라면 방문 날짜 업데이트한다.
         if (!findVisitor.getVisitTime().equals(now)) {
@@ -56,13 +59,11 @@ public class VisitorServiceImpl implements VisitorService{
         //헤더 타입을 통해 클라이언트 ip 추출
         for (String headerType : headerTypes) {
             ip = request.getHeader(headerType);
-            log.info("{} 타입 ip 추출..", headerType);
             if(ip != null) break;
         }
         //모든 헤더 ip가 없다면 remote Address 값을 가져온다.
         if (ip == null) {
             ip = request.getRemoteAddr();
-            log.info("RemoteAddr ip 추출..");
         }
         return ip;
     }
