@@ -65,8 +65,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/notices/{noticeId}", // GET 요청에 대해서만 규칙 적용
-                                "/visitors",
-                                "/visitors/address",
+                                "/visitors/**",
                                 "/booths/top",
                                 "/booths",
                                 "/booths/{boothId}/details",
