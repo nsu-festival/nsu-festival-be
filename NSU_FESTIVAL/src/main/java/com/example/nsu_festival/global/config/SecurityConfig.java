@@ -73,13 +73,14 @@ public class SecurityConfig {
                                 "/trafficinformations",
                                 "/festivalprograms/days/{dDay}",
                                 "/singerlineups/days/{dDay}",
-                                "/notices"
+                                "/notices",
+                                "/auth/reissue/access",
+                                "/auth/logout"
                         ).permitAll()
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/booths/{boothId}/comment/{commentId}/repot"
                         ).permitAll()
-                        .requestMatchers("/auth/**", "/token/**").permitAll()
                         .anyRequest().authenticated());
 
         http
