@@ -1,5 +1,10 @@
 package com.example.nsu_festival.domain.booth.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ListObjectsV2Request;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.nsu_festival.domain.booth.dto.BoothCommentDto;
 import com.example.nsu_festival.domain.booth.dto.BoothDetailDto;
 import com.example.nsu_festival.domain.booth.dto.AllBoothDto;
@@ -21,13 +26,13 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,10 +50,37 @@ public class BoothServiceImpl implements BoothService{
    private final CommentRepository commentRepository;
     private final MenuRepository menuRepository;
     private final BoothCategoryRepository boothCategoryRepository;
-    /**
-     *
-     * 부스리스트 조회
-     */
+    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
+
+    @Value("${cloud.aws.region.static}")
+    private String region;
+
+    public List<String> getBoothImgList(String directory){
+        List<String> fileList = new ArrayList<>();
+
+        ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request() // 가져올 파일 목록을 요쳥하기 위한 객체
+                .withBucketName(bucketName)  //버킷 이름 지정
+                .withPrefix(directory+"/");  //폴더 경로 지정
+
+        ListObjectsV2Result result = amazonS3.listObjectsV2(listObjectsV2Request); // AmazonS3 객체를 사용하여 S3 버킷에서 파일 객체 목록을 가져와 result에 저장
+        List<S3ObjectSummary> objectSummaries = result.getObjectSummaries(); // 파일 객체 목록에서 객체 요약 정보를 추출하여 저장
+
+        for (S3ObjectSummary objectSummary : objectSummaries) {
+            String key = objectSummary.getKey();// key를 추출 ex) jpg, png
+            if (!key.equals(directory + "/")) {
+                fileList.add("https://"+bucketName+".s3."+region+".amazonaws.com/" + key);
+            }
+        }
+        return fileList;
+    }
+
+        /**
+         *
+         * 부스리스트 조회
+         */
 
     public List<AllBoothDto> getAllBooths(){
         try{
@@ -167,7 +199,6 @@ public class BoothServiceImpl implements BoothService{
             throw new CustomException(SERVER_ERROR);
         }
 
-
     }
   
     @Transactional
@@ -185,8 +216,11 @@ public class BoothServiceImpl implements BoothService{
     }
 
 
+
     @PostConstruct // 초기 데이터 설정 어노테이션
     public void initializeData() {
+        List<String> boothImg = getBoothImgList("boothImages");
+        List<String> boothImg1 = getBoothImgList("defaultImage");
         // 부스 1
         Booth booth1 = new Booth(1L, "가상현실학과", "내용1", 0, "a-1", "https://nsufestival.s3.ap-northeast-2.amazonaws.com/2.png", 0, null, null, null,null);
         BoothCategory boothCategory1 = new BoothCategory(1L, "게임", booth1);
