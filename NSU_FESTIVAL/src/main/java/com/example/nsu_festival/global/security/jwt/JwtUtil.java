@@ -7,7 +7,6 @@ import com.example.nsu_festival.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +19,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import io.jsonwebtoken.Jwts;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Slf4j
@@ -39,6 +39,10 @@ public class JwtUtil {
     }
 
     public TokenDto generateToken(String email, String role) {
+
+        //과거 refreshToken 모두 삭제
+        refreshTokenRepository.deleteAllByUserEmail(email);
+
         // RefreshToken 발급
         String refreshToken = generateRefreshToken(email, role);
         // AccessToken 발급

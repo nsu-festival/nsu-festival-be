@@ -39,15 +39,13 @@ public class AuthController {
     }
 
     @GetMapping("/reissue/access")
-    public ResponseEntity<StatusResponseDto> reissueAccess(@RequestHeader(value = "RefreshToken") String refreshToken,
-                                                     HttpServletResponse response) {
+    public ResponseEntity<StatusResponseDto> reissueAccess(@RequestHeader(value = "RefreshToken") String refreshToken) {
         try {
             if (refreshToken == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(StatusResponseDto.addStatus(401));
             }
             TokenDto newAccess = tokenService.reissueAccessToken(refreshToken);
-            response.setHeader("Authorization", newAccess.getAccessToken());
-            return ResponseEntity.ok().body(StatusResponseDto.success());
+            return ResponseEntity.ok().body(StatusResponseDto.success(newAccess));
         } catch (JwtException j) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(StatusResponseDto.addStatus(401));
         }
