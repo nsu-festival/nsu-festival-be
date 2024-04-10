@@ -19,8 +19,10 @@ public class Notice extends BaseTimeRegDateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeId;
 
+    @Column(length = 30)
     private String title;
 
+    @Column(length = 500)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

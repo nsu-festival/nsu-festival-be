@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/NSU_FESTIVAL.main.iml" filepath="$PROJECT_DIR$/.idea/modules/NSU_FESTIVAL.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/nsu-festival-be.iml" filepath="$PROJECT_DIR$/.idea/nsu-festival-be.iml" />
     </modules>
   </component>
