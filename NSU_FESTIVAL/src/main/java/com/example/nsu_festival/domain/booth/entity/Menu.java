@@ -19,7 +19,7 @@ public class Menu {
     private Long menuId;
 
     private String name;
-    private int price;
+    private String price;
 
     @JsonBackReference //순환 참조 문제 해결하기 위한 어노테이션
     @ManyToOne(fetch = FetchType.LAZY)

@@ -13,5 +13,5 @@ public interface BoothService {
 //    List<AllBoothDto> getAllFoodTrucks();
 
     List<AllBoothDto> findTopBooths();
-    List<String> getBoothImgList(String directory);
+
 }
