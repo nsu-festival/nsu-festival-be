@@ -743,7 +743,7 @@ public class BoothServiceImpl implements BoothService{
         boothCategoryRepository.save(boothCategory3);
         List<Menu> menus2 = new ArrayList<>();
         menus2.add(new Menu(6L,"크림,칠리새우(중)","10,000원",foodTruck3));
-        menus2.add(new Menu(7L,"크림,칠리새우(대)","22,000원",foodTruck3));
+        menus2.add(new Menu(7L,"크림,칠리새우(대)","15,000원",foodTruck3));
         menuRepository.saveAll(menus2);
         foodTruck3.setMenus(menus2);
 
