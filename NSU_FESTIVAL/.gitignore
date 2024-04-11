@@ -42,3 +42,7 @@ application.yml
 
 ### idea 폴더###
 *.idea
+
+## oauth 관련 클래스 무시##
+**/src/main/java/com/example/nsu_festival/global/security/oauth2
+
