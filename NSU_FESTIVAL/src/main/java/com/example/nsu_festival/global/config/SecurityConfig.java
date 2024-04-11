@@ -1,11 +1,13 @@
 package com.example.nsu_festival.global.config;
 
+import com.example.nsu_festival.global.security.handler.CustomOAuth2AuthenticationFailureHandler;
 import com.example.nsu_festival.global.security.handler.CustomOAuth2AuthenticationSuccessHandler;
 import com.example.nsu_festival.global.security.jwt.JwtAuthFilter;
 import com.example.nsu_festival.global.security.jwt.JwtExceptionFilter;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import com.example.nsu_festival.global.security.oauth2.CustomClientRegistrationRepo;
 import com.example.nsu_festival.global.security.service.CustomOAuth2UserService;
+import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +34,7 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final JwtExceptionFilter jwtExceptionFilter;
     private final CustomOAuth2AuthenticationSuccessHandler customOAuth2AuthenticationSuccessHandler;
+    private final CustomOAuth2AuthenticationFailureHandler customOAuth2AuthenticationFailureHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -51,12 +54,10 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         //oauth2
         http
-//                .oauth2Login((oauth2) -> oauth2
-//                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-//                                .userService(customOAuth2UserService)));
                 .oauth2Login((oauth2) -> oauth2
                     .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
                     .successHandler(customOAuth2AuthenticationSuccessHandler)
+                        .failureHandler(customOAuth2AuthenticationFailureHandler)
                     .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
                         .userService(customOAuth2UserService)));
         //경로별 인가 작업
@@ -81,8 +82,9 @@ public class SecurityConfig {
                                 HttpMethod.POST,
                                 "/booths/{boothId}/comment/{commentId}/repot"
                         ).permitAll()
+                        .requestMatchers("/").permitAll()
+                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .anyRequest().authenticated());
-
         http
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionFilter, JwtAuthFilter.class);
