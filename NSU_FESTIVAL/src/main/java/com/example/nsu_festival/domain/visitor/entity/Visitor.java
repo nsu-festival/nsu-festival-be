@@ -19,8 +19,8 @@ public class Visitor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ip", nullable = false)
-    private String ipAddress;
+    @Column(name = "UUID", nullable = false)
+    private String UUID;
 
     @Column(name = "visitTime", nullable = false)
     private LocalDate visitTime;

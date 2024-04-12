@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -18,54 +19,21 @@ import java.util.Optional;
 public class VisitorServiceImpl implements VisitorService{
 
     private final VisitorRepository visitorRepository;
-    private static String ip;
-    //프록시 또는 각 헤더 배열 선언
-    private static final String[] headerTypes = {"Proxy-Client-IP", "WL-Proxy-Client-IP",
-            "HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR", "X-Forwarded-For"};
 
+    @Override
     @Transactional
-    public void savedVisitor(HttpServletRequest request) {
+    public String generateUUID() {
         LocalDate now = LocalDate.now();
-        String ipAddress = getRemoteAddr(request);
-        //ip를 찾지 못했다면 종료
-        if (ipAddress == null) {
-            log.info("해당 세션 Id의 대한 ip를 찾지 못했습니다. : {}", request.getRequestedSessionId());
-            return;
-        }
-        //찾은 ip가 저장되어 있는지 탐색
-        Optional<Visitor> OptionalVisitor = visitorRepository.findByIpAddress(ipAddress);
-        if (!OptionalVisitor.isPresent()) {
-            log.info("새로운 ip 저장..");
-            Visitor saveVisitor = Visitor.builder()
-                    .ipAddress(ipAddress)
-                    .visitTime(now)
-                    .build();
-            visitorRepository.save(saveVisitor);
-            log.info("새로운 ip 저장 완료..");
-            return;
-        }
+        String newUUID = UUID.randomUUID().toString();
 
-        Visitor findVisitor = OptionalVisitor.get();
-        //저장된 ip일 때 과거 방문일아라면 방문 날짜 업데이트한다.
-        if (!findVisitor.getVisitTime().equals(now)) {
-            log.info("ip 방문 날짜 업데이트 시작..");
-            findVisitor.updateTime(now);
-            visitorRepository.save(findVisitor);
-            log.info("ip 방문 날짜 업데이트 완료..");
-        }
-    }
+        log.info("새로운 UUID 생성..");
+        Visitor newVisitor = Visitor.builder()
+                .UUID(newUUID)
+                .visitTime(now)
+                .build();
 
-    public String getRemoteAddr(HttpServletRequest request) {
-        //헤더 타입을 통해 클라이언트 ip 추출
-        for (String headerType : headerTypes) {
-            ip = request.getHeader(headerType);
-            if(ip != null) break;
-        }
-        //모든 헤더 ip가 없다면 remote Address 값을 가져온다.
-        if (ip == null) {
-            ip = request.getRemoteAddr();
-        }
-        return ip;
+        visitorRepository.save(newVisitor);
+        return newUUID;
     }
 
     public VisitorResponseDto findVisitor() {

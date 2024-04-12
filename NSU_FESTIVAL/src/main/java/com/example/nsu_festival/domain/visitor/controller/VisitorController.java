@@ -19,9 +19,9 @@ public class VisitorController {
     private final VisitorService visitorService;
 
     @GetMapping("/address")
-    public ResponseEntity<StatusResponseDto> getIp(HttpServletRequest request) {
-        visitorService.savedVisitor(request);
-        return ResponseEntity.ok(StatusResponseDto.success());
+    public ResponseEntity<StatusResponseDto> getUUID() {
+        String UUID = visitorService.generateUUID();
+        return ResponseEntity.ok(StatusResponseDto.success(UUID));
     }
 
     @GetMapping()

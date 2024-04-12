@@ -5,8 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface VisitorService {
 
-    void savedVisitor(HttpServletRequest request);
+    String generateUUID();
 
-    String getRemoteAddr(HttpServletRequest request);
     VisitorResponseDto findVisitor();
 }

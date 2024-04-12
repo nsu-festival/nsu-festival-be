@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface VisitorRepository extends JpaRepository<Visitor, Long> {
 
-    Optional<Visitor> findByIpAddress(String address);
+    Optional<Visitor> findByUUID(String UUID);
 
     @Query("select count(*) from Visitor v where v.visitTime = :now")
     Long countByVisitTime(@Param("now")LocalDate now);
