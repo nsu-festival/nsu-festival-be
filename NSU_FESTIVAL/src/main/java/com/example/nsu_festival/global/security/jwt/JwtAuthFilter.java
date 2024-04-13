@@ -27,6 +27,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
+    private static final String PREFIX = "Bearer ";
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
@@ -51,7 +52,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             return;
         }
 
-        String accessToken = authorization;
+        String accessToken = resolveToken(authorization);
 
         try {
             // AccessToken 만료 시간 검증
@@ -90,6 +91,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 
         filterChain.doFilter(request, response);
+    }
+
+    //Bearer 타입 파싱
+    public String resolveToken(String authorization){
+        if(authorization.startsWith(PREFIX)){
+            return authorization.substring(PREFIX.length());
+        }
+        return null;
     }
 
     // 인증 객체 생성
