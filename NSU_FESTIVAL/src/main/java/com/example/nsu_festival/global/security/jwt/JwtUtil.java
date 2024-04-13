@@ -27,7 +27,7 @@ public class JwtUtil {
 
     private static final String PREFIX = "Bearer ";
     private SecretKey secretKey;
-    private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 30L;      // 만료일 30분
+    private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 30L;      // 만료일 30분
     private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 60L * 10L;       // 만료일 10시간
     @Autowired
     private UserRepository userRepository;
