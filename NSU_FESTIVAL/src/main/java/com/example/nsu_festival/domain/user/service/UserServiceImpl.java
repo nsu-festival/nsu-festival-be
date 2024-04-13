@@ -25,4 +25,16 @@ public class UserServiceImpl implements UserService{
         //검증 실패 시 알려지지 않은 사용자인 Unknown 문자열을 반환
         return "Unknown";
     }
+
+    @Override
+    public String findUserRole(CustomOAuth2User customOAuth2User) {
+        String email = customOAuth2User.getEmail();
+        //DB에 저장된 유저가 맞는지 검증 후 성공하면 유저 역할 반환
+        if(userRepository.existsByEmail(email)){
+            log.info("사용자 역할 획득 성공!");
+            return userRepository.findRoleByEmail(email);
+        }
+        //검증 실패 시 알려지지 않은 사용자인 Unknown 문자열을 반환
+        return "Unknown";
+    }
 }

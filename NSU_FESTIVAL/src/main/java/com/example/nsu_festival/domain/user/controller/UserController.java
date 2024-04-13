@@ -25,4 +25,12 @@ public class UserController {
         }
         return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
     }
+    @GetMapping("/role")
+    public ResponseEntity<StatusResponseDto> getUserRole(@AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+        String userRole = userService.findUserRole(customOAuth2User);
+        if(!"Unknown".equals(userRole)){
+            return ResponseEntity.ok(StatusResponseDto.success(userRole));
+        }
+        return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
+    }
 }
