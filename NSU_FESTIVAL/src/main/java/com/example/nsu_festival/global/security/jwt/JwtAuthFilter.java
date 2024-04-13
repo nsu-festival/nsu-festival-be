@@ -51,7 +51,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             // AccessToken 만료 시간 검증
             if (!jwtUtil.verifyToken(accessToken)) {
                 // AccessToken이 만료되었을 경우 예외 발생
-                throw new CustomExpiredJwtException("Access Token 시간 만료!");
+                throw new CustomExpiredJwtException("토큰 검증 실패!");
             }
             // AccessToken 검증이 유효한 경우
             if (jwtUtil.verifyToken(accessToken)) {
@@ -78,6 +78,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
         } catch (CustomExpiredJwtException expiredJwtException) {
             throw new CustomExpiredJwtException(expiredJwtException.getMessage());
+        } catch (JwtException j){
+            throw new CustomExpiredJwtException(j.getMessage());
         } catch (Exception e) {
             throw new JwtException("토근 검증 실패!");
         }

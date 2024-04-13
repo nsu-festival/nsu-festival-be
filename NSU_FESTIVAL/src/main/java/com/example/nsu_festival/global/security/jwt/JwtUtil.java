@@ -4,13 +4,14 @@ import com.example.nsu_festival.domain.user.dto.TokenDto;
 import com.example.nsu_festival.domain.user.entity.RefreshToken;
 import com.example.nsu_festival.domain.user.repository.RefreshTokenRepository;
 import com.example.nsu_festival.domain.user.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import com.example.nsu_festival.global.security.exception.JwtException;
+
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -18,7 +19,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Optional;
 
-import io.jsonwebtoken.Jwts;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
@@ -27,7 +27,7 @@ public class JwtUtil {
 
     private static final String PREFIX = "Bearer ";
     private SecretKey secretKey;
-    private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 30L;      // 만료일 30분
+    private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 30L;      // 만료일 30분
     private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 60L * 10L;       // 만료일 10시간
     @Autowired
     private UserRepository userRepository;
@@ -108,6 +108,16 @@ public class JwtUtil {
             Jws<Claims> claims = Jwts.parser().verifyWith(secretKey).build()
                     .parseSignedClaims(token);
             return claims.getPayload().getExpiration().after(new Date());
+        } catch (SignatureException s) {
+            throw new JwtException("잘못된 비밀 키");
+        } catch (ExpiredJwtException e) {
+            throw new JwtException("만료된 토큰");
+        } catch (MalformedJwtException e) {
+            throw new JwtException("유효하지 않은 구성의 토큰");
+        } catch (UnsupportedJwtException e) {
+            throw new JwtException("지원되지 않는 형식의 토큰");
+        } catch (IllegalArgumentException e) {
+            throw new JwtException("잘못된 입력 값");
         } catch (Exception e) {
             return false;
         }
