@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class JwtUtil {
 
+    private static final String PREFIX = "Bearer ";
     private SecretKey secretKey;
     private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 30L;      // 만료일 30분
     private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 60L * 10L;       // 만료일 10시간
@@ -107,7 +108,7 @@ public class JwtUtil {
             Jws<Claims> claims = Jwts.parser().verifyWith(secretKey).build()
                     .parseSignedClaims(token);
             return claims.getPayload().getExpiration().after(new Date());
-        } catch (ExpiredJwtException e) {
+        } catch (Exception e) {
             return false;
         }
     }
@@ -137,6 +138,14 @@ public class JwtUtil {
     public String getRole(String token) {
         // JWT 파싱 후 역할 획득
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
+    }
+
+    //Bearer 타입 파싱
+    public String resolveToken(String authorization){
+        if(authorization.startsWith(PREFIX)){
+            return authorization.substring(PREFIX.length());
+        }
+        return null;
     }
 
     public boolean isRefreshToken(String email){
