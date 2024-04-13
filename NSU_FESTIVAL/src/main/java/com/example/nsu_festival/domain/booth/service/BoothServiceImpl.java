@@ -101,21 +101,21 @@ public class BoothServiceImpl implements BoothService{
      * 푸드트럭 리스트 조회
      */
 
-//    public List<AllBoothDto> getAllFoodTrucks() {
-//        try {
-//            List<AllBoothDto> allBooths = boothRepository.findAll().stream().
-//                    filter(boothDto -> boothDto.getBoothCategories().stream()
-//                            .anyMatch(category -> category.getCategory().equals("푸드트럭")))
-//                    .map(this::convertToDto)
-//                    .collect(Collectors.toList());
-//
-//            return allBooths;
-//        }catch (RuntimeException e){
-//            e.printStackTrace();
-//            throw new CustomException(SERVER_ERROR);
-//        }
-//
-//    }
+    public List<AllBoothDto> getAllFoodTrucks() {
+        try {
+            List<AllBoothDto> allBooths = boothRepository.findAll().stream().
+                    filter(boothDto -> boothDto.getBoothCategories().stream()
+                            .anyMatch(category -> category.getCategory().equals("푸드트럭")))
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+
+            return allBooths;
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            throw new CustomException(SERVER_ERROR);
+        }
+
+    }
 
     private AllBoothDto convertToDto(Booth booth){
         return modelMapper.map(booth, AllBoothDto.class);
@@ -200,7 +200,7 @@ public class BoothServiceImpl implements BoothService{
         }
 
     }
-  
+
     @Transactional
     @Override
     public List<AllBoothDto> findTopBooths() {
