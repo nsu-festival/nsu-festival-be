@@ -9,6 +9,7 @@ import com.example.nsu_festival.global.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -20,9 +21,12 @@ public class TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
 
-    public TokenDto reissueAccessToken(String token) {
-        //RefreshToken 검증 성공이라면
-        if (jwtUtil.verifyRefreshToken(token)) {
+    public TokenDto reissueAccessToken(String refresh) {
+
+        String token = jwtUtil.resolveToken(refresh);
+
+        //StringUtils.hasText() : null, 빈 문자열, 공백으로만 이루어져 있는 문자열이 아닌 경우만 ture 반환
+        if (StringUtils.hasText(token) && jwtUtil.verifyRefreshToken(token)) {
             //토큰에서 사용자 정보(email)을 꺼내 DB에 저장된 RefreshToken을 찾음
             Optional<RefreshToken> findTokens = refreshTokenRepository.findByUserEmail(jwtUtil.getEmail(token));
             RefreshToken resultToken = findTokens.get();
@@ -35,7 +39,7 @@ public class TokenService {
                     .accessToken(newAccessToken)
                     .build();
         } else {
-            throw new JwtException("refreshToken 만료!");
+            throw new JwtException("refreshToken이 만료 또는 잘못된 값입니다.");
         }
     }
 
@@ -45,4 +49,6 @@ public class TokenService {
                 orElseThrow(IllegalArgumentException::new);
         refreshTokenRepository.delete(findTokens);
     }
+
+
 }
