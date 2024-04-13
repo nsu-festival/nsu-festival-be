@@ -13,5 +13,4 @@ public class NoticeResponseDto {
     private String title;
     private LocalDateTime creatAt;
     private String content;
-    private boolean isAdmin;
 }
