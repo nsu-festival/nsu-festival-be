@@ -17,4 +17,5 @@ public interface VisitorRepository extends JpaRepository<Visitor, Long> {
     @Query("select count(*) from Visitor v where v.visitTime = :now")
     Long countByVisitTime(@Param("now")LocalDate now);
 
+    boolean existsByUUID(String token);
 }
