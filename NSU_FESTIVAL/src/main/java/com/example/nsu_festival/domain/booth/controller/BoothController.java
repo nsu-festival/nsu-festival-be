@@ -57,14 +57,14 @@ public class BoothController {
         }
     }
 
-//    @GetMapping("/s3/{boothId}")
-//    public ResponseEntity<StatusResponseDto> getMember(@PathVariable("boothId") Long boothId) {
+//    @GetMapping("/s3")
+//    public ResponseEntity<List<String>> getMember() {
 //
-//        URL url = s3Client.getUrl("nsufestival", Long.toString(boothId));
-//        String urltext = ""+url+".png";
+//        List<String> boothImg = boothService.getBoothImgList("nsufestival");
 //
-//        return ResponseEntity.ok(StatusResponseDto.success(urltext));
+//        return ResponseEntity.ok(boothImg);
 //    }
+
 
     @GetMapping("/top")
     public ResponseEntity<StatusResponseDto> getTopBooths() {

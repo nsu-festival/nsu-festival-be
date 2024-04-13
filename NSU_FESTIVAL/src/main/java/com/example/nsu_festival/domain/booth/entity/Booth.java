@@ -23,7 +23,6 @@ public class Booth {
     @NonNull
     private String title;
 
-    @NonNull
     private String content;
 
     private int countLike;
