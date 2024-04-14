@@ -69,13 +69,19 @@ public class CommentServiceImpl implements CommentService {
      * 댓글 수정
      */
     @Transactional
-    public void updateComment(Long commentId, CommentUpdateDto commentUpdateDto){
+    public boolean updateComment(Long commentId, CommentUpdateDto commentUpdateDto){
         try{
+
+            if (commentUpdateDto.getContent() == null || commentUpdateDto.getContent().trim().isEmpty()) {
+                return false;
+            }
+
             BadWordFiltering badWordFiltering = new BadWordFiltering();
             String badWord =  badWordFiltering.change(commentUpdateDto.getContent());
             Comment comment = commentRepository.findById(commentId).get();
             comment.commentUpdate(badWord);
 
+            return true;
         }catch (RuntimeException e){
             e.printStackTrace();
             throw new CustomException(SERVER_ERROR);
