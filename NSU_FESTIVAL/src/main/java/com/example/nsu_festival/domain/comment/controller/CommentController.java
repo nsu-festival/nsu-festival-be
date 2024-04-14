@@ -27,7 +27,6 @@ public class CommentController {
             return ResponseEntity.ok(StatusResponseDto.success(null));
             }
             return ResponseEntity.status(404).body(StatusResponseDto.addStatus(404));
-
     }
 
     @PutMapping("/{boothId}/comment/{commentId}")
@@ -45,7 +44,7 @@ public class CommentController {
      * 댓글 삭제
      */
     @DeleteMapping("/{boothId}/comment/{commentId}")
-    public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+    public ResponseEntity<StatusResponseDto> deleteComment(@PathVariable Long commentId,@PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         if(commentService.commentMatchUser(commentId,customOAuth2User)){
             commentService.deleteComment(commentId);
             return ResponseEntity.ok(StatusResponseDto.success(null));
@@ -56,8 +55,8 @@ public class CommentController {
     /**
      * 댓글 신고
      */
-        @PostMapping("/boothId/comment/{commentId}/report")
-    public ResponseEntity<StatusResponseDto> reportComment(@PathVariable Long commentId, @RequestBody ReportCommentDto reportCommentDto){
+        @PostMapping("/{boothId}/comment/{commentId}/report")
+    public ResponseEntity<StatusResponseDto> reportComment(@PathVariable Long commentId, @PathVariable Long boothId, @RequestBody ReportCommentDto reportCommentDto){
        try{
            commentService.reportComment(commentId,reportCommentDto);
            return ResponseEntity.ok(StatusResponseDto.success(null));
