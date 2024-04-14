@@ -39,7 +39,7 @@ public class AuthController {
     }
 
     @GetMapping("/reissue/access")
-    public ResponseEntity<StatusResponseDto> reissueAccess(@RequestHeader(value = "RefreshToken") String refreshToken) {
+    public ResponseEntity<StatusResponseDto> reissueAccess(@RequestHeader(value = "Authorization") String refreshToken) {
         try {
             if (refreshToken == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(StatusResponseDto.addStatus(401));

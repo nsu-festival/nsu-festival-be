@@ -34,8 +34,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             // 인코딩을 UTF-8로 설정
             response.setCharacterEncoding("UTF-8");
-
-            objectMapper.writeValue(response.getWriter(), StatusResponseDto.addStatus(401));
+            objectMapper.writeValue(response.getWriter(), StatusResponseDto.error("토큰 검증 실패."));
         } catch (CustomExpiredJwtException e) {
             // 응답 상태를 401(인증되지 않음)로 설정
             response.setStatus(401);
@@ -45,7 +44,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
             response.setCharacterEncoding("UTF-8");
 
             // 토큰 만료 메시지를 응답 본문에 작성
-            objectMapper.writeValue(response.getWriter(), StatusResponseDto.error("토큰이 만료되었습니다."));
+            objectMapper.writeValue(response.getWriter(), StatusResponseDto.error(e.getMessage()));
         }
     }
 }

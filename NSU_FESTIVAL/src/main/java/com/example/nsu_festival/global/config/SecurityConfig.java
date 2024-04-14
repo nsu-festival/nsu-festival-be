@@ -4,25 +4,21 @@ import com.example.nsu_festival.global.security.handler.CustomOAuth2Authenticati
 import com.example.nsu_festival.global.security.handler.CustomOAuth2AuthenticationSuccessHandler;
 import com.example.nsu_festival.global.security.jwt.JwtAuthFilter;
 import com.example.nsu_festival.global.security.jwt.JwtExceptionFilter;
-import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import com.example.nsu_festival.global.security.oauth2.CustomClientRegistrationRepo;
 import com.example.nsu_festival.global.security.service.CustomOAuth2UserService;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.charset.StandardCharsets;
 
 @Configuration
 @EnableWebSecurity
@@ -35,6 +31,47 @@ public class SecurityConfig {
     private final JwtExceptionFilter jwtExceptionFilter;
     private final CustomOAuth2AuthenticationSuccessHandler customOAuth2AuthenticationSuccessHandler;
     private final CustomOAuth2AuthenticationFailureHandler customOAuth2AuthenticationFailureHandler;
+
+    @Bean
+    public FilterRegistrationBean<JwtAuthFilter> jwtAuthFilterRegistrationBean() {
+        FilterRegistrationBean<JwtAuthFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(jwtAuthFilter);
+        filterRegistrationBean.setEnabled(false); // 이 부분을 추가해줍니다.
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<JwtExceptionFilter> jwtExceptionFilterRegistrationBean() {
+        FilterRegistrationBean<JwtExceptionFilter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(jwtExceptionFilter);
+        filterRegistrationBean.setEnabled(false);
+        return filterRegistrationBean;
+    }
+
+
+    @Bean
+    public WebSecurityCustomizer ignoringCustomizer() {
+        return (web) -> web.ignoring().requestMatchers(
+                HttpMethod.GET,
+                "/notices/{noticeId}", // GET 요청에 대해서만 규칙 적용
+                "/visitors/**",
+                "/booths/top",
+                "/booths",
+                "/booths/{boothId}/details",
+                "/likes/{contentType}/days/{dDay}",
+                "/trafficinformations",
+                "/festivalprograms/days/{dDay}",
+                "/singerlineups/days/{dDay}",
+                "/notices",
+                "/auth/reissue/access",
+                "/auth/logout"
+        ).requestMatchers(
+                HttpMethod.POST,
+                "/booths/{boothId}/comment/{commentId}/repot"
+        ).requestMatchers("/");
+    }
+
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -84,12 +121,13 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/").permitAll()
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                        .anyRequest().authenticated());
-        http
+                        .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionFilter, JwtAuthFilter.class);
 
         return http.build();
     }
+
+
 }
 
