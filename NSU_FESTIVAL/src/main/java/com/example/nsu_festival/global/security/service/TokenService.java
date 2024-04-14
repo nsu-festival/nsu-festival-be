@@ -25,21 +25,25 @@ public class TokenService {
 
         String token = jwtUtil.resolveToken(refresh);
 
-        //StringUtils.hasText() : null, 빈 문자열, 공백으로만 이루어져 있는 문자열이 아닌 경우만 ture 반환
-        if (StringUtils.hasText(token) && jwtUtil.verifyRefreshToken(token)) {
-            //토큰에서 사용자 정보(email)을 꺼내 DB에 저장된 RefreshToken을 찾음
-            Optional<RefreshToken> findTokens = refreshTokenRepository.findByUserEmail(jwtUtil.getEmail(token));
-            RefreshToken resultToken = findTokens.get();
-            String email = jwtUtil.getEmail(resultToken.getRefreshToken());
-            String role = jwtUtil.getRole(resultToken.getRefreshToken());
-            //찾은 RefreshToken의 사용자 정보를 이용해 새로운 AccessToken 발행
-            String newAccessToken = jwtUtil.generateAccessToken(email, role);
+        try{
+            //StringUtils.hasText() : null, 빈 문자열, 공백으로만 이루어져 있는 문자열이 아닌 경우만 ture 반환
+            if (StringUtils.hasText(token) && jwtUtil.verifyRefreshToken(token)) {
+                //토큰에서 사용자 정보(email)을 꺼내 DB에 저장된 RefreshToken을 찾음
+                Optional<RefreshToken> findTokens = refreshTokenRepository.findByUserEmail(jwtUtil.getEmail(token));
+                RefreshToken resultToken = findTokens.get();
+                String email = jwtUtil.getEmail(resultToken.getRefreshToken());
+                String role = jwtUtil.getRole(resultToken.getRefreshToken());
+                //찾은 RefreshToken의 사용자 정보를 이용해 새로운 AccessToken 발행
+                String newAccessToken = jwtUtil.generateAccessToken(email, role);
 
-            return TokenDto.builder()
-                    .accessToken(newAccessToken)
-                    .build();
-        } else {
-            throw new JwtException("refreshToken이 만료 또는 잘못된 값입니다.");
+                return TokenDto.builder()
+                        .accessToken(newAccessToken)
+                        .build();
+            }
+
+            throw new JwtException("비정상적인 토큰 값");
+        } catch (JwtException j){
+            throw j;
         }
     }
 
