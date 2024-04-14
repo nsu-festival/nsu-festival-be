@@ -11,7 +11,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:5173", "http://localhost:3000",
-                        "http://nsu-festival-fe.s3-website.ap-northeast-2.amazonaws.com")
+                        "http://nsu-festival-fe.s3-website.ap-northeast-2.amazonaws.com",
+                        "https://nsu-festival.com")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("Set-Cookie", "Authorization", "RefreshToken")
