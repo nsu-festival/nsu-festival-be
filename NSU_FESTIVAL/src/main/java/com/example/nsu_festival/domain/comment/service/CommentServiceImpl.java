@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
@@ -41,8 +42,13 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public boolean writeComment(CommentDto commentDto,Long boothId, CustomOAuth2User customOAuth2User){
         try{
+            if (!StringUtils.hasText(commentDto.getContent())) {
+                return false;
+            }
             BadWordFiltering badWordFiltering = new BadWordFiltering();
               String badWord =  badWordFiltering.change(commentDto.getContent());
+
+
 
             User user = userRepository.findByEmail(customOAuth2User.getEmail()).get();
             Booth booth = boothRepository.findById(boothId).get();
@@ -51,26 +57,32 @@ public class CommentServiceImpl implements CommentService {
                                     .booth(booth)
                                             .user(user)
                     .build();
+
             commentRepository.save(comment);
             return true;
         }catch (RuntimeException e){
             e.printStackTrace();
             throw new CustomException(SERVER_ERROR);
         }
-
     }
 
     /**
      * 댓글 수정
      */
     @Transactional
-    public void updateComment(Long commentId, CommentUpdateDto commentUpdateDto){
+    public boolean updateComment(Long commentId, CommentUpdateDto commentUpdateDto){
         try{
+
+            if (!StringUtils.hasText(commentUpdateDto.getContent())) {
+                return false;
+            }
+
             BadWordFiltering badWordFiltering = new BadWordFiltering();
             String badWord =  badWordFiltering.change(commentUpdateDto.getContent());
             Comment comment = commentRepository.findById(commentId).get();
             comment.commentUpdate(badWord);
 
+            return true;
         }catch (RuntimeException e){
             e.printStackTrace();
             throw new CustomException(SERVER_ERROR);

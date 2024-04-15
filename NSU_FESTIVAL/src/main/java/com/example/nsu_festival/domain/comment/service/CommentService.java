@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 public interface CommentService {
     boolean writeComment(CommentDto commentDto, Long commentId,CustomOAuth2User customOAuth2User);
-    void updateComment( Long commentId, CommentUpdateDto commentUpdateDto);
+    boolean updateComment( Long commentId, CommentUpdateDto commentUpdateDto);
     boolean commentMatchUser(Long commentId, CustomOAuth2User customOAuth2User);
     void deleteComment(Long commentId);
     void reportComment(Long commentId, ReportCommentDto reportCommentDto);

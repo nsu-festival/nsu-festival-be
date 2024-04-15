@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -218,6 +217,8 @@ public class BoothServiceImpl implements BoothService{
 
     @PostConstruct // 초기 데이터 설정 어노테이션
     public void initializeData() {
+
+
         List<String> foodTruckImage = getBoothImgList("foodTruckImage");
 
         // 부스 1
@@ -719,9 +720,9 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck1);
         boothCategoryRepository.save(boothCategory1);
         List<Menu> menus = new ArrayList<>();
-        menus.add(new Menu(1L,"스테이크+밥","11,000원",foodTruck1));
-        menus.add(new Menu(2L,"스테이크+소시지","11,000원",foodTruck1));
-        menus.add(new Menu(3L,"스테이크+감자","10,000원",foodTruck1));
+        menus.add(new Menu(1L,"스테이크+밥","11,000",foodTruck1));
+        menus.add(new Menu(2L,"스테이크+소시지","11,000",foodTruck1));
+        menus.add(new Menu(3L,"스테이크+감자","10,000",foodTruck1));
         menuRepository.saveAll(menus);
         foodTruck1.setMenus(menus);
 
@@ -731,8 +732,8 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck2);
         boothCategoryRepository.save(boothCategory2);
         List<Menu> menus1 = new ArrayList<>();
-        menus1.add(new Menu(4L,"곱창순대볶음(중)","15,000원",foodTruck2));
-        menus1.add(new Menu(5L,"곱창순대볶음(대)","22,000원",foodTruck2));
+        menus1.add(new Menu(4L,"곱창순대볶음(중)","15,000",foodTruck2));
+        menus1.add(new Menu(5L,"곱창순대볶음(대)","22,000",foodTruck2));
         menuRepository.saveAll(menus1);
         foodTruck2.setMenus(menus1);
 
@@ -742,8 +743,8 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck3);
         boothCategoryRepository.save(boothCategory3);
         List<Menu> menus2 = new ArrayList<>();
-        menus2.add(new Menu(6L,"크림,칠리새우(중)","10,000원",foodTruck3));
-        menus2.add(new Menu(7L,"크림,칠리새우(대)","15,000원",foodTruck3));
+        menus2.add(new Menu(6L,"크림,칠리새우(중)","10,000",foodTruck3));
+        menus2.add(new Menu(7L,"크림,칠리새우(대)","15,000",foodTruck3));
         menuRepository.saveAll(menus2);
         foodTruck3.setMenus(menus2);
 
@@ -753,8 +754,8 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck4);
         boothCategoryRepository.save(boothCategory4);
         List<Menu> menus3 = new ArrayList<>();
-        menus3.add(new Menu(8L,"닭강정(중)","10,000원",foodTruck4));
-        menus3.add(new Menu(9L,"닭강정(대)","15,000원",foodTruck4));
+        menus3.add(new Menu(8L,"닭강정(중)","10,000",foodTruck4));
+        menus3.add(new Menu(9L,"닭강정(대)","15,000",foodTruck4));
         menuRepository.saveAll(menus3);
         foodTruck4.setMenus(menus3);
 
@@ -764,9 +765,9 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck5);
         boothCategoryRepository.save(boothCategory5);
         List<Menu> menus4 = new ArrayList<>();
-        menus4.add(new Menu(10L,"돼지갈비후라이드(중)","10,000원",foodTruck5));
-        menus4.add(new Menu(11L,"돼지갈비후라이드(대)","14,000원",foodTruck5));
-        menus4.add(new Menu(12L,"돼지갈비퀘사디아","8,000원",foodTruck5));
+        menus4.add(new Menu(10L,"돼지갈비후라이드(중)","10,000",foodTruck5));
+        menus4.add(new Menu(11L,"돼지갈비후라이드(대)","14,000",foodTruck5));
+        menus4.add(new Menu(12L,"돼지갈비퀘사디아","8,000",foodTruck5));
         menuRepository.saveAll(menus4);
         foodTruck5.setMenus(menus4);
 
@@ -776,7 +777,7 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck6);
         boothCategoryRepository.save(boothCategory6);
         List<Menu> menus5 = new ArrayList<>();
-        menus5.add(new Menu(13L,"타코야끼10알","6,000원",foodTruck6));
+        menus5.add(new Menu(13L,"타코야끼10알","6,000",foodTruck6));
         menuRepository.saveAll(menus5);
         foodTruck6.setMenus(menus5);
 
@@ -786,7 +787,7 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck7);
         boothCategoryRepository.save(boothCategory7);
         List<Menu> menus6 = new ArrayList<>();
-        menus6.add(new Menu(14L,"닭꼬치","5,000원",foodTruck7));
+        menus6.add(new Menu(14L,"닭꼬치","5,000",foodTruck7));
         menuRepository.saveAll(menus6);
         foodTruck7.setMenus(menus6);
 
@@ -796,10 +797,10 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck8);
         boothCategoryRepository.save(boothCategory8);
         List<Menu> menus7 = new ArrayList<>();
-        menus7.add(new Menu(15L,"회오리감자","4,000원",foodTruck8));
-        menus7.add(new Menu(16L,"소떡소떡","3,500원",foodTruck8));
-        menus7.add(new Menu(17L,"옛날 핫도그","4,000원",foodTruck8));
-        menus7.add(new Menu(18L,"회오리 핫도그","5,000원",foodTruck8));
+        menus7.add(new Menu(15L,"회오리감자","4,000",foodTruck8));
+        menus7.add(new Menu(16L,"소떡소떡","3,500",foodTruck8));
+        menus7.add(new Menu(17L,"옛날 핫도그","4,000",foodTruck8));
+        menus7.add(new Menu(18L,"회오리 핫도그","5,000",foodTruck8));
         menuRepository.saveAll(menus7);
         foodTruck8.setMenus(menus7);
 
@@ -809,10 +810,10 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck9);
         boothCategoryRepository.save(boothCategory9);
         List<Menu> menus8 = new ArrayList<>();
-        menus8.add(new Menu(19L,"구슬아이스크림 싱글","3,500원",foodTruck9));
-        menus8.add(new Menu(20L,"구슬아이스크림 더블","7,000원",foodTruck9));
-        menus8.add(new Menu(21L,"구슬아이스크림 쿼터","9,000원",foodTruck9));
-        menus8.add(new Menu(22L,"구슬아이스크림 올","11,000원",foodTruck9));
+        menus8.add(new Menu(19L,"구슬아이스크림 싱글","3,500",foodTruck9));
+        menus8.add(new Menu(20L,"구슬아이스크림 더블","7,000",foodTruck9));
+        menus8.add(new Menu(21L,"구슬아이스크림 쿼터","9,000",foodTruck9));
+        menus8.add(new Menu(22L,"구슬아이스크림 올","11,000",foodTruck9));
         menuRepository.saveAll(menus8);
         foodTruck9.setMenus(menus8);
 
@@ -822,9 +823,9 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck10);
         boothCategoryRepository.save(boothCategory10);
         List<Menu> menus9 = new ArrayList<>();
-        menus9.add(new Menu(23L,"오레오츄러스","4,000원",foodTruck10));
-        menus9.add(new Menu(24L,"소프트아이스크림","4,000원",foodTruck10));
-        menus9.add(new Menu(25L,"오레오아츄","6,000원",foodTruck10));
+        menus9.add(new Menu(23L,"오레오츄러스","4,000",foodTruck10));
+        menus9.add(new Menu(24L,"소프트아이스크림","4,000",foodTruck10));
+        menus9.add(new Menu(25L,"오레오아츄","6,000",foodTruck10));
         menuRepository.saveAll(menus9);
         foodTruck10.setMenus(menus9);
 
@@ -834,8 +835,8 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck11);
         boothCategoryRepository.save(boothCategory11);
         List<Menu> menus10 = new ArrayList<>();
-        menus10.add(new Menu(26L,"케밥","7,000 ~ 9,000원",foodTruck11));
-        menus10.add(new Menu(27L,"터키아이스크림","4,000원",foodTruck11));
+        menus10.add(new Menu(26L,"케밥","7,000 ~ 9,000",foodTruck11));
+        menus10.add(new Menu(27L,"터키아이스크림","4,000",foodTruck11));
         menuRepository.saveAll(menus10);
         foodTruck11.setMenus(menus10);
 
@@ -845,8 +846,8 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck12);
         boothCategoryRepository.save(boothCategory12);
         List<Menu> menus11 = new ArrayList<>();
-        menus11.add(new Menu(28L,"슬러시","3,500원",foodTruck12));
-        menus11.add(new Menu(29L,"캐릭터슬러시","6,000원",foodTruck12));
+        menus11.add(new Menu(28L,"슬러시","3,500",foodTruck12));
+        menus11.add(new Menu(29L,"캐릭터슬러시","6,000",foodTruck12));
         menuRepository.saveAll(menus11);
         foodTruck12.setMenus(menus11);
 
@@ -856,8 +857,8 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck13);
         boothCategoryRepository.save(boothCategory13);
         List<Menu> menus12 = new ArrayList<>();
-        menus12.add(new Menu(30L,"야끼소바","10,000원",foodTruck13));
-        menus12.add(new Menu(31L,"오코노미야끼","10,000원",foodTruck13));
+        menus12.add(new Menu(30L,"야끼소바","10,000",foodTruck13));
+        menus12.add(new Menu(31L,"오코노미야끼","10,000",foodTruck13));
         menuRepository.saveAll(menus12);
         foodTruck13.setMenus(menus12);
 
@@ -867,9 +868,9 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck14);
         boothCategoryRepository.save(boothCategory14);
         List<Menu> menus13 = new ArrayList<>();
-        menus13.add(new Menu(32L,"떡볶이","5,000원",foodTruck14));
-        menus13.add(new Menu(33L,"순대","5,000원",foodTruck14));
-        menus13.add(new Menu(34L,"튀김","5,000원",foodTruck14));
+        menus13.add(new Menu(32L,"떡볶이","5,000",foodTruck14));
+        menus13.add(new Menu(33L,"순대","5,000",foodTruck14));
+        menus13.add(new Menu(34L,"튀김","5,000",foodTruck14));
         menuRepository.saveAll(menus13);
         foodTruck14.setMenus(menus13);
 
@@ -879,10 +880,12 @@ public class BoothServiceImpl implements BoothService{
         boothRepository.save(foodTruck15);
         boothCategoryRepository.save(boothCategory15);
         List<Menu> menus14 = new ArrayList<>();
-        menus14.add(new Menu(35L,"불초밥 10p","11,000원",foodTruck15));
-        menus14.add(new Menu(36L,"연어초밥 10p","12,000원",foodTruck15));
+        menus14.add(new Menu(35L,"불초밥 10p","11,000",foodTruck15));
+        menus14.add(new Menu(36L,"연어초밥 10p","12,000",foodTruck15));
         menuRepository.saveAll(menus14);
         foodTruck15.setMenus(menus14);
+
+
 
     }
 
