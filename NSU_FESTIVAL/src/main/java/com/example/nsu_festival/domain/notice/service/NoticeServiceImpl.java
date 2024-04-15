@@ -65,7 +65,7 @@ public class NoticeServiceImpl implements NoticeService{
      */
     @Override
     public void writeNotice(NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User) {
-        if (customOAuth2User != null && isAdmin(customOAuth2User)) {
+        if (customOAuth2User != null) {
             String email = customOAuth2User.getEmail();
             User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with email: " + email));
             Notice notice = Notice.builder()
@@ -85,7 +85,7 @@ public class NoticeServiceImpl implements NoticeService{
      */
     @Override
     public void updateNotice(Long noticeId, NoticeRequestDto noticeRequestDto, CustomOAuth2User customOAuth2User) {
-        if (customOAuth2User != null && isAdmin(customOAuth2User)) {
+        if (customOAuth2User != null) {
             String email = customOAuth2User.getEmail();
             User user = userRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found with email: " + email));
             Notice notice = noticeRepository.findById(noticeId).orElseThrow(() -> new RuntimeException("Notice not found with noticeId: " + noticeId));;
@@ -99,7 +99,7 @@ public class NoticeServiceImpl implements NoticeService{
     @Override
     public void deleteNotice(Long noticeId, CustomOAuth2User customOAuth2User){
         try{
-            if (customOAuth2User != null && isAdmin(customOAuth2User)) {
+            if (customOAuth2User != null) {
                 noticeRepository.deleteById(noticeId);
             }else{
                 throw new HttpClientErrorException(HttpStatusCode.valueOf(401));
