@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
@@ -41,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public boolean writeComment(CommentDto commentDto,Long boothId, CustomOAuth2User customOAuth2User){
         try{
-            if (commentDto.getContent() == null || commentDto.getContent().trim().isEmpty()) {
+            if (!StringUtils.hasText(commentDto.getContent())) {
                 return false;
             }
             BadWordFiltering badWordFiltering = new BadWordFiltering();
@@ -72,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
     public boolean updateComment(Long commentId, CommentUpdateDto commentUpdateDto){
         try{
 
-            if (commentUpdateDto.getContent() == null || commentUpdateDto.getContent().trim().isEmpty()) {
+            if (!StringUtils.hasText(commentUpdateDto.getContent())) {
                 return false;
             }
 
