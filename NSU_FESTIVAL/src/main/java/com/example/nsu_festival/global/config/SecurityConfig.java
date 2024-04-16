@@ -105,7 +105,6 @@ public class SecurityConfig {
                                 "/visitors/**",
                                 "/booths/top",
                                 "/booths",
-                                "/booths/{boothId}/details",
                                 "/trafficinformations",
                                 "/festivalprograms/days/{dDay}",
                                 "/singerlineups/days/{dDay}",
