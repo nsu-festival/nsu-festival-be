@@ -121,6 +121,18 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/").permitAll()
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/notices/posts"
+                        ).hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/notices/{noticeId}"
+                        ).hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(
+                                HttpMethod.DELETE,
+                                "/notices/{noticeId}"
+                                ).hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtExceptionFilter, JwtAuthFilter.class);

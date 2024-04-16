@@ -27,6 +27,7 @@ public class JwtUtil {
 
     private static final String PREFIX = "Bearer ";
     private SecretKey secretKey;
+    private final Long TEST_ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 24L * 10L;      //테스트용 토큰 10시간
     private final Long ACCESS_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 30L;      // 만료일 30분
     private final Long REFRESH_TOKEN_EXPIRE_LENGTH = 1000L * 60L * 60L * 10L;       // 만료일 10시간
     @Autowired
@@ -60,6 +61,26 @@ public class JwtUtil {
         log.info("=====Access Token 생성..=====");
         // 현재 시간과 날짜를 가져옴
         Date now = new Date();
+
+        //테스트용 토큰 시간(10일)
+        if(role.equals("ROLE_ADMIN")) {
+            return Jwts.builder()
+                    // 알고리즘과 타입 정의
+                    .header()
+                    .add("alg", "HS256")
+                    .add("typ", "JWT")
+                    .and()
+                    // Payload 구성하는 속성 정의
+                    .claim("email", email)
+                    .claim("roel", role)
+                    // 발행일자
+                    .issuedAt(now)
+                    // 만료일자
+                    .expiration(new Date(now.getTime() + TEST_ACCESS_TOKEN_EXPIRE_LENGTH))
+                    // 서명 알고리즘과 비밀 키를 사용해 토큰 서명
+                    .signWith(secretKey)
+                    .compact();
+        }
 
         return Jwts.builder()
                 // 알고리즘과 타입 정의
