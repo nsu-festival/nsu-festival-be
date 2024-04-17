@@ -150,8 +150,9 @@ public class BoothServiceImpl implements BoothService{
                 boothLiked.updateBoothLiked(false);
             }
 
-            List<Comment> comments = commentRepository.findCommentByBoothIdAndRange(booth.getBoothId(),startIndex,endIndex);
-            List<Comment> sortedComments = comments.stream()
+            List<Comment> comments = commentRepository.findAllCommentByBooth(booth);
+            List<Comment> rangedComments = comments.subList(Math.max(0, startIndex-1), Math.min(endIndex-1, comments.size()));
+            List<Comment> sortedComments = rangedComments.stream()
                     .sorted(Comparator.comparing(Comment::getCreatAt).reversed())
                     .collect(Collectors.toList());
             Long boothCommentCounts = commentRepository.countCommentByBooth(booth);
