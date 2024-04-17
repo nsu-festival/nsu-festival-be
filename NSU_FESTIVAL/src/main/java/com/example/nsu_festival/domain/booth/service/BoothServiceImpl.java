@@ -31,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,11 +151,14 @@ public class BoothServiceImpl implements BoothService{
             }
 
             List<Comment> comments = commentRepository.findCommentByBoothIdAndRange(booth.getBoothId(),startIndex,endIndex);
+            List<Comment> sortedComments = comments.stream()
+                    .sorted(Comparator.comparing(Comment::getCreatAt).reversed())
+                    .collect(Collectors.toList());
             Long boothCommentCounts = commentRepository.countCommentByBooth(booth);
 
             List<BoothCommentDto> commentDtos = new ArrayList<>();
 
-            for (Comment boothComment : comments) {
+            for (Comment boothComment : sortedComments) {
                 User commentUser = boothComment.getUser();
                 if (commentUser != null) {
                     String userName = commentUser.getNickName();
