@@ -77,22 +77,29 @@ public class DetermineServiceImpl implements DetermineService{
      *  해당하는 컨텐츠의 좋아요 업데이트
      */
     @Override
-    public boolean determineContents(ContentType contentType, Long contentId){
+    public boolean determineContents(CustomOAuth2User customOAuth2User, ContentType contentType, Long contentId){
         log.info("determinecontents -> contentType :{}", contentType);
         log.info("determinecontents -> contentId :{}", contentId);
+
+        String userEmail = customOAuth2User.getEmail();
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new RuntimeException("User not found with email: " + userEmail));
 
         log.info("해당하는 좋아요 메서드 호출");
         switch (contentType) {
             case booth:
                 Booth booth = boothRepository.findById(contentId)
                         .orElseThrow(() -> new RuntimeException("존재하지 않는 부스"));
-                BoothLiked boothLiked = boothLikedRepository.findByBooth(booth);
+                BoothLiked boothLiked = boothLikedRepository.findByBoothAndUser(booth, user);
                 return boothLikedService.toggleLikeContents(boothLiked);
             case festivalProgram:
-                FestivalProgramLiked festivalProgramLiked = festivalProgramLikedRepository.findFestivalProgramLikedByContentId(contentId);
+                FestivalProgram festivalProgram = festivalProgramRepository.findById(contentId)
+                        .orElseThrow(() -> new RuntimeException("존재하지 않는 프로그램"));
+                FestivalProgramLiked festivalProgramLiked = festivalProgramLikedRepository.findByUserAndFestivalProgram(user, festivalProgram);
                 return festivalProgramLikedService.toggleLikeContents(festivalProgramLiked);
             case singerLineup:
-                SingerLineupLiked singerLineupLiked = singerLineupLikedRepository.findSingerLineupLikedByContentId(contentId);
+                SingerLineup singerLineup = singerLineupRepository.findById(contentId)
+                        .orElseThrow(() -> new RuntimeException("존재하지 않는 가수"));
+                SingerLineupLiked singerLineupLiked = singerLineupLikedRepository.findByUserAndSingerLineup(user, singerLineup);
                 return singerLineupLikedService.toggleLikeContents(singerLineupLiked);
             default:
                 throw new RuntimeException("존재하지 않는 컨텐츠");

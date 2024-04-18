@@ -47,9 +47,10 @@ public class BoothController {
 
 
     @GetMapping("/{boothId}/details")
-    public ResponseEntity<StatusResponseDto> getBoothDetail(@PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User) {
+    public ResponseEntity<StatusResponseDto> getBoothDetail(@PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User
+    , @RequestParam(required = false, defaultValue = "0") int startIndex,  @RequestParam(required = false, defaultValue = "10") int endIndex) {
         try {
-            BoothDetailDto boothDetailDto = boothService.getDetailBooth(boothId, customOAuth2User);
+            BoothDetailDto boothDetailDto = boothService.getDetailBooth(boothId, customOAuth2User,startIndex,endIndex);
 
             return ResponseEntity.ok().body(StatusResponseDto.success(boothDetailDto));
         } catch (Exception e) {

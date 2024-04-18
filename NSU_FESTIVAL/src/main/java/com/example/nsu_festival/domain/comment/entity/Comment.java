@@ -3,11 +3,13 @@ package com.example.nsu_festival.domain.comment.entity;
 import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.comment.dto.CommentUpdateDto;
 import com.example.nsu_festival.domain.user.entity.User;
+import com.example.nsu_festival.global.baseEntity.BaseTimeRegDateEntity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +17,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table
-public class Comment {
+public class Comment extends BaseTimeRegDateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
@@ -50,6 +51,14 @@ public class Comment {
     @OneToMany(mappedBy = "comment",fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Report> reports = new ArrayList<>();
+
+    @Builder
+    Comment (String content, User user, Booth booth,LocalDateTime createAt){
+        this.content=content;
+        this.user = user;
+        this.booth= booth;
+        this.creatAt = createAt;
+    }
 
 
 }

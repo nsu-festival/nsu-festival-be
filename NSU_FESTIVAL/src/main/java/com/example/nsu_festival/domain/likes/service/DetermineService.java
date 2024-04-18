@@ -10,7 +10,7 @@ import java.util.List;
 public interface DetermineService {
     boolean determineUser(ContentType contentType, CustomOAuth2User customOAuth2User);
 
-    boolean determineContents(ContentType contentType, Long contentId);
+    boolean determineContents(CustomOAuth2User customOAuth2User, ContentType contentType, Long contentId);
 
     List<UserLikeDto> findUserLike (ContentType contentType, CustomOAuth2User customOAuth2User, LocalDate day);
 
