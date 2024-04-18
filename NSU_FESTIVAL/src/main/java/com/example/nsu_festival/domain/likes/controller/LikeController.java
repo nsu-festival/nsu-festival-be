@@ -48,9 +48,9 @@ public class LikeController {
         }
     }
     @PostMapping("/{contentId}")
-    ResponseEntity<StatusResponseDto> likeContents(@PathVariable ContentType contentType, @PathVariable Long contentId){
+    ResponseEntity<StatusResponseDto> likeContents(@AuthenticationPrincipal CustomOAuth2User customOAuth2User, @PathVariable ContentType contentType, @PathVariable Long contentId){
         try{
-            if(determineService.determineContents(contentType, contentId)){
+            if(determineService.determineContents(customOAuth2User, contentType, contentId)){
                 return ResponseEntity.ok().body(StatusResponseDto.success());
             }
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
