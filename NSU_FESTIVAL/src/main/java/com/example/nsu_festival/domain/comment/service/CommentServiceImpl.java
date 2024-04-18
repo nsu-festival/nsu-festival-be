@@ -21,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 
+import java.time.LocalDateTime;
+
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
 
 @Service
@@ -52,10 +54,12 @@ public class CommentServiceImpl implements CommentService {
 
             User user = userRepository.findByEmail(customOAuth2User.getEmail()).get();
             Booth booth = boothRepository.findById(boothId).get();
+
             Comment comment = Comment.builder()
                             .content(badWord)
-                                    .booth(booth)
-                                            .user(user)
+                            .booth(booth)
+                            .user(user)
+                            .createAt(LocalDateTime.now())
                     .build();
 
             commentRepository.save(comment);

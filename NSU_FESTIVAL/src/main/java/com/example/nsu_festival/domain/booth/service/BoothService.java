@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface BoothService {
     List<AllBoothDto> getAllBooths();
-    BoothDetailDto getDetailBooth(Long boothId, CustomOAuth2User customOAuth2User);
+    BoothDetailDto getDetailBooth(Long boothId, CustomOAuth2User customOAuth2User, int startIndex, int endIndex);
 //    List<AllBoothDto> getAllFoodTrucks();
 
     List<AllBoothDto> findTopBooths();
