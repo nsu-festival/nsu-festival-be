@@ -7,4 +7,5 @@ public interface LikedService {
     void createUserLike(Long userId);                                                        // 각 좋아요 테이블의 해당 유저의 좋아요 여부 레코드 생성
 
     void updateLikeCount(Object likeContents);                                              // 각 테이블 좋아요 개수 업데이트
+
 }

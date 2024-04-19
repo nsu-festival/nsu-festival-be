@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalTime;
 
@@ -35,11 +33,11 @@ public class FestivalProgram {
     private FestivalDate festivalDate;      // 행사 날짜 Entity
 
     @Builder
-    private FestivalProgram(Long festivalProgramId, String title, LocalTime startTime, LocalTime endTime, int countLike, FestivalDate festivalDate){
+    public FestivalProgram(Long festivalProgramId, String title, String startTime, String endTime, int countLike, FestivalDate festivalDate){
         this.festivalProgramId = festivalProgramId;
         this.title = title;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTime = LocalTime.parse(startTime);
+        this.endTime = LocalTime.parse(endTime);
         this.countLike = countLike;
         this.festivalDate = festivalDate;
     }
