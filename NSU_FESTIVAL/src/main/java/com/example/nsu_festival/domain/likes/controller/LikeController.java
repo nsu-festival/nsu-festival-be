@@ -2,7 +2,9 @@ package com.example.nsu_festival.domain.likes.controller;
 
 import com.example.nsu_festival.domain.likes.dto.UserLikeDto;
 import com.example.nsu_festival.domain.likes.entity.ContentType;
+import com.example.nsu_festival.domain.likes.service.BoothLikedServiceImpl;
 import com.example.nsu_festival.domain.likes.service.DetermineServiceImpl;
+import com.example.nsu_festival.domain.user.entity.User;
 import com.example.nsu_festival.global.etc.StatusResponseDto;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.RunnableScheduledFuture;
 
 @Controller
@@ -25,6 +28,7 @@ import java.util.concurrent.RunnableScheduledFuture;
 @RequestMapping("likes/{contentType}")
 public class LikeController {
     private final DetermineServiceImpl determineService;
+    private final BoothLikedServiceImpl boothLikedService;
     @GetMapping("/days/{dDay}")
     ResponseEntity<StatusResponseDto> determineLikeContents(@PathVariable ContentType contentType, @PathVariable LocalDate dDay, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         try{
@@ -44,6 +48,21 @@ public class LikeController {
             }
             return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         } catch (RuntimeException e){
+            return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
+        }
+    }
+    @GetMapping("/{boothId}")
+    ResponseEntity<StatusResponseDto> findBoothLiked(@PathVariable ContentType contentType, @PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
+        try{
+            if(determineService.determineUser(contentType, customOAuth2User)){
+                UserLikeDto userLikeDto = boothLikedService.findBoothLike(boothId, customOAuth2User);
+                return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDto));
+            }else{
+                boothLikedService.createBoothLike(customOAuth2User, boothId);
+                UserLikeDto userLikeDto = boothLikedService.findBoothLike(boothId, customOAuth2User);
+                return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDto));
+            }
+        }catch (RuntimeException e){
             return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         }
     }

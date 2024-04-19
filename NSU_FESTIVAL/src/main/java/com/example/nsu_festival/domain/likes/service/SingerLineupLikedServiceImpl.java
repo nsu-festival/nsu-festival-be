@@ -44,7 +44,6 @@ public class SingerLineupLikedServiceImpl implements LikedService{
     /**
      * 좋아요 테이블의 사용자 기본 레코드 생성
      */
-    @Override
     public void createUserLike(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with userId: " + userId));

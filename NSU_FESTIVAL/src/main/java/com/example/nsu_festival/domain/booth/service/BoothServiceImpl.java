@@ -132,24 +132,24 @@ public class BoothServiceImpl implements BoothService{
             Booth booth = boothRepository.findById(boothId).get();
             List<Menu> menu = menuRepository.findMenusByBooth(booth);
 
-            BoothLiked boothLiked = null;
-            if (customOAuth2User != null) {
-                User user = userRepository.findByEmail(customOAuth2User.getEmail()).orElseThrow(() -> new CustomException(SERVER_ERROR));
-                boothLiked = boothLikedRepository.findBoothLikedByBoothAndUser(booth,user);
-                if (boothLiked == null) {
-
-                    boothLiked = BoothLiked.builder()
-                            .user(user)
-                            .isBoothLike(false)
-                            .booth(booth)
-                            .build();
-                    boothLikedRepository.save(boothLiked);
-                }
-            } else {
-                // 로그인되어 있지 않은 경우
-                boothLiked = new BoothLiked();
-                boothLiked.updateBoothLiked(false);
-            }
+//            BoothLiked boothLiked = null;
+//            if (customOAuth2User != null) {
+//                User user = userRepository.findByEmail(customOAuth2User.getEmail()).orElseThrow(() -> new CustomException(SERVER_ERROR));
+//                boothLiked = boothLikedRepository.findBoothLikedByBoothAndUser(booth,user);
+//                if (boothLiked == null) {
+//
+//                    boothLiked = BoothLiked.builder()
+//                            .user(user)
+//                            .isBoothLike(false)
+//                            .booth(booth)
+//                            .build();
+//                    boothLikedRepository.save(boothLiked);
+//                }
+//            } else {
+//                // 로그인되어 있지 않은 경우
+//                boothLiked = new BoothLiked();
+//                boothLiked.updateBoothLiked(false);
+//            }
 
             List<Comment> comments = commentRepository.findAllCommentByBooth(booth);
             List<Comment> rangedComments = comments.subList(Math.max(0, startIndex-1), Math.min(endIndex-1, comments.size()));
@@ -190,7 +190,6 @@ public class BoothServiceImpl implements BoothService{
                     .content(booth.getContent())
                     .boothImageUrl(booth.getBoothImageUrl())
                     .boothCategories(booth.getBoothCategories())
-                    .boothLiked(boothLiked)
                     .comments(commentDtos)
                     .boothCommentCount(boothCommentCounts)
                     .menus(menu)

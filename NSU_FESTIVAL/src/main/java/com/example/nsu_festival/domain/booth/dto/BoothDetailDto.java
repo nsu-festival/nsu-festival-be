@@ -25,7 +25,6 @@ public class BoothDetailDto {
     private String boothImageUrl;
 
     private List<BoothCommentDto> comments;
-    private BoothLiked boothLiked;
     private Long boothCommentCount;
     private List<Menu> menus;
     private int entryFee;

@@ -2,16 +2,19 @@ package com.example.nsu_festival.domain.likes.service;
 
 import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.booth.repository.BoothRepository;
+import com.example.nsu_festival.domain.likes.dto.UserLikeDto;
 import com.example.nsu_festival.domain.likes.entity.BoothLiked;
 import com.example.nsu_festival.domain.likes.repository.BoothLikedRepository;
 import com.example.nsu_festival.domain.user.entity.User;
 import com.example.nsu_festival.domain.user.repository.UserRepository;
+import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -46,21 +49,18 @@ public class BoothLikedServiceImpl implements LikedService{
     /**
      * 좋아요 테이블의 사용자 기본 레코드 생성
      */
-    @Override
-    public void createUserLike(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with userId: " + userId));
+    public void createBoothLike(CustomOAuth2User customOAuth2User, Long boothId) {
+        String email = customOAuth2User.getEmail();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
 
-        List<Booth> boothList = boothRepository.findAll();
-        for(Booth booth : boothList){
-            BoothLiked boothLiked = BoothLiked.builder()
-                    .isBoothLike(false)
-                    .booth(booth)
-                    .user(user)
-                    .build();
-
-            boothLikedRepository.save(boothLiked);
-        }
+        Booth booth = boothRepository.findById(boothId).orElseThrow(()->new RuntimeException("존재하지 않는 부스"));
+        BoothLiked boothLiked = BoothLiked.builder()
+                .isBoothLike(false)
+                .booth(booth)
+                .user(user)
+                .build();
+        boothLikedRepository.save(boothLiked);
     }
 
     /**
@@ -82,5 +82,20 @@ public class BoothLikedServiceImpl implements LikedService{
 
         //좋아요 개수 업데이트 후 저장
         boothRepository.save(booth);
+    }
+
+    public UserLikeDto findBoothLike(Long boothId, CustomOAuth2User customOAuth2User){
+        Booth booth = boothRepository.findById(boothId).orElseThrow(()->new NoSuchElementException("없는 부스"));
+        String email = customOAuth2User.getEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(()->new RuntimeException("인가되지 않은 유저"));
+
+        BoothLiked boothLiked = boothLikedRepository.findByBoothAndUser(booth, user);
+
+        UserLikeDto userLikeDto = UserLikeDto.builder()
+                .contentName(booth.getTitle())
+                .isLike(boothLiked.isBoothLike())
+                .build();
+
+        return userLikeDto;
     }
 }

@@ -62,6 +62,8 @@ public class DetermineServiceImpl implements DetermineService{
 
         // contentType에 따른 분기 처리
         switch (contentType) {
+            case booth:
+                return boothLikedRepository.existsByUserId(userId);
             case festivalProgram:
                 return festivalProgramLikedRepository.existsByUserId(userId);
             case singerLineup:
