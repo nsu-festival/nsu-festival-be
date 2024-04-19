@@ -87,18 +87,15 @@ public class DetermineServiceImpl implements DetermineService{
         log.info("해당하는 좋아요 메서드 호출");
         switch (contentType) {
             case booth:
-                Booth booth = boothRepository.findById(contentId)
-                        .orElseThrow(() -> new RuntimeException("존재하지 않는 부스"));
+                Booth booth = boothRepository.findBoothByBoothId(contentId);
                 BoothLiked boothLiked = boothLikedRepository.findByBoothAndUser(booth, user);
                 return boothLikedService.toggleLikeContents(boothLiked);
             case festivalProgram:
-                FestivalProgram festivalProgram = festivalProgramRepository.findById(contentId)
-                        .orElseThrow(() -> new RuntimeException("존재하지 않는 프로그램"));
+                FestivalProgram festivalProgram = festivalProgramRepository.findFestivalProgramByFestivalProgramId(contentId);
                 FestivalProgramLiked festivalProgramLiked = festivalProgramLikedRepository.findByUserAndFestivalProgram(user, festivalProgram);
                 return festivalProgramLikedService.toggleLikeContents(festivalProgramLiked);
             case singerLineup:
-                SingerLineup singerLineup = singerLineupRepository.findById(contentId)
-                        .orElseThrow(() -> new RuntimeException("존재하지 않는 가수"));
+                SingerLineup singerLineup = singerLineupRepository.findSingerLineupBySingerLineupId(contentId);
                 SingerLineupLiked singerLineupLiked = singerLineupLikedRepository.findByUserAndSingerLineup(user, singerLineup);
                 return singerLineupLikedService.toggleLikeContents(singerLineupLiked);
             default:
