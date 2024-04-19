@@ -26,7 +26,7 @@ public class FestivalProgramLikedServiceImpl implements LikedService{
      */
     @Override
     @Transactional
-    public boolean toggleLikeContents(Object likeContents) {
+    public synchronized boolean toggleLikeContents(Object likeContents) {
         try {
             log.info("=== 축제좋아요 여부 업데이트시작 ===");
             FestivalProgramLiked festivalProgramLiked = (FestivalProgramLiked) likeContents;
@@ -46,7 +46,6 @@ public class FestivalProgramLikedServiceImpl implements LikedService{
     /**
      * 좋아요 테이블의 사용자 기본 레코드 생성
      */
-    @Override
     public void createUserLike(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with userId: " + userId));
@@ -68,8 +67,7 @@ public class FestivalProgramLikedServiceImpl implements LikedService{
      * FestivalProgram 테이블의 총 좋아요 개수 업데이트
      */
     @Override
-    @Transactional
-    public void updateLikeCount(Object likeContents) {
+    public synchronized void updateLikeCount(Object likeContents) {
         FestivalProgramLiked festivalProgramLiked = (FestivalProgramLiked) likeContents;
         Long festivalProgramId = festivalProgramLiked.getFestivalProgram().getFestivalProgramId();
         FestivalProgram festivalProgram = festivalProgramRepository.findById(festivalProgramId)

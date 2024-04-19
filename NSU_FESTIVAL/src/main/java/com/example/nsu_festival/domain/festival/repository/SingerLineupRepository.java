@@ -11,6 +11,5 @@ import java.util.List;
 public interface SingerLineupRepository extends JpaRepository<SingerLineup, Long> {
     List<SingerLineup> findAllByFestivalDate(FestivalDate festivalDate);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     SingerLineup findSingerLineupBySingerLineupId(Long contentId);
 }

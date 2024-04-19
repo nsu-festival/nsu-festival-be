@@ -62,7 +62,8 @@ public class SecurityConfig {
                 "/singerlineups/days/{dDay}",
                 "/notices",
                 "/auth/reissue/access",
-                "/auth/logout"
+                "/auth/logout",
+                "/booths/{boothId}/details"
         ).requestMatchers(
                 HttpMethod.POST,
                 "/booths/{boothId}/comment/{commentId}/repot"
@@ -109,7 +110,8 @@ public class SecurityConfig {
                                 "/singerlineups/days/{dDay}",
                                 "/notices",
                                 "/auth/reissue/access",
-                                "/auth/logout"
+                                "/auth/logout",
+                                "/booths/{boothId}/details"
                         ).permitAll()
                         .requestMatchers(
                                 HttpMethod.POST,

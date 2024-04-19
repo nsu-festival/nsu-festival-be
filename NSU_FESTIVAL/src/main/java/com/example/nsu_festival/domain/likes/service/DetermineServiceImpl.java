@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * 좋아요 관련하여 어떤 컨텐츠인지 판별하고 그에 맞는 메서드 호출이나
@@ -71,6 +72,15 @@ public class DetermineServiceImpl implements DetermineService{
         }
     }
 
+    public boolean determineBooth(CustomOAuth2User customOAuth2User, Long boothId){
+        String userEmail = customOAuth2User.getEmail();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + userEmail));
+        Booth booth = boothRepository.findById(boothId).orElseThrow(()-> new RuntimeException("없는 부스"));
+
+        return boothLikedRepository.existsByBoothAndUser(booth ,user);
+    }
+
 
     /**
      *  사용자가 좋아요를 누른 컨텐츠가 무엇인지 판별 후
@@ -89,14 +99,23 @@ public class DetermineServiceImpl implements DetermineService{
             case booth:
                 Booth booth = boothRepository.findBoothByBoothId(contentId);
                 BoothLiked boothLiked = boothLikedRepository.findByBoothAndUser(booth, user);
+                if(boothLiked == null){
+                    throw new NoSuchElementException("없는 좋아요 레코드");
+                }
                 return boothLikedService.toggleLikeContents(boothLiked);
             case festivalProgram:
                 FestivalProgram festivalProgram = festivalProgramRepository.findFestivalProgramByFestivalProgramId(contentId);
                 FestivalProgramLiked festivalProgramLiked = festivalProgramLikedRepository.findByUserAndFestivalProgram(user, festivalProgram);
+                if(festivalProgramLiked == null){
+                    throw new NoSuchElementException("없는 좋아요 레코드");
+                }
                 return festivalProgramLikedService.toggleLikeContents(festivalProgramLiked);
             case singerLineup:
                 SingerLineup singerLineup = singerLineupRepository.findSingerLineupBySingerLineupId(contentId);
                 SingerLineupLiked singerLineupLiked = singerLineupLikedRepository.findByUserAndSingerLineup(user, singerLineup);
+                if(singerLineupLiked == null){
+                    throw new NoSuchElementException("없는 좋아요 레코드");
+                }
                 return singerLineupLikedService.toggleLikeContents(singerLineupLiked);
             default:
                 throw new RuntimeException("존재하지 않는 컨텐츠");
