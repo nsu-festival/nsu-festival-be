@@ -28,8 +28,7 @@ public class BoothLikedServiceImpl implements LikedService{
      *  좋아요를 누른 사용자의 좋아요 여부 업데이트
      */
     @Override
-    @Transactional
-    public boolean toggleLikeContents(Object likeContents) {
+    public synchronized boolean toggleLikeContents(Object likeContents) {
         try {
             log.info("=== 축제좋아요 여부 업데이트시작 ===");
             BoothLiked boothLiked = (BoothLiked) likeContents;
@@ -67,8 +66,7 @@ public class BoothLikedServiceImpl implements LikedService{
      * Booth테이블의 총 좋아요 개수 업데이트
      */
     @Override
-    @Transactional
-    public void updateLikeCount(Object likeContents) {
+    public synchronized void updateLikeCount(Object likeContents) {
         BoothLiked boothLiked = (BoothLiked) likeContents;
         Long boothId = boothLiked.getBooth().getBoothId();
         Booth booth = boothRepository.findById(boothId)

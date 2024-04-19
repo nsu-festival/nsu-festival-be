@@ -11,6 +11,5 @@ import java.util.List;
 public interface FestivalProgramRepository extends JpaRepository<FestivalProgram, Long> {
     List<FestivalProgram> findAllByFestivalDate(FestivalDate festivalDate);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     FestivalProgram findFestivalProgramByFestivalProgramId(Long contentId);
 }

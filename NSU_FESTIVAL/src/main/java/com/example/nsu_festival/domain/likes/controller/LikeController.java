@@ -54,7 +54,7 @@ public class LikeController {
     @GetMapping("/{boothId}")
     ResponseEntity<StatusResponseDto> findBoothLiked(@PathVariable ContentType contentType, @PathVariable Long boothId, @AuthenticationPrincipal CustomOAuth2User customOAuth2User){
         try{
-            if(determineService.determineUser(contentType, customOAuth2User)){
+            if(determineService.determineBooth(customOAuth2User, boothId)){
                 UserLikeDto userLikeDto = boothLikedService.findBoothLike(boothId, customOAuth2User);
                 return ResponseEntity.ok().body(StatusResponseDto.success(userLikeDto));
             }else{

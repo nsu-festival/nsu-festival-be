@@ -24,8 +24,7 @@ public class SingerLineupLikedServiceImpl implements LikedService{
      *  좋아요를 누른 사용자의 좋아요 여부 업데이트
      */
     @Override
-    @Transactional
-    public boolean toggleLikeContents(Object likeContents){
+    public synchronized boolean toggleLikeContents(Object likeContents){
         try{
             log.info("=== 가수 라인업 좋아요 여부 업데이트시작 ===");
             SingerLineupLiked singerLineupLiked = (SingerLineupLiked) likeContents;
@@ -64,7 +63,7 @@ public class SingerLineupLikedServiceImpl implements LikedService{
      * SingerLineup 테이블의 총 좋아요 개수 업데이트
      */
     @Override
-    public void updateLikeCount(Object likeContents) {
+    public synchronized void updateLikeCount(Object likeContents) {
         SingerLineupLiked singerLineupLiked = (SingerLineupLiked) likeContents;
         Long singerLineupId = singerLineupLiked.getSingerLineup().getSingerLineupId();
         SingerLineup singerLineup = singerLineupRepository.findById(singerLineupId)
