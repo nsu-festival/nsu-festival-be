@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,8 +30,8 @@ public class FestivalDate {
 
     @Builder
 
-    private FestivalDate(Long festivalDateId, LocalDate dDay){
+    public FestivalDate(Long festivalDateId, String dDay){
         this.festivalDateId = festivalDateId;
-        this.dDay = dDay;
+        this.dDay = LocalDate.parse(dDay);
     }
 }

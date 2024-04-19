@@ -69,4 +69,38 @@ public class SingerLineupServiceImpl implements SingerLineupService{
         }
         return false;
     }
+
+    @Override
+    public void initializeData() {
+        FestivalDate festivalDate1 = festivalDateRepository.findById(1L).orElseThrow(()->new RuntimeException("없는 축제날짜"));
+        FestivalDate festivalDate2 = festivalDateRepository.findById(2L).orElseThrow(()->new RuntimeException("없는 축제날짜"));
+        FestivalDate festivalDate3 = festivalDateRepository.findById(3L).orElseThrow(()->new RuntimeException("없는 축제날짜"));
+
+        SingerLineup singerLineup1 = new SingerLineup(1L, "하이키", "20:00", "20:30", 0, festivalDate1);
+        singerLineupRepository.save(singerLineup1);
+
+        SingerLineup singerLineup2 = new SingerLineup(2L, "한요한", "20:30", "21:00", 0, festivalDate1);
+        singerLineupRepository.save(singerLineup2);
+
+        SingerLineup singerLineup3 = new SingerLineup(3L, "루시(LUCY)", "21:00", "21:30", 0, festivalDate1);
+        singerLineupRepository.save(singerLineup3);
+
+        SingerLineup singerLineup4 = new SingerLineup(4L, "하현상", "20:00", "20:30", 0, festivalDate2);
+        singerLineupRepository.save(singerLineup4);
+
+        SingerLineup singerLineup5 = new SingerLineup(5L, "QWER", "20:30", "21:00", 0, festivalDate2);
+        singerLineupRepository.save(singerLineup5);
+
+        SingerLineup singerLineup6 = new SingerLineup(6L, "10CM", "21:00", "21:30", 0, festivalDate2);
+        singerLineupRepository.save(singerLineup6);
+
+        SingerLineup singerLineup7 = new SingerLineup(7L, "최예나", "20:00", "20:30", 0, festivalDate3);
+        singerLineupRepository.save(singerLineup7);
+
+        SingerLineup singerLineup8 = new SingerLineup(8L, "비비", "20:30", "21:00", 0, festivalDate3);
+        singerLineupRepository.save(singerLineup8);
+
+        SingerLineup singerLineup9 = new SingerLineup(9L, "타이거JK & 윤미래", "21:00", "21:30", 0, festivalDate3);
+        singerLineupRepository.save(singerLineup9);
+    }
 }

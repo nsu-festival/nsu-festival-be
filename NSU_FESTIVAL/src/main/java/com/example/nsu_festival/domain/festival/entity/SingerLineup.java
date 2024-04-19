@@ -34,11 +34,11 @@ public class SingerLineup {
     private FestivalDate festivalDate;
 
     @Builder
-    private SingerLineup(Long singerLineupId, String singer, LocalTime startTime, LocalTime endTime, int countLike, FestivalDate festivalDate){
+    public SingerLineup(Long singerLineupId, String singer, String startTime, String endTime, int countLike, FestivalDate festivalDate){
         this.singerLineupId = singerLineupId;
         this.singer = singer;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.startTime = LocalTime.parse(startTime);
+        this.endTime = LocalTime.parse(endTime);
         this.countLike = countLike;
         this.festivalDate = festivalDate;
     }

@@ -10,4 +10,6 @@ public interface SingerLineupService {
     List<SingerLineupResponseDto> findSingerLineupList(LocalDate dDay);
     List<SingerLineupResponseDto> convertToDto(List<SingerLineup> singerLineupList);
     boolean isCorrectDate(LocalDate dDay);
+    void initializeData();                                                                  // 각 초기 데이터 삽입
+
 }
