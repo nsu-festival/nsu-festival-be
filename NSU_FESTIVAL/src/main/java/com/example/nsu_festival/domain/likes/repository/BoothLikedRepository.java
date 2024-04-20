@@ -1,6 +1,7 @@
 package com.example.nsu_festival.domain.likes.repository;
 
 import com.example.nsu_festival.domain.booth.entity.Booth;
+import com.example.nsu_festival.domain.likes.dto.UserLikeDto;
 import com.example.nsu_festival.domain.likes.entity.BoothLiked;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +14,7 @@ public interface BoothLikedRepository extends JpaRepository<BoothLiked,Long> {
     @Query("select count(*) from BoothLiked where booth.boothId = :boothId and isBoothLike = true")
     int countBoothLike(Long boothId);
 
-    BoothLiked findByBooth(Booth booth);
+    BoothLiked findByBoothAndUser(Booth booth, User user);
+
+    boolean existsByBoothAndUser(Booth booth, User user);
 }

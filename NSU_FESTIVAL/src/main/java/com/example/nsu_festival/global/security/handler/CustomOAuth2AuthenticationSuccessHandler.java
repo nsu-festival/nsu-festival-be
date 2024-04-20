@@ -39,7 +39,7 @@ public class CustomOAuth2AuthenticationSuccessHandler extends SimpleUrlAuthentic
         TokenDto tokenDto = jwtUtil.generateToken(email, role);
 
         //각 토큰을 헤더와 쿠키에 저장한 후 응답에 담아 넘긴다.
-//        response.sendRedirect("https://localhost:5173/kakao/login?Authorization=" + tokenDto.getAccessToken() + "&refreshToken=" + tokenDto.getRefreshToken());
+//        response.sendRedirect("http://localhost:5173/kakao/login?Authorization=" + tokenDto.getAccessToken() + "&refreshToken=" + tokenDto.getRefreshToken());
         response.sendRedirect("https://nsu-festival.com/kakao/login?Authorization=" + tokenDto.getAccessToken() + "&refreshToken=" + tokenDto.getRefreshToken());
     }
 

@@ -26,11 +26,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -81,7 +83,7 @@ public class BoothServiceImpl implements BoothService{
          *
          * 부스리스트 조회
          */
-
+    @Cacheable("booths")
     public List<AllBoothDto> getAllBooths(){
         try{
             List<AllBoothDto> allBoothDtoLists = boothRepository.findAll().stream()
@@ -125,37 +127,22 @@ public class BoothServiceImpl implements BoothService{
      *
      * 부스 상세페이지 조회
      */
-    public BoothDetailDto getDetailBooth(Long boothId, CustomOAuth2User customOAuth2User) {
+    public BoothDetailDto getDetailBooth(Long boothId, CustomOAuth2User customOAuth2User, int startIndex, int endIndex) {
         try{
 
             Booth booth = boothRepository.findById(boothId).get();
             List<Menu> menu = menuRepository.findMenusByBooth(booth);
 
-            BoothLiked boothLiked = null;
-            if (customOAuth2User != null) {
-                User user = userRepository.findByEmail(customOAuth2User.getEmail()).orElseThrow(() -> new CustomException(SERVER_ERROR));
-                boothLiked = boothLikedRepository.findBoothLikedByBoothAndUser(booth,user);
-                if (boothLiked == null) {
-
-                    boothLiked = BoothLiked.builder()
-                            .user(user)
-                            .isBoothLike(false)
-                            .booth(booth)
-                            .build();
-                    boothLikedRepository.save(boothLiked);
-                }
-            } else {
-                // 로그인되어 있지 않은 경우
-                boothLiked = new BoothLiked();
-                boothLiked.updateBoothLiked(false);
-            }
-
             List<Comment> comments = commentRepository.findAllCommentByBooth(booth);
+            List<Comment> rangedComments = comments.subList(Math.max(0, startIndex-1), Math.min(endIndex-1, comments.size()));
+            List<Comment> sortedComments = rangedComments.stream()
+                    .sorted(Comparator.comparing(Comment::getCreatAt).reversed())
+                    .collect(Collectors.toList());
             Long boothCommentCounts = commentRepository.countCommentByBooth(booth);
 
             List<BoothCommentDto> commentDtos = new ArrayList<>();
 
-            for (Comment boothComment : comments) {
+            for (Comment boothComment : sortedComments) {
                 User commentUser = boothComment.getUser();
                 if (commentUser != null) {
                     String userName = commentUser.getNickName();
@@ -185,7 +172,6 @@ public class BoothServiceImpl implements BoothService{
                     .content(booth.getContent())
                     .boothImageUrl(booth.getBoothImageUrl())
                     .boothCategories(booth.getBoothCategories())
-                    .boothLiked(boothLiked)
                     .comments(commentDtos)
                     .boothCommentCount(boothCommentCounts)
                     .menus(menu)
@@ -814,7 +800,9 @@ public class BoothServiceImpl implements BoothService{
         foodTruck3.setMenus(menus2);
 
         // 푸드트럭4
+
         Booth foodTruck4 = new Booth(73L,"대감님댁",null,0,null,getBoothImgList("foodTruckImage").get(3),null,null,null,null,null,null);
+
         BoothCategory boothCategory4 = new BoothCategory(4L,"먹거리",foodTruck4);
         boothRepository.save(foodTruck4);
         boothCategoryRepository.save(boothCategory4);
@@ -838,6 +826,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭6
         Booth foodTruck6 = new Booth(75L,"바바파파",null,0,null,getBoothImgList("foodTruckImage").get(5),null,null,null,null,null,null);
+
         BoothCategory boothCategory6 = new BoothCategory(6L,"먹거리",foodTruck6);
         boothRepository.save(foodTruck6);
         boothCategoryRepository.save(boothCategory6);
@@ -848,6 +837,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭7
         Booth foodTruck7 = new Booth(76L,"부엉이푸드",null,0,null,getBoothImgList("foodTruckImage").get(6),null,null,null,null,null,null);
+
         BoothCategory boothCategory7 = new BoothCategory(7L,"먹거리",foodTruck7);
         boothRepository.save(foodTruck7);
         boothCategoryRepository.save(boothCategory7);
@@ -858,6 +848,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭8
         Booth foodTruck8 = new Booth(77L,"썬플라워",null,0,null,getBoothImgList("foodTruckImage").get(7),null,null,null,null,null,null);
+
         BoothCategory boothCategory8 = new BoothCategory(8L,"먹거리",foodTruck8);
         boothRepository.save(foodTruck8);
         boothCategoryRepository.save(boothCategory8);
@@ -870,7 +861,9 @@ public class BoothServiceImpl implements BoothService{
         foodTruck8.setMenus(menus7);
 
         // 푸드트럭9
+
         Booth foodTruck9 = new Booth(78L,"어더아사",null,0,null,getBoothImgList("foodTruckImage").get(8),null,null,null,null,null,null);
+
         BoothCategory boothCategory9 = new BoothCategory(9L,"먹거리",foodTruck9);
         boothRepository.save(foodTruck9);
         boothCategoryRepository.save(boothCategory9);
@@ -884,6 +877,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭10
         Booth foodTruck10 = new Booth(79L,"엉클",null,0,null,getBoothImgList("foodTruckImage").get(9),null,null,null,null,null,null);
+
         BoothCategory boothCategory10 = new BoothCategory(10L,"먹거리",foodTruck10);
         boothRepository.save(foodTruck10);
         boothCategoryRepository.save(boothCategory10);
@@ -918,6 +912,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭13
         Booth foodTruck13 = new Booth(82L,"오션푸드2",null,0,null,getBoothImgList("foodTruckImage").get(12),null,null,null,null,null,null);
+
         BoothCategory boothCategory13 = new BoothCategory(13L,"먹거리",foodTruck13);
         boothRepository.save(foodTruck13);
         boothCategoryRepository.save(boothCategory13);
@@ -928,7 +923,9 @@ public class BoothServiceImpl implements BoothService{
         foodTruck13.setMenus(menus12);
 
         // 푸드트럭14
+
         Booth foodTruck14 = new Booth(83L,"요기분식",null,0,null,getBoothImgList("foodTruckImage").get(13),null,null,null,null,null,null);
+
         BoothCategory boothCategory14 = new BoothCategory(14L,"먹거리",foodTruck14);
         boothRepository.save(foodTruck14);
         boothCategoryRepository.save(boothCategory14);
@@ -940,6 +937,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck14.setMenus(menus13);
 
         // 푸드트럭15
+
         Booth foodTruck15 = new Booth(84L,"원탑푸드트럭",null,0,null,getBoothImgList("foodTruckImage").get(14),null,null,null,null,null,null);
         BoothCategory boothCategory15 = new BoothCategory(15L,"먹거리",foodTruck15);
         boothRepository.save(foodTruck15);

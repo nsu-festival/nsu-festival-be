@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface SingerLineupLikedRepository extends JpaRepository<SingerLineupLiked, Long> {
-    @Query("select sll from SingerLineupLiked sll where sll.singerLineup.singerLineupId = :contentId")
-    SingerLineupLiked findSingerLineupLikedByContentId(Long contentId);
 
     boolean existsByUserId(Long userId);
 

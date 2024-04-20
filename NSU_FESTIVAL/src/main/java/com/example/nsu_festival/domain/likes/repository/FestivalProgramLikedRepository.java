@@ -10,9 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface FestivalProgramLikedRepository extends JpaRepository<FestivalProgramLiked, Long> {
-    @Query("select fpl from FestivalProgramLiked fpl where fpl.festivalProgram.festivalProgramId = :contentId")
-    FestivalProgramLiked findFestivalProgramLikedByContentId(Long contentId);
-
     boolean existsByUserId(Long userId);
 
     @Query("select count(*) from FestivalProgramLiked where festivalProgram.festivalProgramId = :festivalProgramId and isFestivalProgramLike = true")
