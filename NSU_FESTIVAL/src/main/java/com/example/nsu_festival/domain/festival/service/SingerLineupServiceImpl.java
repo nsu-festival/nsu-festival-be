@@ -46,7 +46,7 @@ public class SingerLineupServiceImpl implements SingerLineupService{
             SingerLineupResponseDto singerLineupResponseDto = SingerLineupResponseDto.builder()
                     .singerLineupId(singerLineup.getSingerLineupId())
                     .singer(singerLineup.getSinger())
-                    .countLike(singerLineup.getCountLike())
+                    .countLike(singerLineup.getCountLike() > 1000 ? singerLineup.getCountLike()/1000.0 + "k" : String.valueOf(singerLineup.getCountLike()))
                     .startTime(singerLineup.getStartTime())
                     .endTime(singerLineup.getEndTime())
                     .build();

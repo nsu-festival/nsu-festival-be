@@ -19,7 +19,7 @@ public class BoothDetailDto {
     private Long boothId;
     private String title;
     private String content;
-    private int countLike;
+    private String countLike;
     private String area;
     private List<BoothCategory> boothCategories;
     private String boothImageUrl;
