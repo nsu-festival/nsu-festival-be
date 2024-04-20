@@ -882,7 +882,7 @@ public class BoothServiceImpl implements BoothService{
 
 // 푸드트럭 1
 
-        Booth foodTruck1 = new Booth(70L,"고깃집-스테이크",null,0,null,getBoothImgList("foodTruckImage").get(0),null,null,null,null,null,null);
+        Booth foodTruck1 = new Booth(70L,"고깃집-스테이크",null,0,null,getBoothImgList("foodTruckImage").get(5),null,null,null,null,null,null);
         BoothCategory boothCategory1 = new BoothCategory(1L,"먹거리",foodTruck1);
         boothRepository.save(foodTruck1);
         boothCategoryRepository.save(boothCategory1);
@@ -905,7 +905,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck2.setMenus(menus1);
 
 // 푸드트럭3
-        Booth foodTruck3 = new Booth(72L,"다온푸드",null,0,null,getBoothImgList("foodTruckImage").get(2),null,null,null,null,null,null);
+        Booth foodTruck3 = new Booth(72L,"다온푸드",null,0,null,getBoothImgList("foodTruckImage").get(3),null,null,null,null,null,null);
         BoothCategory boothCategory3 = new BoothCategory(3L,"먹거리",foodTruck3);
         boothRepository.save(foodTruck3);
         boothCategoryRepository.save(boothCategory3);
@@ -917,7 +917,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭4
 
-        Booth foodTruck4 = new Booth(73L,"대감님댁",null,0,null,getBoothImgList("foodTruckImage").get(3),null,null,null,null,null,null);
+        Booth foodTruck4 = new Booth(73L,"대감님댁",null,0,null,getBoothImgList("foodTruckImage").get(0),null,null,null,null,null,null);
 
         BoothCategory boothCategory4 = new BoothCategory(4L,"먹거리",foodTruck4);
         boothRepository.save(foodTruck4);
@@ -941,7 +941,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck5.setMenus(menus4);
 
         // 푸드트럭6
-        Booth foodTruck6 = new Booth(75L,"바바파파",null,0,null,getBoothImgList("foodTruckImage").get(5),null,null,null,null,null,null);
+        Booth foodTruck6 = new Booth(75L,"바바파파",null,0,null,getBoothImgList("foodTruckImage").get(12),null,null,null,null,null,null);
 
         BoothCategory boothCategory6 = new BoothCategory(6L,"먹거리",foodTruck6);
         boothRepository.save(foodTruck6);
@@ -952,7 +952,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck6.setMenus(menus5);
 
         // 푸드트럭7
-        Booth foodTruck7 = new Booth(76L,"부엉이푸드",null,0,null,getBoothImgList("foodTruckImage").get(6),null,null,null,null,null,null);
+        Booth foodTruck7 = new Booth(76L,"부엉이푸드",null,0,null,getBoothImgList("foodTruckImage").get(9),null,null,null,null,null,null);
 
         BoothCategory boothCategory7 = new BoothCategory(7L,"먹거리",foodTruck7);
         boothRepository.save(foodTruck7);
@@ -963,7 +963,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck7.setMenus(menus6);
 
         // 푸드트럭8
-        Booth foodTruck8 = new Booth(77L,"썬플라워",null,0,null,getBoothImgList("foodTruckImage").get(7),null,null,null,null,null,null);
+        Booth foodTruck8 = new Booth(77L,"썬플라워",null,0,null,getBoothImgList("foodTruckImage").get(14),null,null,null,null,null,null);
 
         BoothCategory boothCategory8 = new BoothCategory(8L,"먹거리",foodTruck8);
         boothRepository.save(foodTruck8);
@@ -978,7 +978,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭9
 
-        Booth foodTruck9 = new Booth(78L,"어더아사",null,0,null,getBoothImgList("foodTruckImage").get(8),null,null,null,null,null,null);
+        Booth foodTruck9 = new Booth(78L,"어더아사",null,0,null,getBoothImgList("foodTruckImage").get(2),null,null,null,null,null,null);
 
         BoothCategory boothCategory9 = new BoothCategory(9L,"먹거리",foodTruck9);
         boothRepository.save(foodTruck9);
@@ -992,7 +992,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck9.setMenus(menus8);
 
         // 푸드트럭10
-        Booth foodTruck10 = new Booth(79L,"엉클",null,0,null,getBoothImgList("foodTruckImage").get(9),null,null,null,null,null,null);
+        Booth foodTruck10 = new Booth(79L,"엉클",null,0,null,getBoothImgList("foodTruckImage").get(8),null,null,null,null,null,null);
 
         BoothCategory boothCategory10 = new BoothCategory(10L,"먹거리",foodTruck10);
         boothRepository.save(foodTruck10);
@@ -1005,7 +1005,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck10.setMenus(menus9);
 
         // 푸드트럭11
-        Booth foodTruck11 = new Booth(80L,"에페스케밥",null,0,null,getBoothImgList("foodTruckImage").get(10),null,null,null,null,null,null);
+        Booth foodTruck11 = new Booth(80L,"에페스케밥",null,0,null,getBoothImgList("foodTruckImage").get(11),null,null,null,null,null,null);
         BoothCategory boothCategory11 = new BoothCategory(11L,"먹거리",foodTruck11);
         boothRepository.save(foodTruck11);
         boothCategoryRepository.save(boothCategory11);
@@ -1016,7 +1016,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck11.setMenus(menus10);
 
         // 푸드트럭12
-        Booth foodTruck12 = new Booth(81L,"오션푸드",null,0,null,getBoothImgList("foodTruckImage").get(11),null,null,null,null,null,null);
+        Booth foodTruck12 = new Booth(81L,"오션푸드",null,0,null,getBoothImgList("foodTruckImage").get(6),null,null,null,null,null,null);
         BoothCategory boothCategory12 = new BoothCategory(12L,"먹거리",foodTruck12);
         boothRepository.save(foodTruck12);
         boothCategoryRepository.save(boothCategory12);
@@ -1027,7 +1027,7 @@ public class BoothServiceImpl implements BoothService{
         foodTruck12.setMenus(menus11);
 
         // 푸드트럭13
-        Booth foodTruck13 = new Booth(82L,"오션푸드2",null,0,null,getBoothImgList("foodTruckImage").get(12),null,null,null,null,null,null);
+        Booth foodTruck13 = new Booth(82L,"오션푸드2",null,0,null,getBoothImgList("foodTruckImage").get(7),null,null,null,null,null,null);
 
         BoothCategory boothCategory13 = new BoothCategory(13L,"먹거리",foodTruck13);
         boothRepository.save(foodTruck13);
@@ -1040,7 +1040,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭14
 
-        Booth foodTruck14 = new Booth(83L,"요기분식",null,0,null,getBoothImgList("foodTruckImage").get(13),null,null,null,null,null,null);
+        Booth foodTruck14 = new Booth(83L,"요기분식",null,0,null,getBoothImgList("foodTruckImage").get(10),null,null,null,null,null,null);
 
         BoothCategory boothCategory14 = new BoothCategory(14L,"먹거리",foodTruck14);
         boothRepository.save(foodTruck14);
@@ -1054,7 +1054,7 @@ public class BoothServiceImpl implements BoothService{
 
         // 푸드트럭15
 
-        Booth foodTruck15 = new Booth(84L,"원탑푸드트럭",null,0,null,getBoothImgList("foodTruckImage").get(14),null,null,null,null,null,null);
+        Booth foodTruck15 = new Booth(84L,"원탑푸드트럭",null,0,null,getBoothImgList("foodTruckImage").get(13),null,null,null,null,null,null);
         BoothCategory boothCategory15 = new BoothCategory(15L,"먹거리",foodTruck15);
         boothRepository.save(foodTruck15);
         boothCategoryRepository.save(boothCategory15);
