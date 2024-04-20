@@ -79,6 +79,9 @@ public class TrafficInformationService {
                     .replace("]", "")
                     .split("\\(")[0]
                     .trim();
+            if(arvlMsg2.contains("성환")){
+                arvlMsg2 = "도착";
+            }
             String arvlMsg3 = arrivalNode.get("arvlMsg3").asText();     //현재 열차 위치
 
             if('1' == ordKey.charAt(ordKey.length()-1)){                // 급행 여부
