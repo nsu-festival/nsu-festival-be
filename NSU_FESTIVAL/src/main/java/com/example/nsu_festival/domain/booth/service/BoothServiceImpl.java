@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.example.nsu_festival.domain.booth.dto.BoothCommentDto;
 import com.example.nsu_festival.domain.booth.dto.BoothDetailDto;
 import com.example.nsu_festival.domain.booth.dto.AllBoothDto;
+import com.example.nsu_festival.domain.booth.dto.TopBoothResponseDto;
 import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.booth.entity.BoothCategory;
 import com.example.nsu_festival.domain.booth.entity.Menu;
@@ -15,7 +16,6 @@ import com.example.nsu_festival.domain.booth.repository.BoothRepository;
 import com.example.nsu_festival.domain.booth.repository.MenuRepository;
 import com.example.nsu_festival.domain.comment.entity.Comment;
 import com.example.nsu_festival.domain.comment.repository.CommentRepository;
-import com.example.nsu_festival.domain.likes.entity.BoothLiked;
 import com.example.nsu_festival.domain.likes.repository.BoothLikedRepository;
 import com.example.nsu_festival.domain.user.entity.User;
 import com.example.nsu_festival.domain.user.repository.UserRepository;
@@ -188,17 +188,71 @@ public class BoothServiceImpl implements BoothService{
 
     @Transactional
     @Override
-    public List<AllBoothDto> findTopBooths() {
+    public List<TopBoothResponseDto> findTopBooths() {
 
-        List<AllBoothDto> responseList = new ArrayList<>();
+        List<TopBoothResponseDto> responseList = new ArrayList<>();
         List<Booth> findTopBoothList = boothRepository.findTopBoothByCountLike();
         for (Booth booth : findTopBoothList) {
-            AllBoothDto allBoothDto = AllBoothDto.builder()
-                    .title(booth.getTitle())
+            String topBoothTitle = "";
+            topBoothTitle = verifyDepartment(booth.getTitle());
+
+            if (topBoothTitle.length() >= 6){
+                topBoothTitle = addSpacing(topBoothTitle);
+            }
+
+            TopBoothResponseDto topBoothResponseDto = TopBoothResponseDto.builder()
+                    .title(topBoothTitle)
                     .build();
-            responseList.add(allBoothDto);
+            responseList.add(topBoothResponseDto);
         }
         return responseList;
+    }
+
+    public String verifyDepartment(String title){
+
+        if(title.contains("공학과")){
+            title = title.substring(0, title.length()-1);
+        }
+
+        if (title.endsWith("학과")) {
+            title = title.substring(0, title.length()-2);
+        }
+        return title;
+    }
+
+    public String addSpacing(String title){
+        switch (title){
+            case "원탑푸드트럭", "마이요거트립" :
+                title = title.substring(0, 2) + " " + title.substring(2);
+                break;
+            case "영상예술디자인", "공간조형디자인" :
+                title = title.substring(0, 4) + " " + title.substring(4);
+                break;
+            case "스포츠비즈니스", "스포츠건강관리" :
+                title = title.substring(0, 3) + " " + title.substring(3);
+                break;
+            case "지능정보통신공학", "빅데이터경영공학", "드론공간정보공학",
+                    "대외국제교류처1", "대외국제교류처2", "대외국제교류처3":
+                title = title.substring(0, 4) + " " + title.substring(4);
+                break;
+            case "컴퓨터소프트웨어":
+                title = title.substring(0, 3) + " " + title.substring(3, 6) + " " + title.substring(6);
+                break;
+            case "고깃집-스테이크":
+                title = title.replace("-", " ");
+                break;
+            case "시각미디어디자인":
+                title = title.substring(0, 2) + " " + title.substring(2, 5) + " " + title.substring(5);
+                break;
+            case "바이오헬스컨디셔닝":
+                title = title.substring(0, 3) + " " + title.substring(3, 5) + " " + title.substring(5);
+                break;
+            case "대외혁신지원사업단":
+                title = title.substring(0, 4) + " " + title.substring(4);
+            default:
+                break;
+        }
+        return title;
     }
 
     @PostConstruct // 초기 데이터 설정 어노테이션
