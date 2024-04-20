@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface BoothRepository extends JpaRepository<Booth,Long> {
-    @Query(value = "SELECT *, RANK() OVER (ORDER BY count_like DESC) AS booth_rank FROM booth ORDER BY count_like DESC LIMIT 5", nativeQuery = true)
+    @Query(value = "SELECT * FROM booth ORDER BY count_like DESC LIMIT 5", nativeQuery = true)
     List<Booth> findTopBoothByCountLike();
 
     Booth findBoothByBoothId(Long contentId);
