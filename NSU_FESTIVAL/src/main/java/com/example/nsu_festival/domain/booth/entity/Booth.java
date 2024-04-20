@@ -23,6 +23,7 @@ public class Booth {
     @NonNull
     private String title;
 
+    @Column(name = "content", length = 1000)
     private String content;
 
     private int countLike;
@@ -30,7 +31,8 @@ public class Booth {
     private String area;
 
     private String boothImageUrl;
-    private int entryFee;
+    private String entryFee;
+    private String boothName;
 
     @OneToMany(mappedBy = "booth", fetch = FetchType.LAZY)
     @JsonManagedReference  //순환 참조 문제 해결하기 위한 어노테이션

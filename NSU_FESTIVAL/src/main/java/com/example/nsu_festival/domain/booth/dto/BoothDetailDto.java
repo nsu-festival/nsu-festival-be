@@ -27,5 +27,5 @@ public class BoothDetailDto {
     private List<BoothCommentDto> comments;
     private Long boothCommentCount;
     private List<Menu> menus;
-    private int entryFee;
+    private String entryFee;
 }
