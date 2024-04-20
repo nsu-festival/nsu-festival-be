@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class SingerLineupResponseDto {
     private Long singerLineupId;        //가수 라인업 id
     private String singer;              //가수 이름
-    private int countLike;              //좋아요 개수
+    private String countLike;              //좋아요 개수
 
     @JsonFormat(pattern = "HH:mm")
     private LocalTime startTime;        //시작 시간

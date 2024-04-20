@@ -44,7 +44,7 @@ public class FestivalProgramServiceImpl implements FestivalProgramService, Initi
             FestivalProgramResponseDto festivalProgramResponseDto = FestivalProgramResponseDto.builder()
                     .festivalProgramId(festivalProgram.getFestivalProgramId())
                     .title(festivalProgram.getTitle())
-                    .countLike(festivalProgram.getCountLike())
+                    .countLike(festivalProgram.getCountLike() > 1000 ? festivalProgram.getCountLike()/1000.0 + "k" : String.valueOf(festivalProgram.getCountLike()))
                     .startTime(festivalProgram.getStartTime())
                     .endTime(festivalProgram.getEndTime())
                     .build();

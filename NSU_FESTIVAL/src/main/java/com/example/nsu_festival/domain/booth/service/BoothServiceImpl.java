@@ -168,7 +168,7 @@ public class BoothServiceImpl implements BoothService{
                     .boothId(booth.getBoothId())
                     .area(booth.getArea())
                     .title(booth.getTitle())
-                    .countLike(booth.getCountLike())
+                    .countLike(booth.getCountLike() > 1000 ? booth.getCountLike()/1000.0 + "k" : String.valueOf(booth.getCountLike()))
                     .content(booth.getContent())
                     .boothImageUrl(booth.getBoothImageUrl())
                     .boothCategories(booth.getBoothCategories())
