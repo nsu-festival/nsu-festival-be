@@ -73,6 +73,8 @@ public class BoothServiceImpl implements BoothService{
     }
 
 
+
+
     /**
          *
          * 부스리스트 조회
@@ -303,6 +305,9 @@ public class BoothServiceImpl implements BoothService{
         String defaultImage = defaultImages.get(0);
         List<String> department = getBoothImgList("departmentBooth");
         List<String> clubImage = getBoothImgList("clubBoothImage");
+
+
+
         // 부스 1
         Booth booth1 = new Booth(1L, "가상현실학과", "vr 게임 및 크로마키 사진 출력", 0, "A-1", department.get(0), null, "가상현실 체험",null, null, null,null);
         List<BoothCategory> categories1 = new ArrayList<>();
@@ -383,7 +388,7 @@ public class BoothServiceImpl implements BoothService{
         boothCategoryRepository.saveAll(categories9);
 
 // 부스 10
-        Booth booth10 = new Booth(10L, "간호학과", "기부금 모집(경품)", 0, "A-10", department.get(9), null,"Healthy flow",null,null, null, null);
+        Booth booth10 = new Booth(10L, "간호학과", "-경품뽑기(당첨-->배달의 민족 상품권,무드등 등)\n-혈액팩 음룍수\n이 두 가지 상품이 단, 1,000원?!!!\n이 외에도 학생회를 이겨라 등의 게임이 준비 되어있으니\n많은 관심 부탁드립니다:)\n(**부스를 운영하면서 발생한 모든 수익은 건강취약계층을 위해 기부할 예정입니다)", 0, "A-10", department.get(9), null,"뭐라구?! 간호학과의 1,000원의 행복?!",null,null, null, null);
         List<BoothCategory> categories10 = new ArrayList<>();
         boothRepository.save(booth10);
         categories10.add(new BoothCategory(37L,"학과",booth10));
