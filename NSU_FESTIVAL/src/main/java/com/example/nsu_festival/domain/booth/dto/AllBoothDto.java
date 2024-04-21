@@ -18,4 +18,5 @@ public class AllBoothDto {
     private String area;
     private List<BoothCategory> boothCategories;
     private String boothImageUrl;
+    private String boothName;
 }

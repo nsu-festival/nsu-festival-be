@@ -179,6 +179,7 @@ public class BoothServiceImpl implements BoothService{
                     .boothCommentCount(boothCommentCounts)
                     .menus(menu)
                     .entryFee(booth.getEntryFee())
+                    .boothName(booth.getBoothName())
                     .build();
             return boothDetailDto;
 
