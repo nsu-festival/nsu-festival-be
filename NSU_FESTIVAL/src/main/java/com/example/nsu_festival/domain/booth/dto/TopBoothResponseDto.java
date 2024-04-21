@@ -7,10 +7,12 @@ import lombok.Getter;
 @Builder
 public class TopBoothResponseDto {
 
+    private Long boothId;
     private String title;
 
     @Builder
-    public TopBoothResponseDto(String title){
+    public TopBoothResponseDto(Long boothId, String title){
+        this.boothId = boothId;
         this.title = title;
     }
 }
