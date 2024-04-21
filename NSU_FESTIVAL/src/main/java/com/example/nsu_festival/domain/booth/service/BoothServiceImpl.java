@@ -208,6 +208,7 @@ public class BoothServiceImpl implements BoothService{
             }
 
             TopBoothResponseDto topBoothResponseDto = TopBoothResponseDto.builder()
+                    .boothId(booth.getBoothId())
                     .title(topBoothTitle)
                     .build();
             responseList.add(topBoothResponseDto);

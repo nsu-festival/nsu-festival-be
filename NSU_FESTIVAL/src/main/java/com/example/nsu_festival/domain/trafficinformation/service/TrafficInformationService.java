@@ -30,7 +30,6 @@ public class TrafficInformationService {
         String api = "http://swopenapi.seoul.go.kr/api/subway/"+apiKey+"/json/realtimeStationArrival/0/5/성환";
         try {
             String response = restTemplate.getForObject(api, String.class);
-            log.info(response);
             // JSON 응답 처리
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(response);
@@ -43,8 +42,6 @@ public class TrafficInformationService {
                     .filter(Character::isDigit)
                     .mapToObj(Character::toString)
                     .collect(Collectors.joining());
-
-            log.error("ERROR_CODE: {}", errCode);
 
             if(!"000".equals(errCode)){
                 throw new RuntimeException(errCode);

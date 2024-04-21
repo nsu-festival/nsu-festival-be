@@ -27,6 +27,7 @@ public class FestivalProgramController {
             }
             return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
         } catch (RuntimeException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }

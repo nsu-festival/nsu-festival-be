@@ -29,6 +29,7 @@ public class NoticeController {
             List<NoticeResponseDto> noticeResponseDtoList = noticeService.findAllNoticeList();
             return ResponseEntity.ok().body(StatusResponseDto.success(noticeResponseDtoList));
         } catch (RuntimeException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }
@@ -39,6 +40,7 @@ public class NoticeController {
             NoticeResponseDto noticeResponseDto = noticeService.findNoticeDetail(noticeId);
             return ResponseEntity.ok().body(StatusResponseDto.success(noticeResponseDto));
         } catch (RuntimeException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }
@@ -52,8 +54,10 @@ public class NoticeController {
             noticeService.writeNotice(noticeRequestDto, customOAuth2User);
             return ResponseEntity.ok().body(StatusResponseDto.success());
         }catch (HttpClientErrorException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(e.getStatusCode()).body(StatusResponseDto.addStatus(401));
         }catch (RuntimeException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }
@@ -64,8 +68,10 @@ public class NoticeController {
             noticeService.updateNotice(noticeId, noticeRequestDto, customOAuth2User);
             return ResponseEntity.ok().body(StatusResponseDto.success());
         }catch (HttpClientErrorException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(e.getStatusCode()).body(StatusResponseDto.addStatus(401));
         }catch (RuntimeException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }
@@ -76,8 +82,10 @@ public class NoticeController {
             noticeService.deleteNotice(noticeId, customOAuth2User);
             return ResponseEntity.ok().body(StatusResponseDto.success());
         } catch (HttpClientErrorException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(401).body(StatusResponseDto.addStatus(401));
         } catch (RuntimeException e){
+            log.error(e.getMessage());
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }
