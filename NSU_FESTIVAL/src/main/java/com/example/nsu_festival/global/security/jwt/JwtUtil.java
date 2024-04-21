@@ -72,7 +72,7 @@ public class JwtUtil {
                     .and()
                     // Payload 구성하는 속성 정의
                     .claim("email", email)
-                    .claim("roel", role)
+                    .claim("role", role)
                     // 발행일자
                     .issuedAt(now)
                     // 만료일자
@@ -90,7 +90,7 @@ public class JwtUtil {
                 .and()
                 // Payload 구성하는 속성 정의
                 .claim("email", email)
-                .claim("roel", role)
+                .claim("role", role)
                 // 발행일자
                 .issuedAt(now)
                 // 만료일자
@@ -113,7 +113,7 @@ public class JwtUtil {
                 .and()
                 // Payload 구성하는 속성 정의
                 .claim("email", email)
-                .claim("roel", role)
+                .claim("role", role)
                 // 발행일자
                 .issuedAt(now)
                 // 만료일자
