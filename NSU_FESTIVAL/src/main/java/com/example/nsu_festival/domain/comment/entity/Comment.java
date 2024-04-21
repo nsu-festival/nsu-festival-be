@@ -23,6 +23,7 @@ public class Comment extends BaseTimeRegDateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
+    @Column(name = "content", length = 100)
     private String content;
 
     @JsonBackReference //순환 참조 문제 해결하기 위한 어노테이션
