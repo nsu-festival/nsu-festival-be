@@ -47,6 +47,7 @@ public class Comment extends BaseTimeRegDateEntity {
     public void commentUpdate(String reportReason){
         this.content = reportReason;
     }
+    public void commentUserUpdate(User user){ this.user = user;}
 
     @OneToMany(mappedBy = "comment",fetch = FetchType.LAZY)
     @JsonManagedReference
