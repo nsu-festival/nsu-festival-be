@@ -66,9 +66,8 @@ public class VisitorServiceImpl implements VisitorService{
     //입력 토큰이 정상일 때 실제 검증 메서드
     public String validate(String token){
         String now = LocalDate.now().toString();
-
         //유효한 토큰(금일 토큰) 또는 우리가 발급한 토큰이 맞는지 검증
-        if(!visitorRepository.existsByUUID(token) && !now.equals(token.substring(37))){
+        if(!visitorRepository.existsByUUID(token) || !now.equals(token.substring(37))){
             //조건 하나라도 부합한다면 새로 발급
             token = generateUUID();
         }
