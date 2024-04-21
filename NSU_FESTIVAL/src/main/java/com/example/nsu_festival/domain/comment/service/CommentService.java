@@ -12,7 +12,7 @@ public interface CommentService {
     boolean updateComment( Long commentId, CommentUpdateDto commentUpdateDto);
     boolean commentMatchUser(Long commentId, CustomOAuth2User customOAuth2User);
     void deleteComment(Long commentId);
-    void reportComment(Long commentId, ReportCommentDto reportCommentDto);
+    void reportComment(Long commentId);
 
 
 }

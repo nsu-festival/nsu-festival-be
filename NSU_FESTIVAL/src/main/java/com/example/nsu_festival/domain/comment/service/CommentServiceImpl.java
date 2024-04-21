@@ -123,13 +123,12 @@ public class CommentServiceImpl implements CommentService {
     /**
      * 댓글 신고
      */
-    public  void reportComment(Long commentId, ReportCommentDto reportCommentDto){
+    public  void reportComment(Long commentId){
         try{
             Comment comment = commentRepository.findById(commentId).get();
             User user = comment.getUser();
             comment.plusReportCount();
             Report report = Report.builder()
-                    .reportReason(reportCommentDto.getReportReason())
                     .comment(comment)
                     .user(user)
                     .build();

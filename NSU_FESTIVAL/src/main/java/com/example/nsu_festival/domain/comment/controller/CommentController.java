@@ -59,9 +59,9 @@ public class CommentController {
      * 댓글 신고
      */
         @PostMapping("/{boothId}/comment/{commentId}/report")
-    public ResponseEntity<StatusResponseDto> reportComment(@PathVariable Long commentId, @PathVariable Long boothId, @RequestBody ReportCommentDto reportCommentDto){
+    public ResponseEntity<StatusResponseDto> reportComment(@PathVariable Long commentId, @PathVariable Long boothId){
        try{
-           commentService.reportComment(commentId,reportCommentDto);
+           commentService.reportComment(commentId);
            return ResponseEntity.ok(StatusResponseDto.success(null));
        }catch (Exception e){
            return ResponseEntity.status(400).body(StatusResponseDto.addStatus(400));
