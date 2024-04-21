@@ -358,7 +358,7 @@ public class BoothServiceImpl implements BoothService{
 
 
 // 부스 7
-        Booth booth7 = new Booth(7L, "휴먼케어학과", "사진관 및 거짓말 탐지기", 0, "A-7", department.get(6),null,"휴케사진관",null, null, null, null);
+        Booth booth7 = new Booth(7L, "휴먼케어학과", "사진관 및 거짓말 탐지기", 0, "A-8", department.get(6),null,"휴케사진관",null, null, null, null);
         List<BoothCategory> categories7 = new ArrayList<>();
         boothRepository.save(booth7);
         categories7.add(new BoothCategory(30L,"체험",booth7));
@@ -366,7 +366,7 @@ public class BoothServiceImpl implements BoothService{
         boothCategoryRepository.saveAll(categories7);
 
 // 부스 8
-        Booth booth8 = new Booth(8L, "스포츠비즈니스학과", "물총사격, 번호추첨 로또", 0, "A-8", department.get(7),null,null,null, null,  null, null);
+        Booth booth8 = new Booth(8L, "스포츠비즈니스학과", "물총사격, 번호추첨 로또", 0, "A-7", department.get(7),null,null,null, null,  null, null);
         List<BoothCategory> categories8 = new ArrayList<>();
         boothRepository.save(booth8);
         categories8.add(new BoothCategory(32L,"체험",booth8));
