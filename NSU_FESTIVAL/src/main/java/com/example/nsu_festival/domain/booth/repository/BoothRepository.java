@@ -17,6 +17,6 @@ public interface BoothRepository extends JpaRepository<Booth,Long> {
 
     Booth findBoothByBoothId(Long contentId);
 
-    Optional<Booth> findBoothByBoothName(String boothName);
+    Optional<Booth> findBoothByTitle(String boothName);
 }
 

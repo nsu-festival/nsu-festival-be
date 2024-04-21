@@ -76,7 +76,7 @@ public class BoothController {
     }
 
     //관리자 부스 이름 조회
-    @GetMapping("/booths/{boothName}/details")
+    @GetMapping("/admin/{boothName}/details")
     public ResponseEntity<StatusResponseDto> getBoothDetail(@PathVariable String boothName){
         try {
             BoothDetailDto boothDetailDto = boothService.getDetailBooth(boothName);
@@ -88,7 +88,7 @@ public class BoothController {
 
 
     //관리자 부스 상세 업데이트
-    @PatchMapping("/{boothId}/details/update")
+    @PatchMapping("/admin/{boothId}/details/update")
     public ResponseEntity<StatusResponseDto> updateBooth(@PathVariable Long boothId,
                                                          @RequestBody BoothDetailsRequestDto requestDto){
         try{

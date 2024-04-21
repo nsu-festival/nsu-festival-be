@@ -253,7 +253,7 @@ public class BoothServiceImpl implements BoothService{
     @Override
     public BoothDetailDto getDetailBooth(String boothName) {
         //부스 이름으로 부스 검색
-        Optional<Booth> OptionalBooth = boothRepository.findBoothByBoothName(boothName);
+        Optional<Booth> OptionalBooth = boothRepository.findBoothByTitle(boothName);
         //부스 이름으로 찾은 부스가 없다면 예외발생, 존재하면 goekd 부스 상세 데이터 return
         Booth findBooth = OptionalBooth.orElseThrow(() -> new NoSuchElementException());
         return BoothDetailDto.builder()
