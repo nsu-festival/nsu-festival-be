@@ -352,7 +352,7 @@ public class BoothServiceImpl implements BoothService{
         Booth booth6 = new Booth(6L, "글로벌무역학과", "카페운영 및 미니게임 뽑기", 0, "A-6", department.get(5),null,"남서울대 갬성카페",null, null,  null, null);
         List<BoothCategory> categories6 = new ArrayList<>();
         boothRepository.save(booth6);
-        categories6.add(new BoothCategory(28L,"먹거리",booth6));
+        categories6.add(new BoothCategory(28L,"게임",booth6));
         categories6.add(new BoothCategory(29L,"먹거리",booth6));
         boothCategoryRepository.saveAll(categories6);
 
