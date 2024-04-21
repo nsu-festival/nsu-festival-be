@@ -1,5 +1,6 @@
 package com.example.nsu_festival.domain.booth.entity;
 
+import com.example.nsu_festival.domain.booth.dto.BoothDetailsRequestDto;
 import com.example.nsu_festival.domain.comment.entity.Comment;
 import com.example.nsu_festival.domain.likes.entity.BoothLiked;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -58,5 +59,13 @@ public class Booth {
     public void updateCountLike(int countLike){
          this.countLike = countLike;
    }
+
+    public void updateBoothDetails(BoothDetailsRequestDto requestDto){
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.area = requestDto.getArea();
+        this.entryFee = requestDto.getEntryFee();
+        this.boothName = requestDto.getBoothName();
+    }
 
 }

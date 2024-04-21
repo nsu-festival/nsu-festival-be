@@ -11,6 +11,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -70,6 +71,32 @@ public class BoothController {
             List<TopBoothResponseDto> topBoothList = boothService.findTopBooths();
             return ResponseEntity.ok().body(StatusResponseDto.success(topBoothList));
         } catch (Exception e) {
+            return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
+        }
+    }
+
+    //관리자 부스 이름 조회
+    @GetMapping("/admin/{boothName}/details")
+    public ResponseEntity<StatusResponseDto> getBoothDetail(@PathVariable String boothName){
+        try {
+            BoothDetailDto boothDetailDto = boothService.getDetailBooth(boothName);
+            return ResponseEntity.ok().body(StatusResponseDto.success(boothDetailDto));
+        } catch (NoSuchElementException n){
+            return ResponseEntity.status(404).body(StatusResponseDto.addStatus(404));
+        }
+    }
+
+
+    //관리자 부스 상세 업데이트
+    @PatchMapping("/admin/{boothId}/details/update")
+    public ResponseEntity<StatusResponseDto> updateBooth(@PathVariable Long boothId,
+                                                         @RequestBody BoothDetailsRequestDto requestDto){
+        try{
+            boothService.updateBoothDetails(boothId, requestDto);
+            return ResponseEntity.ok().body(StatusResponseDto.success());
+        } catch (NoSuchElementException n){
+            return ResponseEntity.status(404).body(StatusResponseDto.addStatus(404));
+        } catch (RuntimeException r){
             return ResponseEntity.status(500).body(StatusResponseDto.addStatus(500));
         }
     }

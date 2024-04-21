@@ -117,8 +117,20 @@ public class SecurityConfig {
                                 HttpMethod.POST,
                                 "/booths/{boothId}/comment/{commentId}/repot"
                         ).permitAll()
+                        .requestMatchers(
+                                HttpMethod.PATCH,
+                                "/booths/{boothId}/details/update"
+                        ).permitAll()
                         .requestMatchers("/").permitAll()
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/booths/{boothName}/details"
+                        ).hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(
+                                HttpMethod.PATCH,
+                                "/{boothId}/details/update"
+                        ).hasAuthority("ROLE_ADMIN")
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/notices/posts"

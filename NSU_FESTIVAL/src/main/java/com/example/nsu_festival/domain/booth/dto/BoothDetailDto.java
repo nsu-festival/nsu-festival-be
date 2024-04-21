@@ -23,6 +23,7 @@ public class BoothDetailDto {
     private String area;
     private List<BoothCategory> boothCategories;
     private String boothImageUrl;
+    private String boothName;
 
     private List<BoothCommentDto> comments;
     private Long boothCommentCount;

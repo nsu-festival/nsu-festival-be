@@ -4,10 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ListObjectsV2Request;
 import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.example.nsu_festival.domain.booth.dto.BoothCommentDto;
-import com.example.nsu_festival.domain.booth.dto.BoothDetailDto;
-import com.example.nsu_festival.domain.booth.dto.AllBoothDto;
-import com.example.nsu_festival.domain.booth.dto.TopBoothResponseDto;
+import com.example.nsu_festival.domain.booth.dto.*;
 import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.booth.entity.BoothCategory;
 import com.example.nsu_festival.domain.booth.entity.Menu;
@@ -22,19 +19,18 @@ import com.example.nsu_festival.domain.user.repository.UserRepository;
 import com.example.nsu_festival.global.exception.CustomException;
 import com.example.nsu_festival.global.security.dto.CustomOAuth2User;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import static com.example.nsu_festival.global.exception.ExceptionCode.SERVER_ERROR;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,10 +41,8 @@ public class BoothServiceImpl implements BoothService{
 
 
     private final BoothRepository boothRepository;
-   private final ModelMapper modelMapper;
-   private final UserRepository userRepository;
-   private final BoothLikedRepository boothLikedRepository;
-   private final CommentRepository commentRepository;
+    private final ModelMapper modelMapper;
+    private final CommentRepository commentRepository;
     private final MenuRepository menuRepository;
     private final BoothCategoryRepository boothCategoryRepository;
     private final AmazonS3 amazonS3;
@@ -224,7 +218,7 @@ public class BoothServiceImpl implements BoothService{
             title = title.substring(0, title.length()-1);
         }
 
-        if (title.endsWith("학과")) {
+        if (title.length() >= 6 && title.endsWith("학과")) {
             title = title.substring(0, title.length()-2);
         }
         return title;
@@ -264,6 +258,40 @@ public class BoothServiceImpl implements BoothService{
         }
         return title;
     }
+
+    @Override
+    public BoothDetailDto getDetailBooth(String boothName) {
+        //부스 이름으로 부스 검색
+        Optional<Booth> OptionalBooth = boothRepository.findBoothByTitle(boothName);
+        //부스 이름으로 찾은 부스가 없다면 예외발생, 존재하면 goekd 부스 상세 데이터 return
+        Booth findBooth = OptionalBooth.orElseThrow(() -> new NoSuchElementException());
+        return BoothDetailDto.builder()
+                .boothId(findBooth.getBoothId())
+                .title(findBooth.getTitle())
+                .content(findBooth.getContent())
+                .area(findBooth.getArea())
+                .entryFee(findBooth.getEntryFee())
+                .boothName(findBooth.getBoothName())
+                .build();
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(value = "booths", allEntries = true)
+    public void updateBoothDetails(Long boothId,
+                                   BoothDetailsRequestDto requestDto) {
+        try {
+            //부스Id로 해당 부스를 찾아 값 업데이트
+            Booth findBooth = boothRepository.findBoothByBoothId(boothId);
+            findBooth.updateBoothDetails(requestDto);
+            boothRepository.save(findBooth);
+        } catch (EntityNotFoundException e) {   //부스ID와 일치하는 값을 찾지 못했을 때 예외처리
+            throw new NoSuchElementException();
+        } catch (Exception e ){     //이외 상황에 대한 예외처리
+            throw new RuntimeException();
+        }
+    }
+
 
     @PostConstruct // 초기 데이터 설정 어노테이션
     public void initializeData() {
