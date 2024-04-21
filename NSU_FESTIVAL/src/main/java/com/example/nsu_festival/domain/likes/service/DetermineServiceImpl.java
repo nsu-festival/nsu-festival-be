@@ -88,8 +88,6 @@ public class DetermineServiceImpl implements DetermineService{
      */
     @Override
     public boolean determineContents(CustomOAuth2User customOAuth2User, ContentType contentType, Long contentId){
-        log.info("determinecontents -> contentType :{}", contentType);
-        log.info("determinecontents -> contentId :{}", contentId);
 
         String userEmail = customOAuth2User.getEmail();
         User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new RuntimeException("User not found with email: " + userEmail));
