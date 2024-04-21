@@ -359,9 +359,8 @@ public class BoothServiceImpl implements BoothService{
         List<BoothCategory> categories6 = new ArrayList<>();
         boothRepository.save(booth6);
         categories6.add(new BoothCategory(28L,"게임",booth6));
-        categories6.add(new BoothCategory(29L,"먹거리",booth6));
+        categories6.add(new BoothCategory(29L,"학과",booth6));
         boothCategoryRepository.saveAll(categories6);
-
 
 // 부스 7
         Booth booth7 = new Booth(7L, "휴먼케어학과", "사진관 및 거짓말 탐지기", 0, "A-8", department.get(6),null,"휴케사진관",null, null, null, null);

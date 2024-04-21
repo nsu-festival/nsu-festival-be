@@ -140,6 +140,7 @@ public class CommentServiceImpl implements CommentService {
                     .build();
             reportRepository.save(report);
             if(comment.getReportCount()>=10){
+                comment.reportBeforeComment(comment.getContent());
                 comment.commentUpdate("신고 누적으로 인해 검열된 댓글입니다.");
                 comment.commentUserUpdate(cleanBot);
             }

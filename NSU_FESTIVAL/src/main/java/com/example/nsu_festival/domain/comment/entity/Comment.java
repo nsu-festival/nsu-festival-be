@@ -37,6 +37,7 @@ public class Comment extends BaseTimeRegDateEntity {
     private User user;
 
     private int reportCount = 0;
+    private String reportBeforeComment;
 
     public void plusReportCount(){
         reportCount = reportCount +1;
@@ -47,6 +48,9 @@ public class Comment extends BaseTimeRegDateEntity {
     }
     public void commentUpdate(String reportReason){
         this.content = reportReason;
+    }
+    public void reportBeforeComment(String comment){
+        this.reportBeforeComment = comment;
     }
     public void commentUserUpdate(User user){ this.user = user;}
 
@@ -61,6 +65,4 @@ public class Comment extends BaseTimeRegDateEntity {
         this.booth= booth;
         this.creatAt = createAt;
     }
-
-
 }
