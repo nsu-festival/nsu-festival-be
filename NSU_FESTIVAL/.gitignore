@@ -37,7 +37,7 @@ out/
 .vscode/
 
 ### yml ###
-NSU_FESTIVAL/src/main/resources/application.yml
+NSU_FESTIVAL/src/main/resources/**
 application.yml
 
 ### idea 폴더###
