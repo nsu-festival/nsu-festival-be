@@ -119,6 +119,9 @@ public class CommentServiceImpl implements CommentService {
     public boolean commentMatchUser(Long commentId, CustomOAuth2User customOAuth2User){
         Comment comment = commentRepository.findById(commentId).get();
         User user  = userRepository.findByEmail(customOAuth2User.getEmail()).get();
+        if(user.getRole().equals("ROLE_ADMIN")){
+            return true;
+        }
         return comment.getUser().getId().equals(user.getId());
     }
 

@@ -138,9 +138,17 @@ public class BoothServiceImpl implements BoothService{
 
             for (Comment boothComment : sortedComments) {
                 User commentUser = boothComment.getUser();
-                if (commentUser != null) {
+
+                if (commentUser != null ) {
                     String userName = commentUser.getNickName();
-                    if (userName.length() >= 2) {
+//                    if(userName.equals("클린봇")){
+//                        BoothCommentDto commentDto = new BoothCommentDto();
+//                        commentDto.setCommentId(boothComment.getCommentId());
+//                        commentDto.setContent(boothComment.getContent());
+//                        commentDto.setUserName(userName);
+//                        commentDtos.add(commentDto);
+//                    }
+                    if (userName.length() >= 2 && !"클린봇".equals(userName)) {
                         String maskedName = userName.substring(0, 1) + "*" + userName.substring(2);
                         BoothCommentDto commentDto = new BoothCommentDto();
                         commentDto.setCommentId(boothComment.getCommentId());
