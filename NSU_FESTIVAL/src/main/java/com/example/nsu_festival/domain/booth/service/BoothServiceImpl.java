@@ -594,7 +594,7 @@ public class BoothServiceImpl implements BoothService{
         boothCategoryRepository.saveAll(categories33);
 
 // 부스 34
-        Booth booth34 = new Booth(34L, "컴퓨터소프트웨어학과", "비비탄 사격 및 영어타자", 0, "A-34", department.get(33), null,"사격왕, 타자왕",null,null,  null, null);
+        Booth booth34 = new Booth(34L, "컴퓨터소프트웨어학과", "사격왕\n1회 3,000원 / 2회 5,000원 \n 학생회비 납부자 할인 - 2회 3,000원 \n\n 타자왕\n 1회 3,000원 \n 2회 5,000원 \n 학생회비 납부자 할인 - 2회 3,000원 \n\n 사격왕, 타자왕 상품 \n1등: 배달의 민족 5천원권 \n2등: 무드등 \n3등: 대형 엔터키 쿠션\n참가상품: 야광팔찌\n\n 추가상품 응원봉\n 사격왕 - 50점 이상\n타자왕 - 130타 이상", 0, "A-34", department.get(33), null,"사격왕, 타자왕",null,null,  null, null);
         List<BoothCategory> categories34 = new ArrayList<>();
         boothRepository.save(booth34);
         categories34.add(new BoothCategory(90L,"게임",booth34));
