@@ -84,6 +84,9 @@ public class CommentServiceImpl implements CommentService {
             BadWordFiltering badWordFiltering = new BadWordFiltering();
             String badWord =  badWordFiltering.change(commentUpdateDto.getContent());
             Comment comment = commentRepository.findById(commentId).get();
+            if(comment.getReportCount() >=10){
+                return false;
+            }
             comment.commentUpdate(badWord);
 
             return true;
@@ -117,7 +120,6 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(commentId).get();
         User user  = userRepository.findByEmail(customOAuth2User.getEmail()).get();
         return comment.getUser().getId().equals(user.getId());
-
     }
 
     /**
@@ -128,6 +130,7 @@ public class CommentServiceImpl implements CommentService {
             Comment comment = commentRepository.findById(commentId).get();
             User user = comment.getUser();
             comment.plusReportCount();
+            User cleanBot = userRepository.findByUserName("cleanBot");
             Report report = Report.builder()
                     .comment(comment)
                     .user(user)
@@ -135,6 +138,7 @@ public class CommentServiceImpl implements CommentService {
             reportRepository.save(report);
             if(comment.getReportCount()>=10){
                 comment.commentUpdate("신고 누적으로 인해 검열된 댓글입니다.");
+                comment.commentUserUpdate(cleanBot);
             }
         }catch (RuntimeException e){
             e.printStackTrace();
