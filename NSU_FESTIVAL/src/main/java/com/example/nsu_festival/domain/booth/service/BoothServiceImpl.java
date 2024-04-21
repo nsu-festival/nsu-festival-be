@@ -359,7 +359,6 @@ public class BoothServiceImpl implements BoothService{
         List<BoothCategory> categories6 = new ArrayList<>();
         boothRepository.save(booth6);
         categories6.add(new BoothCategory(28L,"게임",booth6));
-        categories6.add(new BoothCategory(29L,"먹거리",booth6));
         boothCategoryRepository.saveAll(categories6);
 
 
@@ -830,7 +829,7 @@ public class BoothServiceImpl implements BoothService{
         categories57.add(new BoothCategory(159L,"동아리",booth57));
         boothCategoryRepository.saveAll(categories57);
 // 부스 58
-        Booth booth58 = new Booth(58L, "대학혁신지원사업단", null, 0, "B-23", clubImage.get(22),null,null,null, null,  null, null);
+        Booth booth58 = new Booth(58L, "대학혁신지원사업단", "등록된 내용이 없습니다.", 0, "B-23", clubImage.get(22),null,null,null, null,  null, null);
         List<BoothCategory> categories58 = new ArrayList<>();
         boothRepository.save(booth58);
         categories58.add(new BoothCategory(160L,"동아리",booth58));
@@ -893,34 +892,34 @@ public class BoothServiceImpl implements BoothService{
         boothCategoryRepository.saveAll(categories64);
 
 // 부스 65
-        Booth booth65 = new Booth(65L, "취창업지원처", null, 0, "B-30", clubImage.get(29), null,null,null, null, null, null);
+        Booth booth65 = new Booth(65L, "취창업지원처", "등록된 내용이 없습니다.", 0, "B-30", clubImage.get(29), null,null,null, null, null, null);
         List<BoothCategory> categories65 = new ArrayList<>();
         boothRepository.save(booth65);
         categories65.add(new BoothCategory(179L,"동아리",booth65));
         boothCategoryRepository.saveAll(categories65);
 
 // 부스 66
-        Booth booth66 = new Booth(66L, "하나은행", null, 0, "B-31", clubImage.get(30), null,null,null,null,  null, null);
+        Booth booth66 = new Booth(66L, "하나은행", "등록된 내용이 없습니다.", 0, "B-31", clubImage.get(30), null,null,null,null,  null, null);
         List<BoothCategory> categories66 = new ArrayList<>();
         boothRepository.save(booth66);
         categories66.add(new BoothCategory(180L,"동아리",booth66));
         boothCategoryRepository.saveAll(categories66);
 // 부스 67
-        Booth booth67 = new Booth(67L, "대회협력처A", null, 0, "B-32", clubImage.get(31), null,null,null, null, null, null);
+        Booth booth67 = new Booth(67L, "대회협력처A", "등록된 내용이 없습니다.", 0, "B-32", clubImage.get(31), null,null,null, null, null, null);
         List<BoothCategory> categories67 = new ArrayList<>();
         boothRepository.save(booth67);
         categories67.add(new BoothCategory(181L,"동아리",booth67));
         boothCategoryRepository.saveAll(categories67);
 
 // 부스 68
-        Booth booth68 = new Booth(68L, "대회협력처B", null, 0, "B-33", clubImage.get(32), null,null,null, null, null, null);
+        Booth booth68 = new Booth(68L, "대회협력처B", "등록된 내용이 없습니다.", 0, "B-33", clubImage.get(32), null,null,null, null, null, null);
         List<BoothCategory> categories68 = new ArrayList<>();
         boothRepository.save(booth68);
         categories68.add(new BoothCategory(182L,"동아리",booth68));
         boothCategoryRepository.saveAll(categories68);
 
         // 부스 69
-        Booth booth69 = new Booth(69L, "대회협력처C", null, 0, "a-69", clubImage.get(33), null,null,null, null, null, null);
+        Booth booth69 = new Booth(69L, "대회협력처C", "등록된 내용이 없습니다.", 0, "a-69", clubImage.get(33), null,null,null, null, null, null);
         List<BoothCategory> categories69 = new ArrayList<>();
         boothRepository.save(booth69);
         categories69.add(new BoothCategory(183L,"동아리",booth69));
