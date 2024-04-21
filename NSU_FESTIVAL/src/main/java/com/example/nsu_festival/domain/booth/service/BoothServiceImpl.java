@@ -217,7 +217,7 @@ public class BoothServiceImpl implements BoothService{
             title = title.substring(0, title.length()-1);
         }
 
-        if (title.endsWith("학과")) {
+        if (title.length() >= 6 && title.endsWith("학과")) {
             title = title.substring(0, title.length()-2);
         }
         return title;
