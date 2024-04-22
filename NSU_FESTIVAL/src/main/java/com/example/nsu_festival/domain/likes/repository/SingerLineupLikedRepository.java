@@ -18,4 +18,6 @@ public interface SingerLineupLikedRepository extends JpaRepository<SingerLineupL
     int countSingerLineupLike(Long singerLineupId);
 
     SingerLineupLiked findByUserAndSingerLineup(User user, SingerLineup singerLineup);
+
+    boolean existsBySingerLineup(SingerLineup singerLineup);
 }

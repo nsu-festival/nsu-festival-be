@@ -4,8 +4,10 @@ import com.example.nsu_festival.domain.festival.dto.FestivalProgramResponseDto;
 import com.example.nsu_festival.domain.festival.entity.DDay;
 import com.example.nsu_festival.domain.festival.entity.FestivalDate;
 import com.example.nsu_festival.domain.festival.entity.FestivalProgram;
+import com.example.nsu_festival.domain.festival.entity.SingerLineup;
 import com.example.nsu_festival.domain.festival.repository.FestivalDateRepository;
 import com.example.nsu_festival.domain.festival.repository.FestivalProgramRepository;
+import com.example.nsu_festival.domain.likes.repository.FestivalProgramLikedRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.List;
 public class FestivalProgramServiceImpl implements FestivalProgramService, InitializeDataService{
     private final FestivalProgramRepository festivalProgramRepository;
     private final FestivalDateRepository festivalDateRepository;
+    private final FestivalProgramLikedRepository festivalProgramLikedRepository;
 
     /**
      *  축제 프로그램 리스트를 찾고
@@ -160,5 +163,23 @@ public class FestivalProgramServiceImpl implements FestivalProgramService, Initi
 
         FestivalProgram festivalProgram29 = new FestivalProgram(29L, "장내 정리", "21:35", "22:00", 0, festivalDate3);
         festivalProgramRepository.save(festivalProgram29);
+
+        initializeLike();
+    }
+
+    private void initializeLike(){
+        try {
+            List<FestivalProgram> festivalProgramList = festivalProgramRepository.findAll();
+
+            for (FestivalProgram festivalProgram : festivalProgramList) {
+                if (festivalProgramLikedRepository.existsByFestivalProgram(festivalProgram)) {
+                    int count = festivalProgramLikedRepository.countFestivalProgramLike(festivalProgram.getFestivalProgramId());
+                    festivalProgram.updateCountLike(count);
+                }
+            }
+        } catch (RuntimeException e){
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 }

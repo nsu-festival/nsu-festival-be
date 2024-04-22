@@ -46,6 +46,7 @@ public class BoothServiceImpl implements BoothService{
     private final MenuRepository menuRepository;
     private final BoothCategoryRepository boothCategoryRepository;
     private final AmazonS3 amazonS3;
+    private final BoothLikedRepository boothLikedRepository;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
@@ -1108,9 +1109,24 @@ public class BoothServiceImpl implements BoothService{
         menuRepository.saveAll(menus14);
         foodTruck15.setMenus(menus14);
 
-
+        initializeLike();
 
     }
 
+    private void initializeLike(){
+        try {
+            List<Booth> boothList = boothRepository.findAll();
+
+            for (Booth booth : boothList) {
+                if (boothLikedRepository.existsByBooth(booth)) {
+                    int count = boothLikedRepository.countBoothLike(booth.getBoothId());
+                    booth.updateCountLike(count);
+                }
+            }
+        } catch (RuntimeException e){
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
+    }
 
 }

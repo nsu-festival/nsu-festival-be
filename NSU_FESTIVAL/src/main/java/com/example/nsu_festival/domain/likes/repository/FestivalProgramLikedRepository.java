@@ -16,4 +16,6 @@ public interface FestivalProgramLikedRepository extends JpaRepository<FestivalPr
     int countFestivalProgramLike(Long festivalProgramId);
 
     FestivalProgramLiked findByUserAndFestivalProgram(User user, FestivalProgram festivalProgram);
+
+    boolean existsByFestivalProgram(FestivalProgram festivalProgram);
 }

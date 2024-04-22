@@ -17,4 +17,7 @@ public interface BoothLikedRepository extends JpaRepository<BoothLiked,Long> {
     BoothLiked findByBoothAndUser(Booth booth, User user);
 
     boolean existsByBoothAndUser(Booth booth, User user);
+
+
+    boolean existsByBooth(Booth booth);
 }

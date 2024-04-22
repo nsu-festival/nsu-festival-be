@@ -1,5 +1,6 @@
 package com.example.nsu_festival.domain.festival.service;
 
+import com.example.nsu_festival.domain.booth.entity.Booth;
 import com.example.nsu_festival.domain.festival.dto.FestivalProgramResponseDto;
 import com.example.nsu_festival.domain.festival.dto.SingerLineupResponseDto;
 import com.example.nsu_festival.domain.festival.entity.DDay;
@@ -8,6 +9,7 @@ import com.example.nsu_festival.domain.festival.entity.FestivalProgram;
 import com.example.nsu_festival.domain.festival.entity.SingerLineup;
 import com.example.nsu_festival.domain.festival.repository.FestivalDateRepository;
 import com.example.nsu_festival.domain.festival.repository.SingerLineupRepository;
+import com.example.nsu_festival.domain.likes.repository.SingerLineupLikedRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.List;
 public class SingerLineupServiceImpl implements SingerLineupService{
     private final FestivalDateRepository festivalDateRepository;
     private final SingerLineupRepository singerLineupRepository;
+    private final SingerLineupLikedRepository singerLineupLikedRepository;
 
     /**
      *  가수 라인업 리스트를 찾고
@@ -102,5 +105,23 @@ public class SingerLineupServiceImpl implements SingerLineupService{
 
         SingerLineup singerLineup9 = new SingerLineup(9L, "타이거JK & 윤미래", "21:00", "21:30", 0, festivalDate3);
         singerLineupRepository.save(singerLineup9);
+
+        initializeLike();
+    }
+
+    private void initializeLike(){
+        try {
+            List<SingerLineup> singerLineupList = singerLineupRepository.findAll();
+
+            for (SingerLineup singerLineup : singerLineupList) {
+                if (singerLineupLikedRepository.existsBySingerLineup(singerLineup)) {
+                    int count = singerLineupLikedRepository.countSingerLineupLike(singerLineup.getSingerLineupId());
+                    singerLineup.updateCountLike(count);
+                }
+            }
+        } catch (RuntimeException e){
+            e.printStackTrace();
+            throw new RuntimeException();
+        }
     }
 }
