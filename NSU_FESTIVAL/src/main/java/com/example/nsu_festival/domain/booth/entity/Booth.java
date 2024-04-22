@@ -68,4 +68,8 @@ public class Booth {
         this.boothName = requestDto.getBoothName();
     }
 
+    public void updateBoothCountLike(int countLike){
+        this.countLike = countLike;
+    }
+
 }
