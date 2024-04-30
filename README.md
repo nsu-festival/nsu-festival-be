@@ -20,7 +20,7 @@
 | 권영태 | 조아빈 | 박민서 |
 |:-:|:-:|:-:|
 |<img src="https://github.com/nsu-festival/nsu-festival-be/assets/56019823/2b6666a1-5e1b-4347-ba46-6e58d42ae5fc" width="130" height="150"/>|<img src="" width="130" height="150"/>|<img src="" width="130" height="150"/>|
-| @dudxo | @ | @ |
+| [@dudxo](https://github.com/dudxo) | [@whdkqls122](https://github.com/whdkqls122) | [@minseo12345](https://github.com/minseo12345) |
 | 남서울대학교 컴퓨터소프트웨어학과 4학년 | 남서울대학교 컴퓨터소프트웨어학과 4학년 | 남서울대학교 컴퓨터소프트웨어학과 4학년 |
 
 <br/>
