@@ -19,7 +19,7 @@
 ## 팀원 소개
 | 권영태 | 조아빈 | 박민서 |
 |:-:|:-:|:-:|
-|<img src="https://github.com/nsu-festival/nsu-festival-be/assets/56019823/2b6666a1-5e1b-4347-ba46-6e58d42ae5fc" width="130" height="150"/>|<img src="https://github.com/nsu-festival/nsu-festival-be/assets/121709650/ac915674-1091-4d9f-beeb-2032c441cc08" width="130" height="150"/>|<img src="" width="130" height="150"/>|
+|<img src="https://github.com/nsu-festival/nsu-festival-be/assets/56019823/2b6666a1-5e1b-4347-ba46-6e58d42ae5fc" width="130" height="150"/>|<img src="https://github.com/nsu-festival/nsu-festival-be/assets/121709650/ac915674-1091-4d9f-beeb-2032c441cc08" width="130" height="150"/>|<img src="https://github.com/nsu-festival/nsu-festival-be/assets/115347424/7af7b050-b9e4-4b23-b9df-00061a5bdcbb" width="130" height="150"/>|
 | [@dudxo](https://github.com/dudxo) | [@whdkqls122](https://github.com/whdkqls122) | [@minseo12345](https://github.com/minseo12345) |
 | 남서울대학교 컴퓨터소프트웨어학과 4학년 | 남서울대학교 컴퓨터소프트웨어학과 4학년 | 남서울대학교 컴퓨터소프트웨어학과 4학년 |
 
